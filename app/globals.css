@@ -1,26 +1,205 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Surfaces */
+  --color-void: #050505;
+  --color-carbon: #08080a;
+  --color-graphite: #101014;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Accents — used only at microscopic scale (1px borders, status dots, glows) */
+  --color-volt: #1d7bff;
+  /* The same hue pushed back, so the flow layers read as depth and not a second colour. */
+  --color-volt-deep: #0f4fd8;
+  --color-alarm: #ff3b30;
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Strong curves — the browser built-ins are too weak for deliberate motion */
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+
+  /*
+   * Airflow pulses. Three offset cycles at prime-ish durations, so the field never
+   * resolves into a visible loop. Negative delays start them mid-sweep rather than all
+   * three entering together on first paint.
+   */
+  --animate-flow-a: flow 9s linear infinite;
+  --animate-flow-b: flow 13s linear -4.5s infinite;
+  --animate-flow-c: flow 11s linear -8s infinite;
+
+  /* Impeller — constant rotation, so linear is the only honest curve. */
+  --animate-impeller: impeller 18s linear infinite;
+  --animate-impeller-reverse: impeller 52s linear infinite reverse;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes flow {
+  from {
+    transform: translateX(-620px);
+  }
+  to {
+    transform: translateX(1760px);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes impeller {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /*
+   * Native smooth scrolling is the fallback only. Lenis adds `.lenis` to the
+   * root while it is driving the page, and the two easings fight each other
+   * over the same scrollTop if both are live.
+   */
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+
+  /* Lenis runtime hooks — the four rules that matter, inlined rather than
+   * imported so the stylesheet stays a single file. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: clip;
+  }
+
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+
+  .lenis [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: #fafafa;
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-volt) 32%, transparent);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--color-volt);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html:not(.lenis) {
+      scroll-behavior: auto;
+    }
+
+    .impeller-part {
+      animation: none !important;
+    }
+
+    /*
+     * The swept pulses and the travelling head carry nothing the static line work does
+     * not already carry, so both are dropped outright rather than frozen — a paused
+     * sweep would park a bright band across the plate and never leave.
+     */
+    .airflow-sweep,
+    .flow-head {
+      animation: none !important;
+      opacity: 0 !important;
+    }
+  }
+}
+
+@layer components {
+  /*
+   * 1px gradient border drawn on a masked pseudo-layer.
+   * The gradient itself is set at runtime (cursor-tracked); only the mask is static.
+   */
+  .glow-border {
+    padding: 1px;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  /* Architectural blueprint mesh — pure CSS, no image request. */
+  .blueprint-mesh {
+    background-image:
+      linear-gradient(
+        to right,
+        color-mix(in oklab, var(--color-volt) 22%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--color-volt) 22%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 72px 72px;
+  }
+
+  .blueprint-mesh-fine {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+
+  /*
+   * Airflow field. The streamlines themselves never move; what moves is a soft gradient
+   * band swept across them through an SVG mask. The whole effect is therefore one
+   * composited transform per band, not a per-frame repaint of stroke-dashoffset.
+   * Translation values are viewBox user units (1600 x 900).
+   */
+  .airflow-sweep {
+    transform-box: view-box;
+    transform-origin: 0 0;
+    will-change: transform;
+  }
+
+  /* Impeller rotor + trim ring. Origin is the centre of the 440 x 440 viewBox. */
+  .impeller-part {
+    transform-box: view-box;
+    transform-origin: 220px 220px;
+    will-change: transform;
+  }
+
+  /*
+   * Travelling head of the site-wide duct run. Its position is scroll-linked, so there
+   * is no keyframe to disable — under reduced motion it is hidden instead, leaving the
+   * static riser geometry, which carries the same "one continuous system" idea.
+   */
+  .flow-head {
+    will-change: transform;
+  }
+
+  /* Film grain, so large flat blacks never band. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
 }
