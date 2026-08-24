@@ -172,8 +172,17 @@ function webPage(
   route: Route,
   { title, description }: { title: string; description: string },
 ) {
+  /*
+   * The dedicated FAQ route is typed `FAQPage` outright instead of being a
+   * `CollectionPage` with a second `FAQPage` node hanging off it. One page, one
+   * primary type: a crawler that finds two FAQ nodes in one graph has to decide
+   * which one is authoritative, and there is no reason to make it guess.
+   */
+  const type =
+    route === "" ? "WebPage" : route === "/faq" ? "FAQPage" : "CollectionPage";
+
   return {
-    "@type": route === "" ? "WebPage" : "CollectionPage",
+    "@type": type,
     "@id": pageId(locale, route),
     url: absoluteUrl(locale, route),
     name: title,
@@ -182,6 +191,7 @@ function webPage(
     isPartOf: { "@id": WEBSITE_ID },
     about: { "@id": ORG_ID },
     breadcrumb: { "@id": `${absoluteUrl(locale, route)}#breadcrumb` },
+    ...(route === "/faq" ? { mainEntity: questions(dict, locale, route) } : {}),
   };
 }
 
@@ -196,7 +206,7 @@ function breadcrumb(dict: Dictionary, locale: Locale, route: Route) {
   ];
 
   if (route !== "") {
-    const key = route.slice(1) as "expertise" | "process" | "sectors";
+    const key = route.slice(1) as "expertise" | "process" | "sectors" | "faq";
     crumbs.push({ name: dict.nav.links[key], url: absoluteUrl(locale, route) });
   }
 
@@ -283,6 +293,27 @@ function sectorList(dict: Dictionary, locale: Locale) {
  * `Faq.tsx` keeps every collapsed answer mounted in the DOM rather than
  * unmounting it.
  */
+function questions(dict: Dictionary, locale: Locale, route: Route) {
+  const base = absoluteUrl(locale, route);
+
+  return getFaqs(dict).map((faq) => ({
+    "@type": "Question",
+    // Scoped to the URL that renders them: the landing section and the
+    // dedicated route both genuinely display these answers, so both may declare
+    // them — but they must not claim to be the same node.
+    "@id": `${base}#faq-${faq.id}`,
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+      // Deep link to the block itself, so an engine that cites the answer can
+      // send the reader to the questions rather than to the page top.
+      url: `${base}#faq`,
+    },
+  }));
+}
+
+/** The FAQ as a node *beside* the page node — used on the landing page only. */
 function faqPage(dict: Dictionary, locale: Locale) {
   return {
     "@type": "FAQPage",
@@ -292,18 +323,7 @@ function faqPage(dict: Dictionary, locale: Locale) {
     inLanguage: LOCALE_TAGS[locale],
     isPartOf: { "@id": pageId(locale, "") },
     about: { "@id": ORG_ID },
-    mainEntity: getFaqs(dict).map((faq) => ({
-      "@type": "Question",
-      "@id": `${absoluteUrl(locale)}#faq-${faq.id}`,
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-        // Deep link to the row itself, so an engine that cites the answer can
-        // send the reader to the exact question rather than the page top.
-        url: `${absoluteUrl(locale)}#faq`,
-      },
-    })),
+    mainEntity: questions(dict, locale, ""),
   };
 }
 
@@ -360,8 +380,10 @@ export function buildGraph({
   if (route === "" || route === "/expertise") graph.push(serviceList(dict, locale));
   if (route === "" || route === "/process") graph.push(howTo(dict, locale));
   if (route === "" || route === "/sectors") graph.push(sectorList(dict, locale));
-  // FAQ lives only on the landing page, so the node does too — a `FAQPage`
-  // declared on a URL that does not show the questions is a guidelines
+  // Only the landing page needs a separate node; on `/faq` the page node is
+  // itself the `FAQPage` and already carries `mainEntity`. Either way the
+  // markup is only ever emitted on a URL that actually shows the answers —
+  // declaring `FAQPage` on a page without the questions is a guidelines
   // violation, not a shortcut.
   if (route === "") graph.push(faqPage(dict, locale));
 

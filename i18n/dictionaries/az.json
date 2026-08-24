@@ -19,7 +19,10 @@
       "qazanxana quraşdırılması Bakı",
       "FHN lisenziyalı yanğın podratçısı",
       "VRF quraşdırılması Azərbaycan",
-      "24/7 təcili HVAC xidməti Bakı"
+      "24/7 təcili HVAC xidməti Bakı",
+      "HVAC podratçısına verilən suallar Bakı",
+      "sprinkler sistemini kim sazlaya bilər Azərbaycan",
+      "hava sərfi balanslaşdırma aktı təhvil"
     ],
     "pages": {
       "expertise": {
@@ -36,6 +39,11 @@
         "title": "Sahələr",
         "h1": "Dayanmağa imkanı olmayan binalar üçün HVAC və yanğından mühafizə",
         "description": "Bakı boyunca sənaye müəssisələri, ticarət mərkəzləri, otellər, sənaye mətbəxləri, ofis binaları və yaşayış kompleksləri — hər biri öz nasazlıq qiyməti və iş rejiminə uyğun hesablanır."
+      },
+      "faq": {
+        "title": "Suallar",
+        "h1": "Bakıda HVAC, yanğından mühafizə və sazlama ilə bağlı verilən suallar",
+        "description": "Subpodrat, FHN lisenziyası, layihənin müddəti, təhvil sənədləri, qiymətin formalaşması, Bakıdan kənar işlər, təcili çağırış və başqa podratçının sisteminin götürülməsi — praktikada necə işlədiyi."
       }
     }
   },
@@ -47,6 +55,7 @@
       "expertise": "İxtisas",
       "process": "Metod",
       "sectors": "Sahələr",
+      "faq": "Suallar",
       "contact": "Əlaqə"
     }
   },
@@ -326,6 +335,9 @@
     "sectorsList": "Xidmət göstərdiyimiz sahələr",
     "callPhone": "{value} nömrəsinə zəng et",
     "emailUs": "{value} ünvanına e-poçt göndər",
-    "faqList": "Tez-tez verilən suallar"
+    "faqList": "Tez-tez verilən suallar",
+    "menu": "Menyu",
+    "openMenu": "Menyunu aç",
+    "closeMenu": "Menyunu bağla"
   }
 }

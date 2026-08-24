@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 
+import { setLenis } from "./lenis-instance";
+
 /** Clears the fixed navbar when an in-page anchor is followed. */
 const ANCHOR_OFFSET = -96;
 
@@ -27,6 +29,7 @@ export function SmoothScroll() {
       if (reduce.matches) {
         lenis?.destroy();
         lenis = null;
+        setLenis(null);
         return;
       }
 
@@ -43,6 +46,9 @@ export function SmoothScroll() {
         anchors: { offset: ANCHOR_OFFSET, duration: 1.4 },
         autoRaf: true,
       });
+
+      // Published so the mobile menu can pause the page behind its overlay.
+      setLenis(lenis);
     }
 
     sync();
@@ -51,6 +57,7 @@ export function SmoothScroll() {
     return () => {
       reduce.removeEventListener("change", sync);
       lenis?.destroy();
+      setLenis(null);
     };
   }, []);
 

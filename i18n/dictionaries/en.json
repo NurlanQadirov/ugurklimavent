@@ -19,7 +19,10 @@
       "boiler room installation Baku",
       "FHN licensed fire safety contractor",
       "VRF installation Azerbaijan",
-      "24/7 HVAC emergency service Baku"
+      "24/7 HVAC emergency service Baku",
+      "HVAC contractor questions Baku",
+      "who can commission a sprinkler system in Azerbaijan",
+      "airflow balancing report handover"
     ],
     "pages": {
       "expertise": {
@@ -36,6 +39,11 @@
         "title": "Sectors",
         "h1": "HVAC and fire protection for buildings that cannot afford to stop",
         "description": "Industrial plants, retail and malls, hotels, commercial kitchens, office buildings and residential complexes across Baku — each sized against its own failure cost and duty cycle."
+      },
+      "faq": {
+        "title": "FAQ",
+        "h1": "Common questions about HVAC, fire protection and commissioning in Baku",
+        "description": "What subcontracting, the FHN licence, project duration, handover documentation, pricing, coverage outside Baku, emergency response and taking over another contractor's system actually mean in practice."
       }
     }
   },
@@ -47,6 +55,7 @@
       "expertise": "Expertise",
       "process": "Method",
       "sectors": "Sectors",
+      "faq": "FAQ",
       "contact": "Contact"
     }
   },
@@ -326,6 +335,9 @@
     "sectorsList": "Sectors served",
     "callPhone": "Call {value}",
     "emailUs": "Email {value}",
-    "faqList": "Frequently asked questions"
+    "faqList": "Frequently asked questions",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   }
 }

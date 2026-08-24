@@ -5,8 +5,8 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { COMPANY } from "@/lib/content";
 import { absoluteUrl, languageAlternates, localePath } from "@/lib/seo";
 
-/** The three sub-routes, each keyed to its own block in `meta.pages`. */
-export type SubRoute = "expertise" | "process" | "sectors";
+/** The sub-routes, each keyed to its own block in `meta.pages`. */
+export type SubRoute = "expertise" | "process" | "sectors" | "faq";
 
 /**
  * Per-page metadata for the sub-routes.

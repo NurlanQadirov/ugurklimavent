@@ -6,23 +6,11 @@ import { motion, useMotionValueEvent, useScroll, type Variants } from "framer-mo
 
 import { COMPANY } from "@/lib/content";
 import { useDictionary, useLocale } from "@/i18n/DictionaryProvider";
-import { MagneticLink } from "@/components/motion/MagneticLink";
 import { SPRING_ENTRANCE, riseChildTight, staggerParent } from "@/components/motion/tokens";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { Logo } from "./Logo";
-
-/**
- * Order and targets are structural; only the labels are translated. Routes are
- * locale-relative — a leading `#` stays an in-page anchor (only "contact"
- * does, since the footer it targets is mounted on every page), anything else
- * is prefixed with the active locale and resolved through `next/link`.
- */
-const LINKS = [
-  { key: "expertise", href: "/expertise" },
-  { key: "process", href: "/process" },
-  { key: "sectors", href: "/sectors" },
-  { key: "contact", href: "#contact" },
-] as const;
+import { MobileMenu } from "./MobileMenu";
+import { NAV_LINKS } from "./nav-links";
 
 const linkClassName =
   "rounded-full px-4 py-2 text-[13px] text-white/55 transition-colors duration-200 ease-out-strong hover:text-white";
@@ -97,9 +85,9 @@ export function Navbar() {
           variants={staggerParent(0.05, 0.35)}
           initial="hidden"
           animate="visible"
-          className="hidden items-center gap-1 md:flex"
+          className="hidden items-center gap-1 lg:flex"
         >
-          {LINKS.map((link) => (
+          {NAV_LINKS.map((link) => (
             <motion.li key={link.href} variants={riseChildTight}>
               {link.href.startsWith("#") ? (
                 <a href={link.href} className={linkClassName}>
@@ -114,8 +102,12 @@ export function Navbar() {
           ))}
         </motion.ul>
 
-        {/* Language and the call to action travel together on the right. */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        {/*
+          Language and the call to action travel together on the right — and,
+          like the link list, only from `lg` up. Below that they are rendered
+          inside `MobileMenu`, which is the layer that has room for them.
+        */}
+        <div className="hidden items-center gap-3 sm:gap-4 lg:flex">
           <LocaleSwitcher />
 
 
@@ -143,6 +135,8 @@ export function Navbar() {
   </svg>
 </Link>
         </div>
+
+        <MobileMenu />
       </motion.nav>
     </motion.header>
   );

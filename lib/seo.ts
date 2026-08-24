@@ -15,8 +15,13 @@ export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://ugurklimavent.az"
 ).replace(/\/$/, "");
 
-/** Routes that exist under every locale. `""` is the locale root. */
-export const ROUTES = ["", "/expertise", "/process", "/sectors"] as const;
+/**
+ * Routes that exist under every locale. `""` is the locale root.
+ *
+ * The sitemap and the hreflang clusters are both derived from this list, so a
+ * new route is published to search engines by adding it here and nowhere else.
+ */
+export const ROUTES = ["", "/expertise", "/process", "/sectors", "/faq"] as const;
 
 export type Route = (typeof ROUTES)[number];
 
