@@ -8,10 +8,19 @@ import { Reveal, RevealItem } from "@/components/motion/Reveal";
 import { HeadingLines } from "./HeadingLines";
 import { Logo } from "./Logo";
 
+/**
+ * Resolved when the module is first evaluated — which, for these statically
+ * prerendered routes, is build time.
+ *
+ * TODO(client): that means the copyright year freezes until the next deploy. It
+ * is correct today and wrong every January until the site is rebuilt. Either
+ * keep a rebuild in the new-year checklist, or drop the year from the notice
+ * entirely — "© Uğur Klima Vent MMC" is legally sufficient and cannot go stale.
+ */
 const YEAR = new Date().getFullYear();
 
 export function Footer() {
-  const { footer } = useDictionary();
+  const { footer, a11y } = useDictionary();
 
   return (
     <footer id="contact" className="relative isolate border-t border-white/[0.07]">
@@ -21,7 +30,7 @@ export function Footer() {
         <Reveal className="flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <RevealItem className="mb-6 flex items-center gap-3">
-              <span className="h-1 w-1 rounded-full bg-volt" />
+              <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />
               <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
                 {footer.eyebrow}
               </span>
@@ -48,38 +57,49 @@ export function Footer() {
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
               {footer.telephone}
             </p>
-            <div className="mt-4 flex flex-col gap-1.5">
+            {/*
+              `<address>` is the element for the contact details of the page's
+              owner, and this block is exactly that. `not-italic` is added only
+              to cancel the user-agent italics the element carries by default —
+              Tailwind's preflight does not reset it — so the rendering is
+              unchanged.
+            */}
+            <address className="mt-4 flex flex-col gap-1.5 not-italic">
               {COMPANY.phones.map((phone) => (
                 <a
                   key={phone}
                   href={telHref(phone)}
+                  aria-label={a11y.callPhone.replace("{value}", phone)}
                   className="w-fit text-[15px] tracking-tight text-white/70 transition-colors duration-200 ease-out-strong hover:text-white"
                 >
                   {phone}
                 </a>
               ))}
-            </div>
+            </address>
           </RevealItem>
 
           <RevealItem className="bg-[#050505] p-7">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
               {footer.email}
             </p>
-            <a
-              href={`mailto:${COMPANY.email}`}
-              className="mt-4 block w-fit break-all text-[15px] tracking-tight text-white/70 transition-colors duration-200 ease-out-strong hover:text-white"
-            >
-              {COMPANY.email}
-            </a>
+            <address className="mt-4 not-italic">
+              <a
+                href={`mailto:${COMPANY.email}`}
+                aria-label={a11y.emailUs.replace("{value}", COMPANY.email)}
+                className="block w-fit break-all text-[15px] tracking-tight text-white/70 transition-colors duration-200 ease-out-strong hover:text-white"
+              >
+                {COMPANY.email}
+              </a>
+            </address>
           </RevealItem>
 
           <RevealItem className="bg-[#050505] p-7">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
               {footer.office}
             </p>
-            <p className="mt-4 text-[15px] leading-relaxed tracking-tight text-white/70">
+            <address className="mt-4 not-italic text-[15px] leading-relaxed tracking-tight text-white/70">
               {footer.address}
-            </p>
+            </address>
           </RevealItem>
         </Reveal>
       </div>
@@ -95,10 +115,13 @@ export function Footer() {
           </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
             <span className="inline-flex items-center gap-2">
-              <span className="h-1 w-1 rounded-full bg-alarm" />
+              <span aria-hidden className="h-1 w-1 rounded-full bg-alarm" />
               {footer.licence}
             </span>
-            <span>© {YEAR} — {footer.rights}</span>
+            {/* `<time>` so the year is a parseable date, not a loose number. */}
+            <span>
+              © <time dateTime={String(YEAR)}>{YEAR}</time> — {footer.rights}
+            </span>
           </div>
         </div>
 

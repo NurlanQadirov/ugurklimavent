@@ -17,6 +17,7 @@ export function Sectors() {
   return (
     <section
       id="sectors"
+      aria-labelledby="sectors-heading"
       className="relative isolate mx-auto w-full max-w-6xl px-6 py-28 sm:px-8 lg:py-40"
     >
       <FlowLayer segment={4} />
@@ -24,13 +25,16 @@ export function Sectors() {
       <Reveal className="mb-16 flex flex-col gap-6 lg:mb-20 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <RevealItem className="mb-6 flex items-center gap-3">
-            <span className="h-1 w-1 rounded-full bg-volt" />
+            <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />
             <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
               {dict.sectors.eyebrow}
             </span>
           </RevealItem>
           <RevealItem>
-            <h2 className="max-w-2xl text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white">
+            <h2
+              id="sectors-heading"
+              className="max-w-2xl text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white"
+            >
               <HeadingLines lines={dict.sectors.headingLines} />
             </h2>
           </RevealItem>
@@ -47,6 +51,7 @@ export function Sectors() {
         initial="hidden"
         whileInView="visible"
         viewport={VIEWPORT}
+        aria-label={dict.a11y.sectorsList}
         className="border-t border-white/[0.07]"
       >
         {sectors.map((sector, i) => (
@@ -62,7 +67,11 @@ export function Sectors() {
             />
 
             <div className="flex flex-col gap-2 py-7 transition-transform duration-500 ease-out-strong motion-safe:group-hover:translate-x-3 sm:flex-row sm:items-baseline sm:gap-8 sm:py-8">
-              <span className="font-mono text-[10px] tracking-[0.2em] text-white/25 sm:w-10">
+              {/* The row number is the list position, already announced. */}
+              <span
+                aria-hidden
+                className="font-mono text-[10px] tracking-[0.2em] text-white/25 sm:w-10"
+              >
                 {String(i + 1).padStart(2, "0")}
               </span>
 

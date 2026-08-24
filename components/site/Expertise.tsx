@@ -19,6 +19,7 @@ export function Expertise() {
   return (
     <section
       id="expertise"
+      aria-labelledby="expertise-heading"
       className="relative isolate mx-auto w-full max-w-6xl px-6 py-28 sm:px-8 lg:py-40"
     >
       <FlowLayer segment={1} />
@@ -26,13 +27,16 @@ export function Expertise() {
       <Reveal className="mb-16 flex flex-col gap-6 lg:mb-20 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <RevealItem className="mb-6 flex items-center gap-3">
-            <span className="h-1 w-1 rounded-full bg-volt" />
+            <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />
             <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
               {expertise.eyebrow}
             </span>
           </RevealItem>
           <RevealItem>
-            <h2 className="max-w-2xl text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white">
+            <h2
+              id="expertise-heading"
+              className="max-w-2xl text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white"
+            >
               <HeadingLines lines={expertise.headingLines} />
             </h2>
           </RevealItem>
@@ -49,6 +53,7 @@ export function Expertise() {
         initial="hidden"
         whileInView="visible"
         viewport={VIEWPORT}
+        aria-label={dict.a11y.servicesList}
         className="grid auto-rows-[minmax(200px,auto)] grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6"
       >
         {services.map((service) => (
@@ -58,9 +63,25 @@ export function Expertise() {
             accent={service.critical ? "alarm" : "volt"}
             className={service.span}
           >
-            <div className="flex h-full flex-col justify-between gap-8 p-6 sm:p-7">
+            {/*
+              `<article>`, not `<div>`. Each card is a self-contained
+              description of one service — name, licence status, summary and the
+              systems it covers — which is the textbook case for `article`. The
+              practical payoff is on the GEO side: a generative engine chunking
+              this page gets seven bounded units it can quote whole, instead of
+              one 900-word grid it has to guess the boundaries of. `display` is
+              set by the class either way, so the box is byte-identical.
+            */}
+            <article
+              aria-labelledby={`service-${service.id}`}
+              className="flex h-full flex-col justify-between gap-8 p-6 sm:p-7"
+            >
               <div className="flex items-start justify-between gap-4">
-                <span className="font-mono text-[10px] tracking-[0.2em] text-white/25">
+                {/* Sheet-index decoration, not part of the service name. */}
+                <span
+                  aria-hidden
+                  className="font-mono text-[10px] tracking-[0.2em] text-white/25"
+                >
                   {service.index}
                 </span>
                 <ServiceIcon
@@ -76,21 +97,27 @@ export function Expertise() {
               <div>
                 {service.critical ? (
                   <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-alarm/25 bg-alarm/[0.06] px-2.5 py-1">
-                    <span className="h-1 w-1 rounded-full bg-alarm" />
+                    <span aria-hidden className="h-1 w-1 rounded-full bg-alarm" />
                     <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-alarm/80">
                       {expertise.licenceBadge}
                     </span>
                   </span>
                 ) : null}
 
-                <h3 className="text-xl font-medium tracking-tight text-white sm:text-2xl">
+                <h3
+                  id={`service-${service.id}`}
+                  className="text-xl font-medium tracking-tight text-white sm:text-2xl"
+                >
                   {service.title}
                 </h3>
                 <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-white/40">
                   {service.blurb}
                 </p>
 
-                <ul className="mt-6 flex flex-wrap gap-1.5">
+                <ul
+                  aria-label={dict.a11y.serviceTags}
+                  className="mt-6 flex flex-wrap gap-1.5"
+                >
                   {service.tags.map((tag) => (
                     <li
                       key={tag}
@@ -101,7 +128,7 @@ export function Expertise() {
                   ))}
                 </ul>
               </div>
-            </div>
+            </article>
           </GlassCard>
         ))}
       </motion.div>

@@ -55,7 +55,11 @@ export function LocaleSwitcher({ className }: { className?: string }) {
           ) : null}
 
           {locale === active ? (
-            <span aria-current="true" className="text-white font-medium">
+            /* `aria-current="page"`, not `"true"`: the token set is
+               page/step/location/date/time/true, and only `page` says "this is
+               the version of the document you are on". Assistive tech maps the
+               generic `true` to a vaguer announcement. */
+            <span aria-current="page" className="text-white font-medium">
               {LOCALE_LABELS[locale]}
             </span>
           ) : (

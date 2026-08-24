@@ -59,6 +59,25 @@ export const COMPANY = {
   short: "Uğur Klima Vent",
   phones: ["+994 50 203 80 13", "+994 70 203 80 13"],
   email: "a.mamedov78@gmail.com",
+  /**
+   * The address broken into its parts, for `PostalAddress` in the JSON-LD.
+   *
+   * `footer.address` stays in the dictionary because it is *displayed* copy and
+   * each locale spells the district its own way. This is the same address as
+   * data: a crawler needs `streetAddress` and `addressLocality` in separate
+   * fields, and feeding it the display string would repeat the city inside the
+   * street line — which is how a listing ends up unmatched against the map.
+   *
+   * TODO(client): add `postalCode` once confirmed. Google weights a complete
+   * `PostalAddress` when reconciling a site with a Business Profile.
+   */
+  address: {
+    street: "Alatava 2",
+    district: "Nasimi",
+    locality: "Baku",
+    region: "Baku",
+    country: "AZ",
+  },
 } as const;
 
 /** `tel:` hrefs must be digit-only to dial reliably. */

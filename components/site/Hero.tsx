@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import {
   motion,
   useMotionTemplate,
@@ -52,9 +52,16 @@ export function Hero() {
   const transform = useMotionTemplate`translate3d(0px, ${drift}px, 0) scale(${scale})`;
 
   return (
+    /*
+     * `aria-labelledby` on the section rather than an `aria-label`: the fold is
+     * a landmark, and pointing it at the `<h1>` that is already on screen names
+     * it with the page's own words instead of a second string that has to be
+     * translated and kept in sync.
+     */
     <section
       ref={ref}
       id="top"
+      aria-labelledby="hero-heading"
       className="gutter grain relative flex min-h-[100svh] flex-col overflow-hidden pb-8 pt-24 sm:pt-28"
     >
       {/*
@@ -74,8 +81,19 @@ export function Hero() {
           instead of running off the edge. It is allowed to overhang the shell by a
           quarter of its width — the section clips it, which reads as the fan being
           bigger than the frame rather than shrunk to fit it.
+
+          Centred on the *content* box, not the section. A bare `top-1/2` halves the
+          full height, and the top half of that is the `pt-28` reserved for the navbar,
+          which left the dial sitting `(112px - 32px) / 2` = 40px high and crowding the
+          bar. Offsetting by that half-difference recentres it between the navbar and
+          the meta row, and holds at every size the dial is visible at, since both
+          paddings are constant from `sm` up.
+
+          The `svh` cap only bites on a short viewport, where a fixed 620px would run
+          from the navbar to the meta row with nothing between; on a normal desktop
+          height the pixel value is the smaller of the two and nothing changes.
         */}
-        <ImpellerDial className="absolute top-1/2 hidden h-[400px] w-[400px] -translate-y-1/2 opacity-60 lg:right-12 lg:block xl:right-16 xl:h-[500px] xl:w-[500px] 2xl:right-20 2xl:h-[620px] 2xl:w-[620px]" />
+        <ImpellerDial className="absolute top-[calc(50%+2.5rem)] hidden h-[min(400px,65svh)] w-[min(400px,65svh)] -translate-y-1/2 opacity-60 lg:right-12 lg:block xl:right-16 xl:h-[min(500px,65svh)] xl:w-[min(500px,65svh)] 2xl:right-20 2xl:h-[min(620px,65svh)] 2xl:w-[min(620px,65svh)]" />
 
         {/* Pins the copy's contrast wherever the sweeps and the rotor happen to be. */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_95%_90%_at_16%_50%,rgba(5,5,5,0.9),rgba(5,5,5,0.5)_52%,transparent_78%)]" />
@@ -111,15 +129,29 @@ export function Hero() {
             className="w-full max-w-5xl"
           >
             <motion.h1
+              id="hero-heading"
               variants={staggerParent(0.09)}
               className="max-w-5xl text-[clamp(2.5rem,min(8vw,10.5svh),7.5rem)] font-medium leading-none tracking-tighter text-white"
             >
               {hero.headingLines.map((line, i) => (
-                <span key={i} className="block overflow-hidden pb-[0.06em]">
-                  <motion.span variants={lineChild} className="block">
-                    {line}
-                  </motion.span>
-                </span>
+                <Fragment key={i}>
+                  {/*
+                    A real space between the lines. The clip boxes are block
+                    elements, so this collapses to nothing on screen — but the
+                    lines are otherwise three adjacent text runs with no
+                    separator, and a text extractor that flattens the element
+                    reads the site's most important string as
+                    "EngineeredClimate &Safety Solutions". `HeadingLines` avoids
+                    this with a real `<br />`; the hero could not, because each
+                    line needs its own overflow box for the reveal.
+                  */}
+                  {i > 0 ? " " : null}
+                  <span className="block overflow-hidden pb-[0.06em]">
+                    <motion.span variants={lineChild} className="block">
+                      {line}
+                    </motion.span>
+                  </span>
+                </Fragment>
               ))}
             </motion.h1>
 
@@ -145,7 +177,10 @@ export function Hero() {
         >
           <div className="flex items-center gap-3">
             {/* Scroll cue: a lit segment falling down a dim track, on a loop. */}
-            <span className="relative hidden h-8 w-px overflow-hidden bg-white/10 sm:block">
+            <span
+              aria-hidden
+              className="relative hidden h-8 w-px overflow-hidden bg-white/10 sm:block"
+            >
               <motion.span
                 className="absolute inset-x-0 top-0 h-3 bg-gradient-to-b from-transparent via-volt to-transparent"
                 animate={{

@@ -53,6 +53,7 @@ export function Process() {
   return (
     <section
       id="process"
+      aria-labelledby="process-heading"
       className="relative isolate mx-auto w-full max-w-6xl px-6 py-28 sm:px-8 lg:py-40"
     >
       <FlowLayer segment={3} />
@@ -62,13 +63,16 @@ export function Process() {
         <div className="lg:col-span-4 lg:self-start lg:sticky lg:top-32">
           <Reveal>
             <RevealItem className="mb-6 flex items-center gap-3">
-              <span className="h-1 w-1 rounded-full bg-volt" />
+              <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />
               <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
                 {dict.process.eyebrow}
               </span>
             </RevealItem>
             <RevealItem>
-              <h2 className="text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white">
+              <h2
+                id="process-heading"
+                className="text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white"
+              >
                 <HeadingLines lines={dict.process.headingLines} />
               </h2>
             </RevealItem>
@@ -80,7 +84,13 @@ export function Process() {
           </Reveal>
 
           {/* Live phase readout — the digits swap as the rail fills */}
-          <div className="mt-12 hidden items-end gap-4 lg:flex">
+          {/*
+            Purely a scroll indicator: the phase number and the bar restate what
+            the list beside them already says, and both change on every frame of
+            a scroll. Announcing that to a screen reader is noise, so the whole
+            readout is hidden rather than left to fire live-region-like updates.
+          */}
+          <div aria-hidden className="mt-12 hidden items-end gap-4 lg:flex">
             <div className="flex items-baseline font-mono text-[11px] tracking-[0.2em] text-white/30">
               <span className="relative inline-flex h-[1.2em] w-[2.2ch] overflow-hidden text-white">
                 <AnimatePresence initial={false}>
@@ -128,6 +138,7 @@ export function Process() {
             initial="hidden"
             whileInView="visible"
             viewport={VIEWPORT}
+            aria-label={dict.a11y.processList}
             className="flex flex-col sm:pl-10"
           >
             {phases.map((phase, i) => (
@@ -157,7 +168,10 @@ export function Process() {
                   transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
                 >
                 <div className="flex items-baseline gap-5">
-                  <span className="font-mono text-[10px] tracking-[0.2em] text-white/30">
+                  <span
+                    aria-hidden
+                    className="font-mono text-[10px] tracking-[0.2em] text-white/30"
+                  >
                     {phase.index}
                   </span>
                   <h3 className="text-xl font-medium tracking-tight text-white sm:text-2xl">
@@ -169,7 +183,10 @@ export function Process() {
                   {phase.blurb}
                 </p>
 
-                <ul className="mt-5 flex flex-wrap gap-1.5 sm:pl-[3.4rem]">
+                <ul
+                  aria-label={dict.a11y.phaseOutputs}
+                  className="mt-5 flex flex-wrap gap-1.5 sm:pl-[3.4rem]"
+                >
                   {phase.outputs.map((output) => (
                     <li
                       key={output}

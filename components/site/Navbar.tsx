@@ -65,7 +65,14 @@ export function Navbar() {
       transition={{ ...SPRING_ENTRANCE, delay: 0.1 }}
       className="gutter fixed inset-x-0 top-0 z-50 pt-4 sm:pt-5"
     >
+      {/*
+        Two `<nav>` elements are rendered on every page — this one and the
+        locale switcher — so both need a name. Without `aria-label` a screen
+        reader announces "navigation" twice with nothing to tell them apart,
+        and neither is usable from the landmarks menu.
+      */}
       <motion.nav
+        aria-label={dict.a11y.primaryNav}
         variants={shell}
         animate={compact ? "compact" : "top"}
         className="flex items-center justify-between gap-4 rounded-full border px-4 py-2.5 backdrop-blur-xl sm:-mx-5 sm:px-5"
@@ -117,7 +124,9 @@ export function Navbar() {
   className="group flex items-center gap-2 rounded-full border border-white/10 bg-transparent px-4 py-2 text-[13px] text-white/80 transition-all duration-300 ease-out hover:bg-white/10 hover:text-white"
 >
   {dict.nav.cta}
+  {/* Decorative twin of the arrow in `MagneticLink`, which is already hidden. */}
   <svg
+    aria-hidden
     xmlns="http://www.w3.org/2000/svg"
     width="14"
     height="14"

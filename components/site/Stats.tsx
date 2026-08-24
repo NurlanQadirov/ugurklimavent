@@ -14,10 +14,19 @@ import { VIEWPORT, riseChild, staggerParent } from "@/components/motion/tokens";
  * correct at every column count.
  */
 export function Stats() {
-  const stats = getStats(useDictionary());
+  const dict = useDictionary();
+  const stats = getStats(dict);
 
   return (
-    <section className="relative isolate border-y border-white/[0.06]">
+    /*
+      The band has no heading, so the landmark needs an explicit name — an
+      unnamed `<section>` is not exposed as a region at all, and these four
+      figures are the page's only hard numbers.
+    */
+    <section
+      aria-label={dict.a11y.statsList}
+      className="relative isolate border-y border-white/[0.06]"
+    >
       <FlowLayer segment={2} />
       <motion.ul
         variants={staggerParent(0.08)}

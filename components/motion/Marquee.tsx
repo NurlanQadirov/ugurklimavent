@@ -28,6 +28,13 @@ function wrap(min: number, max: number, value: number) {
 
 type MarqueeProps = {
   items: readonly string[];
+  /**
+   * Accessible name for the ticker. These are the company's capabilities, not
+   * decoration, so the run is exposed as a named list rather than as a wall of
+   * loose text — an answer engine parsing the page gets "capabilities: air
+   * handling units, VRF systems, ..." instead of an unattributed word soup.
+   */
+  label?: string;
   /** Percent of the track travelled per second at rest. */
   speed?: number;
   className?: string;
@@ -41,7 +48,7 @@ type MarqueeProps = {
  * The whole loop runs on motion values inside one animation frame callback —
  * no state, so no re-renders.
  */
-export function Marquee({ items, speed = 1.6, className }: MarqueeProps) {
+export function Marquee({ items, label, speed = 1.6, className }: MarqueeProps) {
   const reduce = useReducedMotion();
 
   const baseX = useMotionValue(0);
@@ -79,10 +86,17 @@ export function Marquee({ items, speed = 1.6, className }: MarqueeProps) {
     baseX.set(wrap(-SHIFT, 0, baseX.get() + moveBy));
   });
 
+  /*
+   * `role="list"` / `role="listitem"` instead of real `<ul>`/`<li>` elements:
+   * the track is one long inline run inside a transformed flex row, and swapping
+   * in list elements would change the box tree the marquee measures itself
+   * against. The roles give assistive tech and structured parsers the same
+   * list semantics with a byte-identical layout.
+   */
   const group = (
-    <span className="flex shrink-0 items-center">
+    <span role="list" className="flex shrink-0 items-center">
       {items.map((item) => (
-        <span key={item} className="flex shrink-0 items-center">
+        <span key={item} role="listitem" className="flex shrink-0 items-center">
           <span className="px-6 sm:px-8">{item}</span>
           <span aria-hidden className="h-1 w-1 rounded-full bg-volt/50" />
         </span>
@@ -92,6 +106,8 @@ export function Marquee({ items, speed = 1.6, className }: MarqueeProps) {
 
   return (
     <div
+      role="group"
+      aria-label={label}
       className={cn(
         "relative flex overflow-hidden py-6",
         "[mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]",
