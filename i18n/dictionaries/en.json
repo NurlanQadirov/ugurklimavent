@@ -256,6 +256,48 @@
       }
     }
   },
+  "faq": {
+    "eyebrow": "Questions",
+    "headingLines": [
+      "What clients ask",
+      "before the survey."
+    ],
+    "lede": "The eight that come up on almost every first call. If yours is not here, call — the numbers at the bottom of this page go straight to the team.",
+    "items": {
+      "scope": {
+        "question": "Do you subcontract any part of the work?",
+        "answer": "No. Design, supply, sheet-metal and stainless fabrication, installation and commissioning are all handled by our own crews. That is the point of running seven disciplines in-house: the mechanical, fire and electrical scopes are coordinated in one model instead of negotiated on site between four contractors."
+      },
+      "licence": {
+        "question": "What does your FHN licence cover?",
+        "answer": "The design and commissioning of fire protection systems — sprinkler networks and smoke evacuation. It is an active licence from the Ministry of Emergency Situations, and it is what lets us sign the fire scope off ourselves instead of handing it to a third party."
+      },
+      "duration": {
+        "question": "How long does a project take from survey to handover?",
+        "answer": "It depends on the scope and on what is already in the building, which is why we do not quote a duration before the survey. What is fixed is the sequence: five phases, with a dated delivery programme issued at the procurement phase."
+      },
+      "documents": {
+        "question": "What documentation do I receive at handover?",
+        "answer": "Airflow balancing results measured against the design figures, test certificates for the installed systems, and an O&M manual. That is the set an inspection will ask for, and it is part of the scope rather than an extra."
+      },
+      "pricing": {
+        "question": "How is the price determined?",
+        "answer": "After the site survey and the heat and airflow load calculation, not before. The first phase ends with a budget envelope built on the measured load — a figure quoted off a floor plan is an assumption, and assumptions are always corrected upward later."
+      },
+      "coverage": {
+        "question": "Do you work outside Baku?",
+        "answer": "Yes — Baku and the surrounding regions. Distance affects the delivery programme and the response time for maintenance, and both are stated before the contract rather than discovered after it."
+      },
+      "emergency": {
+        "question": "What happens if a system fails outside working hours?",
+        "answer": "We run a 24/7 emergency response. Plant failures do not keep office hours, and a stopped extract system in a kitchen or an industrial hall becomes a licensing and production problem within hours, not days."
+      },
+      "existing": {
+        "question": "Do you service systems installed by another contractor?",
+        "answer": "Yes. We start by measuring what is actually installed rather than working from the previous contractor's assumed figures — in a system that underperforms, the gap between those two numbers is usually where the fault is."
+      }
+    }
+  },
   "footer": {
     "eyebrow": "Contact",
     "headingLines": [
@@ -283,6 +325,7 @@
     "statsList": "Company figures",
     "sectorsList": "Sectors served",
     "callPhone": "Call {value}",
-    "emailUs": "Email {value}"
+    "emailUs": "Email {value}",
+    "faqList": "Frequently asked questions"
   }
 }

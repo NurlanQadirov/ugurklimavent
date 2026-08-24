@@ -24,7 +24,7 @@ export function Footer() {
 
   return (
     <footer id="contact" className="relative isolate border-t border-white/[0.07]">
-      <FlowLayer segment={5} />
+      <FlowLayer segment={6} />
       {/* Closing call to action */}
       <div className="mx-auto w-full max-w-6xl px-6 py-28 sm:px-8 lg:py-36">
         <Reveal className="flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">

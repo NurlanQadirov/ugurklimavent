@@ -256,6 +256,48 @@
       }
     }
   },
+  "faq": {
+    "eyebrow": "Suallar",
+    "headingLines": [
+      "Baxışdan əvvəl",
+      "verilən suallar."
+    ],
+    "lede": "Demək olar ki, hər ilk zəngdə səslənən səkkiz sual. Sizinki burada yoxdursa, zəng edin — səhifənin aşağısındakı nömrələr birbaşa komandaya düşür.",
+    "items": {
+      "scope": {
+        "question": "İşin hansısa hissəsini subpodratçıya verirsiniz?",
+        "answer": "Xeyr. Layihələndirmə, təchizat, tənəkə və paslanmayan poladdan hazırlanma, quraşdırma və sazlama — hamısı öz briqadalarımız tərəfindən görülür. Yeddi istiqaməti öz daxilimizdə saxlamağın mənası budur: mexanika, yanğın və elektrik işləri obyektdə dörd podratçı arasında razılaşdırılmır, bir modeldə uzlaşdırılır."
+      },
+      "licence": {
+        "question": "FHN lisenziyanız nəyi əhatə edir?",
+        "answer": "Yanğından mühafizə sistemlərinin — sprinkler şəbəkələri və tüstü təxliyyəsi — layihələndirilməsini və sazlanmasını. Fövqəladə Hallar Nazirliyinin verdiyi qüvvədə olan lisenziyadır və yanğın hissəsini üçüncü tərəfə ötürmədən özümüzün təhvil verməyimizə imkan verir."
+      },
+      "duration": {
+        "question": "Baxışdan təhvilə qədər layihə nə qədər çəkir?",
+        "answer": "Bu, işin həcmindən və binada artıq nə olduğundan asılıdır — buna görə baxışdan əvvəl müddət demirik. Dəyişməz qalan ardıcıllıqdır: beş mərhələ və təchizat mərhələsində verilən, tarixləri göstərilmiş çatdırılma qrafiki."
+      },
+      "documents": {
+        "question": "Təhvil zamanı hansı sənədləri alıram?",
+        "answer": "Layihə göstəriciləri ilə tutuşdurulmuş hava sərfi balanslaşdırma nəticələri, quraşdırılmış sistemlər üçün test sertifikatları və istismar təlimatı. Bu, yoxlamanın tələb edəcəyi sənəd dəstidir və əlavə xidmət deyil, işin tərkib hissəsidir."
+      },
+      "pricing": {
+        "question": "Qiymət necə müəyyən edilir?",
+        "answer": "Obyektə baxışdan və istilik ilə hava sərfi yükünün hesablanmasından sonra, ondan əvvəl yox. Birinci mərhələ ölçülmüş yükə əsaslanan büdcə çərçivəsi ilə bitir — plan üzərindən deyilən rəqəm fərziyyədir, fərziyyələr isə həmişə sonradan yuxarı düzəlir."
+      },
+      "coverage": {
+        "question": "Bakıdan kənarda işləyirsinizmi?",
+        "answer": "Bəli — Bakı və ətraf rayonlar. Məsafə çatdırılma qrafikinə və texniki xidmətdə reaksiya vaxtına təsir edir; hər ikisi müqavilədən sonra üzə çıxmır, əvvəlcədən dəqiqləşdirilir."
+      },
+      "emergency": {
+        "question": "İş saatlarından kənarda sistem dayanarsa nə olur?",
+        "answer": "24/7 təcili çağırış xidmətimiz var. Avadanlıq nasazlıqları iş saatına baxmır — mətbəxdə və ya sənaye sahəsində dayanmış çəkici sistem günlər deyil, saatlar ərzində lisenziya və istehsal probleminə çevrilir."
+      },
+      "existing": {
+        "question": "Başqa podratçının quraşdırdığı sistemə xidmət göstərirsiniz?",
+        "answer": "Bəli. İşə əvvəlki podratçının fərz etdiyi rəqəmlərlə deyil, faktiki quraşdırılmış sistemin ölçülməsi ilə başlayırıq — layihə göstəricisindən geri qalan sistemdə bu iki rəqəm arasındakı fərq adətən nasazlığın olduğu yerdir."
+      }
+    }
+  },
   "footer": {
     "eyebrow": "Əlaqə",
     "headingLines": [
@@ -283,6 +325,7 @@
     "statsList": "Şirkət göstəriciləri",
     "sectorsList": "Xidmət göstərdiyimiz sahələr",
     "callPhone": "{value} nömrəsinə zəng et",
-    "emailUs": "{value} ünvanına e-poçt göndər"
+    "emailUs": "{value} ünvanına e-poçt göndər",
+    "faqList": "Tez-tez verilən suallar"
   }
 }

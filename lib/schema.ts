@@ -1,6 +1,12 @@
 import { LOCALES, LOCALE_TAGS, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/types";
-import { COMPANY, getProcess, getSectors, getServices } from "@/lib/content";
+import {
+  COMPANY,
+  getFaqs,
+  getProcess,
+  getSectors,
+  getServices,
+} from "@/lib/content";
 import { SITE_URL, absoluteUrl, type Route } from "@/lib/seo";
 
 /**
@@ -256,6 +262,51 @@ function sectorList(dict: Dictionary, locale: Locale) {
   };
 }
 
+/**
+ * The eight questions as a `FAQPage`.
+ *
+ * Worth being clear about what this does and does not buy, because the received
+ * wisdom is out of date in both directions:
+ *
+ * - It will **not** produce the collapsible FAQ rich result in Google. That was
+ *   restricted to government and health sites in August 2023, and this is a
+ *   contractor. Anyone promising the accordion in the SERP from this markup is
+ *   selling a 2022 playbook.
+ * - It is still one of the highest-value nodes on the site for GEO. A
+ *   question/answer pair is the native unit of a generative answer: ChatGPT
+ *   Search, Perplexity, Gemini and Copilot all lift `acceptedAnswer.text`
+ *   directly when a user's prompt matches `name`, because the pairing removes
+ *   every guess about where the answer starts and stops. Prose the model has to
+ *   summarise loses to a sentence it can quote.
+ *
+ * Google also requires the marked-up Q&A to be visible on the page, which is why
+ * `Faq.tsx` keeps every collapsed answer mounted in the DOM rather than
+ * unmounting it.
+ */
+function faqPage(dict: Dictionary, locale: Locale) {
+  return {
+    "@type": "FAQPage",
+    "@id": `${absoluteUrl(locale)}#faq`,
+    name: dict.faq.headingLines.join(" "),
+    description: dict.faq.lede,
+    inLanguage: LOCALE_TAGS[locale],
+    isPartOf: { "@id": pageId(locale, "") },
+    about: { "@id": ORG_ID },
+    mainEntity: getFaqs(dict).map((faq) => ({
+      "@type": "Question",
+      "@id": `${absoluteUrl(locale)}#faq-${faq.id}`,
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+        // Deep link to the row itself, so an engine that cites the answer can
+        // send the reader to the exact question rather than the page top.
+        url: `${absoluteUrl(locale)}#faq`,
+      },
+    })),
+  };
+}
+
 /** The disciplines lifted out of the offer catalogue as a standalone list. */
 function serviceList(dict: Dictionary, locale: Locale) {
   return {
@@ -309,6 +360,10 @@ export function buildGraph({
   if (route === "" || route === "/expertise") graph.push(serviceList(dict, locale));
   if (route === "" || route === "/process") graph.push(howTo(dict, locale));
   if (route === "" || route === "/sectors") graph.push(sectorList(dict, locale));
+  // FAQ lives only on the landing page, so the node does too — a `FAQPage`
+  // declared on a URL that does not show the questions is a guidelines
+  // violation, not a shortcut.
+  if (route === "") graph.push(faqPage(dict, locale));
 
   return { "@context": "https://schema.org", "@graph": graph };
 }

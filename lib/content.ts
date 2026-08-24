@@ -174,3 +174,44 @@ export type Sector = {
 export function getSectors(dict: Dictionary): readonly Sector[] {
   return SECTOR_IDS.map((id) => ({ id, ...dict.sectors.items[id] }));
 }
+
+/* -------------------------------------------------------------------------- */
+/* Frequently asked questions                                                  */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Order is structure, so it lives here rather than in the dictionaries — and it
+ * is not arbitrary. The questions run roughly in the order a real first call
+ * goes: what do you actually do, are you licensed, how long, what do I get,
+ * what does it cost, do you come to me, what if it breaks, will you touch
+ * someone else's work.
+ *
+ * That ordering also happens to be what a generative engine rewards: the
+ * highest-intent question sits first in the `FAQPage` node, and an engine that
+ * quotes only the opening item still quotes the one that matters most.
+ */
+const FAQ_IDS = [
+  "scope",
+  "licence",
+  "duration",
+  "documents",
+  "pricing",
+  "coverage",
+  "emergency",
+  "existing",
+] as const satisfies readonly (keyof Dictionary["faq"]["items"])[];
+
+export type FaqItem = {
+  id: (typeof FAQ_IDS)[number];
+  index: string;
+  question: string;
+  answer: string;
+};
+
+export function getFaqs(dict: Dictionary): readonly FaqItem[] {
+  return FAQ_IDS.map((id, i) => ({
+    id,
+    index: String(i + 1).padStart(2, "0"),
+    ...dict.faq.items[id],
+  }));
+}
