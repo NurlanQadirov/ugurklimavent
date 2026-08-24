@@ -111,6 +111,7 @@ export function Navbar() {
         <div className="flex items-center gap-3 sm:gap-4">
           <LocaleSwitcher />
 
+
           <Link
   href="#contact"
   className="group flex items-center gap-2 rounded-full border border-white/10 bg-transparent px-4 py-2 text-[13px] text-white/80 transition-all duration-300 ease-out hover:bg-white/10 hover:text-white"
