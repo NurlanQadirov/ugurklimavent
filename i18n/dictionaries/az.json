@@ -1,0 +1,186 @@
+{
+  "meta": {
+    "title": "Uğur Klima Vent MMC — Sənaye HVAC və Yanğın Təhlükəsizliyi Mühəndisliyi",
+    "titleTemplate": "%s — Uğur Klima Vent MMC",
+    "description": "Maksimum istismar etibarlılığı üçün layihələndirilmiş dəqiq HVAC, sənaye soyutma və FHN lisenziyalı yanğından mühafizə sistemləri. Bakı, Azərbaycan.",
+    "keywords": [
+      "HVAC Bakı",
+      "sənaye ventilyasiyası",
+      "hava emalı qurğusu quraşdırılması",
+      "VRF sistemləri",
+      "FHN yanğından mühafizə",
+      "sprinkler sistemləri",
+      "çiller mühəndisliyi"
+    ]
+  },
+  "nav": {
+    "backToTop": "yuxarıya qayıt",
+    "language": "Dil",
+    "cta": "Audit sifariş et",
+    "links": {
+      "expertise": "İxtisas",
+      "process": "Metod",
+      "sectors": "Sahələr",
+      "contact": "Əlaqə"
+    }
+  },
+  "hero": {
+    "headingLines": ["İqlim və", "Təhlükəsizlik", "Mühəndisliyi"],
+    "lede": "Maksimum istismar etibarlılığı üçün layihələndirilmiş dəqiq HVAC, sənaye soyutma və FHN lisenziyalı yanğından mühafizə sistemləri.",
+    "cta": "Texniki audit sifariş et",
+    "scroll": "Aşağı",
+    "coordinates": "Bakı / AZ · 40.40°N 49.87°E"
+  },
+  "manifesto": {
+    "eyebrow": "Yanaşma",
+    "statement": "Ventilyasiya sistemi yalnız *sazlandığı* gün qədər dürüstdür. Hər bir işi öz komandamızla layihələndirir, quraşdırır və tarazlayırıq — layihədəki hava sərfi *otaqdakı* hava sərfi olsun deyə."
+  },
+  "capabilities": [
+    "Hava emalı qurğuları",
+    "VRF sistemləri",
+    "Sprinkler şəbəkələri",
+    "Tüstü təxliyəsi",
+    "Çiller stansiyası",
+    "Qazanxanalar",
+    "Hava kanallarının tarazlanması",
+    "Mətbəx aspirasiyası",
+    "CCTV və elektrik",
+    "FHN sertifikatlı"
+  ],
+  "expertise": {
+    "eyebrow": "İxtisas",
+    "headingLines": ["Yeddi istiqamət,", "bir məsul podratçı."],
+    "lede": "Layihələndirmə, təchizat, quraşdırma və sazlama öz daxilimizdə aparılır — beləliklə mexanika, yanğın və elektrik işləri eyni tavanaltı boşluğa fərqli fərziyyələrlə gəlmir.",
+    "licenceBadge": "FHN lisenziyalı",
+    "services": {
+      "ventilation": {
+        "title": "Ventilyasiya və HEQ",
+        "blurb": "Fasiləsiz iş rejimi üçün hesablanmış sənaye hava emalı qurğuları, kanallı təchizat və sortma şəbəkələri — layihə hava sərfinə görə tarazlanmış, sazlanmış və sənədləşdirilmiş.",
+        "tags": ["Hava emalı qurğuları", "Sorucu sistemlər", "Kanal tarazlanması"]
+      },
+      "fire": {
+        "title": "Yanğından mühafizə",
+        "blurb": "Aktiv FHN lisenziyası əsasında layihələndirilən və sazlanan sprinkler şəbəkələri və tüstü təxliyə sistemləri.",
+        "tags": ["Sprinkler sistemləri", "Tüstü təxliyəsi"]
+      },
+      "cooling": {
+        "title": "Müasir soyutma",
+        "blurb": "Hər bir istifadə olunan həcmdə yükün dəqiq qarşılanması üçün zonalara bölünmüş VRF, kaset, kanallı və multi-split sistemlər.",
+        "tags": ["VRF", "Kaset", "Kanallı", "Multi-split"]
+      },
+      "heating": {
+        "title": "İstilik və hidravlika",
+        "blurb": "Qazanxanadan son istilik cihazına qədər qazan quraşdırılması və mərkəzi istilik layihələndirilməsi.",
+        "tags": ["Qazanxanalar", "Hidravlik layihə"]
+      },
+      "chillers": {
+        "title": "Çillerlər və kommersiya",
+        "blurb": "Davamlı kommersiya və sənaye yüklərinə uyğun ölçülmüş çiller stansiyası və fankoyl mühəndisliyi.",
+        "tags": ["Çiller stansiyası", "Fankoyl"]
+      },
+      "kitchens": {
+        "title": "Kommersiya mətbəxləri",
+        "blurb": "Paslanmayan poladdan sorucu çətirlər, hazırlıq masaları və mətbəxin davamlı elektrik texniki xidməti.",
+        "tags": ["Çətirlər", "Polad masalar", "Texniki xidmət"]
+      },
+      "infrastructure": {
+        "title": "İnfrastruktur",
+        "blurb": "CCTV nəzarəti və xidmət etdiyi avadanlığın yükünü daşıyacaq şəkildə çəkilmiş güclü elektrik kabelləri.",
+        "tags": ["CCTV", "Güclü kabel", "Paylayıcı"]
+      }
+    }
+  },
+  "stats": {
+    "disciplines": {
+      "label": "Daxili istiqamət",
+      "note": "Mexanika, yanğın və elektrik işləri bir müqavilə altında"
+    },
+    "response": {
+      "label": "Təcili müdaxilə",
+      "note": "Avadanlıq nasazlıqları iş saatlarına baxmır"
+    },
+    "years": {
+      "label": "İllik iş təcrübəsi",
+      "note": "Bakı və ətraf bölgələrdə sazlama işləri"
+    },
+    "systems": {
+      "label": "Sazlanmış sistem",
+      "note": "Layihə hava sərfinə görə tarazlanmış və sənədləşdirilmiş"
+    }
+  },
+  "process": {
+    "eyebrow": "Metod",
+    "headingLines": ["Baxışdan", "imzaya qədər."],
+    "lede": "Beş mərhələ, hamısının məsuliyyətini daşıyan bir podratçı.",
+    "phases": {
+      "survey": {
+        "title": "Baxış və yük hesabatı",
+        "blurb": "Binanı gəzir, mövcud vəziyyəti ölçür və real istilik və hava sərfi yükünü hesablayırıq — əvvəlki podratçının fərz etdiyi rəqəmi yox.",
+        "outputs": ["Obyekt baxışı", "İstilik və hava yükü", "Büdcə çərçivəsi"]
+      },
+      "design": {
+        "title": "Layihə və sənədləşmə",
+        "blurb": "Memarlığa uyğun çəkilmiş kanal marşrutları, avadanlıq seçimi və prinsipial sxemlər; yanğın və elektrik işləri eyni modeldə əlaqələndirilir.",
+        "outputs": ["Plan cizgiləri", "Avadanlıq cədvəli", "Əlaqələndirmə dəsti"]
+      },
+      "supply": {
+        "title": "Təchizat və satınalma",
+        "blurb": "Cədvələ uyğun tədarük olunan və qrafiklə çatdırılan avadanlıq; təneke və paslanmayan polad hazırlanması subpodratçıya verilmədən öz emalatxanamızda aparılır.",
+        "outputs": ["Avadanlıq təchizatı", "Hazırlanma", "Çatdırılma qrafiki"]
+      },
+      "install": {
+        "title": "Quraşdırma",
+        "blurb": "Hava kanallarını, avadanlığı, boru kəmərini və elektrik xəttini öz briqadalarımız quraşdırır — eyni 300 mm üçün danışan dörd peşə əvəzinə tavanaltında bir məsul komanda.",
+        "outputs": ["Kanallar və avadanlıq", "Boru kəməri", "Güc və idarəetmə"]
+      },
+      "commission": {
+        "title": "Sazlama və təhvil",
+        "blurb": "Hər sistem layihə göstəricilərinə görə tarazlanır, sınaqdan keçirilir, sertifikatlaşdırılır və yoxlamanın tələb edəcəyi sənədlərlə təhvil verilir.",
+        "outputs": ["Hava tarazlanması", "Sınaq aktları", "İstismar təlimatı"]
+      }
+    }
+  },
+  "sectors": {
+    "eyebrow": "Sahələr",
+    "headingLines": ["Dayanmağa imkanı", "olmayan binalar."],
+    "lede": "Aşağıdakı hər sahənin nasazlıq qiyməti fərqlidir — otel qonaq itirir, zavod istehsalı, mətbəx isə lisenziyasını. Yük hesabatı da buna uyğun dəyişir.",
+    "items": {
+      "industrial": {
+        "name": "Sənaye müəssisələri",
+        "detail": "Fasiləsiz sorma və proses soyutması"
+      },
+      "retail": {
+        "name": "Ticarət və mərkəzlər",
+        "detail": "Böyük həcmli hava emalı və tüstüyə nəzarət"
+      },
+      "hospitality": {
+        "name": "Otellər və turizm",
+        "detail": "Sakitlik saatları üçün akustikaya uyğun zonalı VRF"
+      },
+      "kitchens": {
+        "name": "Kommersiya mətbəxləri",
+        "detail": "Paslanmayan sorma və əvəzedici hava"
+      },
+      "offices": {
+        "name": "Ofis binaları",
+        "detail": "BMS-ə qoşulmuş fankoyl və çiller stansiyası"
+      },
+      "residential": {
+        "name": "Yaşayış kompleksləri",
+        "detail": "Mərkəzi istilik və multi-split quraşdırılması"
+      }
+    }
+  },
+  "footer": {
+    "eyebrow": "Əlaqə",
+    "headingLines": ["Cizgiləri siz gətirin.", "Yük hesabatlarını biz."],
+    "cta": "Texniki audit sifariş et",
+    "telephone": "Telefon",
+    "email": "E-poçt",
+    "office": "Ofis",
+    "address": "Bakı, Nəsimi rayonu, Alatava 2",
+    "licence": "FHN lisenziyalı",
+    "rights": "Bütün hüquqlar qorunur",
+    "credit": "Dizayn və hazırlanma:"
+  }
+}

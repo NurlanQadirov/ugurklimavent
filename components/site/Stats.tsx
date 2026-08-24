@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 
-import { STATS } from "@/lib/content";
+import { getStats } from "@/lib/content";
+import { useDictionary } from "@/i18n/DictionaryProvider";
 import { Counter } from "@/components/motion/Counter";
 import { FlowLayer } from "@/components/motion/FlowLayer";
 import { VIEWPORT, riseChild, staggerParent } from "@/components/motion/tokens";
@@ -13,6 +14,8 @@ import { VIEWPORT, riseChild, staggerParent } from "@/components/motion/tokens";
  * correct at every column count.
  */
 export function Stats() {
+  const stats = getStats(useDictionary());
+
   return (
     <section className="relative isolate border-y border-white/[0.06]">
       <FlowLayer segment={2} />
@@ -23,9 +26,9 @@ export function Stats() {
         viewport={VIEWPORT}
         className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-px bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-4"
       >
-        {STATS.map((stat) => (
+        {stats.map((stat) => (
           <motion.li
-            key={stat.label}
+            key={stat.id}
             variants={riseChild}
             className="group relative bg-void px-6 py-10 sm:px-8 sm:py-12"
           >

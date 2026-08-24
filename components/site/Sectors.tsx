@@ -2,13 +2,18 @@
 
 import { motion } from "framer-motion";
 
-import { SECTORS } from "@/lib/content";
+import { getSectors } from "@/lib/content";
+import { useDictionary } from "@/i18n/DictionaryProvider";
 import { FlowLayer } from "@/components/motion/FlowLayer";
 import { Parallax } from "@/components/motion/Parallax";
 import { Reveal, RevealItem } from "@/components/motion/Reveal";
 import { VIEWPORT, riseChild, staggerParent } from "@/components/motion/tokens";
+import { HeadingLines } from "./HeadingLines";
 
 export function Sectors() {
+  const dict = useDictionary();
+  const sectors = getSectors(dict);
+
   return (
     <section
       id="sectors"
@@ -21,22 +26,18 @@ export function Sectors() {
           <RevealItem className="mb-6 flex items-center gap-3">
             <span className="h-1 w-1 rounded-full bg-volt" />
             <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
-              Sectors
+              {dict.sectors.eyebrow}
             </span>
           </RevealItem>
           <RevealItem>
             <h2 className="max-w-2xl text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white">
-              Buildings that cannot
-              <br />
-              afford to stop.
+              <HeadingLines lines={dict.sectors.headingLines} />
             </h2>
           </RevealItem>
         </div>
         <Parallax distance={26} className="max-w-sm">
           <p className="text-pretty text-sm leading-relaxed text-white/40">
-            Every sector below has a different failure cost — a hotel loses
-            guests, a plant loses production, a kitchen loses its licence. The
-            load calculation changes accordingly.
+            {dict.sectors.lede}
           </p>
         </Parallax>
       </Reveal>
@@ -48,7 +49,7 @@ export function Sectors() {
         viewport={VIEWPORT}
         className="border-t border-white/[0.07]"
       >
-        {SECTORS.map((sector, i) => (
+        {sectors.map((sector, i) => (
           <motion.li
             key={sector.id}
             variants={riseChild}

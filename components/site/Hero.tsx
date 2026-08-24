@@ -14,8 +14,7 @@ import { FlowRun } from "@/components/motion/FlowRun";
 import { ImpellerDial } from "@/components/motion/ImpellerDial";
 import { MagneticLink } from "@/components/motion/MagneticLink";
 import { riseChild, staggerParent } from "@/components/motion/tokens";
-
-const HEADING_LINES = ["Engineered", "Climate &", "Safety Solutions"] as const;
+import { useDictionary } from "@/i18n/DictionaryProvider";
 
 /**
  * Type reveal: each line rides up from behind its own clipped box.
@@ -32,6 +31,7 @@ const lineChild: Variants = {
 };
 
 export function Hero() {
+  const { hero } = useDictionary();
   const ref = useRef<HTMLElement>(null);
 
   // Progress from "hero fills the viewport" to "hero has fully left the top".
@@ -55,7 +55,7 @@ export function Hero() {
     <section
       ref={ref}
       id="top"
-      className="grain relative flex min-h-[100svh] flex-col overflow-hidden px-6 pb-8 pt-32 sm:px-8 lg:pt-36"
+      className="gutter grain relative flex min-h-[100svh] flex-col overflow-hidden pb-8 pt-24 sm:pt-28"
     >
       {/*
         Backdrop. It shares the fold's fade but not its drift or scale, so the two
@@ -75,9 +75,7 @@ export function Hero() {
           quarter of its width — the section clips it, which reads as the fan being
           bigger than the frame rather than shrunk to fit it.
         */}
-        <div className="absolute inset-y-0 left-1/2 hidden w-full max-w-6xl -translate-x-1/2 lg:block">
-          <ImpellerDial className="absolute right-0 top-1/2 h-[400px] w-[400px] -translate-y-1/2 translate-x-[12%] opacity-60 xl:h-[500px] xl:w-[500px] 2xl:h-[560px] 2xl:w-[560px]" />
-        </div>
+        <ImpellerDial className="absolute top-1/2 hidden h-[400px] w-[400px] -translate-y-1/2 opacity-60 lg:right-12 lg:block xl:right-16 xl:h-[500px] xl:w-[500px] 2xl:right-20 2xl:h-[620px] 2xl:w-[620px]" />
 
         {/* Pins the copy's contrast wherever the sweeps and the rotor happen to be. */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_95%_90%_at_16%_50%,rgba(5,5,5,0.9),rgba(5,5,5,0.5)_52%,transparent_78%)]" />
@@ -105,32 +103,19 @@ export function Hero() {
          * absolutely would drop it on top of the call to action the moment the
          * headline wrapped to a fourth line.
          */}
-        <div className="mx-auto flex w-full max-w-6xl flex-1 items-center">
+        <div className="flex w-full flex-1 items-center">
           <motion.div
             variants={staggerParent(0.08, 0.15)}
             initial="hidden"
             animate="visible"
-            className="w-full"
+            className="w-full max-w-5xl"
           >
-            {/* Floating glass badge */}
-            <motion.div variants={riseChild} className="mb-8 flex">
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] py-1.5 pl-2.5 pr-4 backdrop-blur-xl">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-alarm opacity-75 motion-reduce:hidden" />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-alarm" />
-                </span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">
-                  24/7 Emergency Support
-                </span>
-              </div>
-            </motion.div>
-
             <motion.h1
               variants={staggerParent(0.09)}
-              className="max-w-5xl text-[clamp(2.75rem,8.4vw,8rem)] font-medium leading-none tracking-tighter text-white"
+              className="max-w-5xl text-[clamp(2.5rem,min(8vw,10.5svh),7.5rem)] font-medium leading-none tracking-tighter text-white"
             >
-              {HEADING_LINES.map((line) => (
-                <span key={line} className="block overflow-hidden pb-[0.06em]">
+              {hero.headingLines.map((line, i) => (
+                <span key={i} className="block overflow-hidden pb-[0.06em]">
                   <motion.span variants={lineChild} className="block">
                     {line}
                   </motion.span>
@@ -140,16 +125,13 @@ export function Hero() {
 
             <motion.p
               variants={riseChild}
-              className="mt-8 max-w-xl text-pretty text-base leading-relaxed text-white/45 sm:text-lg"
+              className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-white/45 sm:text-lg"
             >
-              Precision HVAC, industrial cooling, and FHN-certified fire
-              protection systems designed for maximum operational reliability.
+              {hero.lede}
             </motion.p>
 
-            <motion.div variants={riseChild} className="mt-10">
-              <MagneticLink href="#contact">
-                Request Technical Audit
-              </MagneticLink>
+            <motion.div variants={riseChild} className="mt-8">
+              <MagneticLink href="#contact">{hero.cta}</MagneticLink>
             </motion.div>
           </motion.div>
         </div>
@@ -159,7 +141,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1.1, ease: [0.23, 1, 0.32, 1] }}
-          className="pointer-events-none mx-auto flex w-full max-w-6xl shrink-0 items-end justify-between pt-10"
+          className="pointer-events-none flex w-full shrink-0 items-end justify-between pt-10"
         >
           <div className="flex items-center gap-3">
             {/* Scroll cue: a lit segment falling down a dim track, on a loop. */}
@@ -178,11 +160,11 @@ export function Hero() {
               />
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
-              Scroll
+              {hero.scroll}
             </span>
           </div>
           <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
-            Baku / AZ · 40.40°N 49.87°E
+            {hero.coordinates}
           </span>
         </motion.div>
       </motion.div>

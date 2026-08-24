@@ -4,6 +4,17 @@ const CENTER = 220;
 const BLADE_COUNT = 9;
 
 /**
+ * The viewBox is cropped to the housing circle (r=206 plus half its 1px stroke) rather
+ * than to the 440-unit square the geometry was drawn on. Otherwise the element's box is
+ * ~3% wider than the fan inside it, and every attempt to line the dial up with anything
+ * else on the page lands 20px short at large sizes. Cropping here makes "the box is the
+ * fan" true, so the caller can align it like any other element and stay correct at any
+ * size.
+ */
+const EDGE = CENTER - 207;
+const SPAN = 414;
+
+/**
  * One swept-back axial fan blade, drawn from the hub outward and back. Rotated
  * BLADE_COUNT times around the origin to form the rotor.
  */
@@ -23,7 +34,11 @@ const TICKS = Array.from({ length: 60 }, (_, i) => i);
 export function ImpellerDial({ className }: { className?: string }) {
   return (
     <div aria-hidden className={cn("pointer-events-none", className)}>
-      <svg viewBox="0 0 440 440" className="h-full w-full" role="presentation">
+      <svg
+        viewBox={`${EDGE} ${EDGE} ${SPAN} ${SPAN}`}
+        className="h-full w-full"
+        role="presentation"
+      >
         <defs>
           <linearGradient id="impeller-blade" x1="0" y1="0" x2="0.65" y2="1">
             <stop offset="0" stopColor="#ffffff" stopOpacity="0.17" />

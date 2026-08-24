@@ -10,14 +10,19 @@ import {
   useSpring,
 } from "framer-motion";
 
-import { PROCESS } from "@/lib/content";
+import { getProcess } from "@/lib/content";
+import { useDictionary } from "@/i18n/DictionaryProvider";
 import { FlowLayer } from "@/components/motion/FlowLayer";
 import { Reveal, RevealItem } from "@/components/motion/Reveal";
 import { VIEWPORT, cardChild, staggerParent } from "@/components/motion/tokens";
+import { HeadingLines } from "./HeadingLines";
 
 const SWAP = { type: "spring", duration: 0.45, bounce: 0.18 } as const;
 
 export function Process() {
+  const dict = useDictionary();
+  const phases = getProcess(dict);
+
   const rail = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -37,13 +42,13 @@ export function Process() {
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const next = Math.min(
-      PROCESS.length - 1,
-      Math.max(0, Math.floor(latest * PROCESS.length)),
+      phases.length - 1,
+      Math.max(0, Math.floor(latest * phases.length)),
     );
     setActive((current) => (current === next ? current : next));
   });
 
-  const current = PROCESS[active];
+  const current = phases[active];
 
   return (
     <section
@@ -59,20 +64,17 @@ export function Process() {
             <RevealItem className="mb-6 flex items-center gap-3">
               <span className="h-1 w-1 rounded-full bg-volt" />
               <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
-                Method
+                {dict.process.eyebrow}
               </span>
             </RevealItem>
             <RevealItem>
               <h2 className="text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white">
-                From survey
-                <br />
-                to signature.
+                <HeadingLines lines={dict.process.headingLines} />
               </h2>
             </RevealItem>
             <RevealItem>
               <p className="mt-6 max-w-sm text-pretty text-sm leading-relaxed text-white/40">
-                Five phases, one contractor carrying the responsibility through
-                all of them.
+                {dict.process.lede}
               </p>
             </RevealItem>
           </Reveal>
@@ -94,7 +96,7 @@ export function Process() {
                   </motion.span>
                 </AnimatePresence>
               </span>
-              <span>/ 0{PROCESS.length}</span>
+              <span>/ 0{phases.length}</span>
             </div>
 
             <div className="relative h-px flex-1 bg-white/10">
@@ -128,7 +130,7 @@ export function Process() {
             viewport={VIEWPORT}
             className="flex flex-col sm:pl-10"
           >
-            {PROCESS.map((phase, i) => (
+            {phases.map((phase, i) => (
               <motion.li
                 key={phase.id}
                 variants={cardChild}

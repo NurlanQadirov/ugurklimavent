@@ -2,14 +2,20 @@
 
 import { motion } from "framer-motion";
 
-import { SERVICES } from "@/lib/content";
+import { getServices } from "@/lib/content";
+import { useDictionary } from "@/i18n/DictionaryProvider";
 import { FlowLayer } from "@/components/motion/FlowLayer";
 import { GlassCard } from "@/components/motion/GlassCard";
 import { Reveal, RevealItem } from "@/components/motion/Reveal";
 import { VIEWPORT, cardChild, staggerParent } from "@/components/motion/tokens";
+import { HeadingLines } from "./HeadingLines";
 import { ServiceIcon } from "./ServiceIcon";
 
 export function Expertise() {
+  const dict = useDictionary();
+  const { expertise } = dict;
+  const services = getServices(dict);
+
   return (
     <section
       id="expertise"
@@ -22,22 +28,18 @@ export function Expertise() {
           <RevealItem className="mb-6 flex items-center gap-3">
             <span className="h-1 w-1 rounded-full bg-volt" />
             <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
-              Expertise
+              {expertise.eyebrow}
             </span>
           </RevealItem>
           <RevealItem>
             <h2 className="max-w-2xl text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white">
-              Seven disciplines,
-              <br />
-              one accountable contractor.
+              <HeadingLines lines={expertise.headingLines} />
             </h2>
           </RevealItem>
         </div>
         <RevealItem className="max-w-sm">
           <p className="text-pretty text-sm leading-relaxed text-white/40">
-            Design, supply, installation and commissioning handled in-house —
-            so the mechanical, fire and electrical scopes never arrive at the
-            same ceiling void with different assumptions.
+            {expertise.lede}
           </p>
         </RevealItem>
       </Reveal>
@@ -49,7 +51,7 @@ export function Expertise() {
         viewport={VIEWPORT}
         className="grid auto-rows-[minmax(200px,auto)] grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6"
       >
-        {SERVICES.map((service) => (
+        {services.map((service) => (
           <GlassCard
             key={service.id}
             variants={cardChild}
@@ -76,7 +78,7 @@ export function Expertise() {
                   <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-alarm/25 bg-alarm/[0.06] px-2.5 py-1">
                     <span className="h-1 w-1 rounded-full bg-alarm" />
                     <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-alarm/80">
-                      FHN Licensed
+                      {expertise.licenceBadge}
                     </span>
                   </span>
                 ) : null}

@@ -1,14 +1,18 @@
 "use client";
 
 import { COMPANY, telHref } from "@/lib/content";
+import { useDictionary } from "@/i18n/DictionaryProvider";
 import { FlowLayer } from "@/components/motion/FlowLayer";
 import { MagneticLink } from "@/components/motion/MagneticLink";
 import { Reveal, RevealItem } from "@/components/motion/Reveal";
+import { HeadingLines } from "./HeadingLines";
 import { Logo } from "./Logo";
 
 const YEAR = new Date().getFullYear();
 
 export function Footer() {
+  const { footer } = useDictionary();
+
   return (
     <footer id="contact" className="relative isolate border-t border-white/[0.07]">
       <FlowLayer segment={5} />
@@ -19,20 +23,18 @@ export function Footer() {
             <RevealItem className="mb-6 flex items-center gap-3">
               <span className="h-1 w-1 rounded-full bg-volt" />
               <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
-                Contact
+                {footer.eyebrow}
               </span>
             </RevealItem>
             <RevealItem>
               <h2 className="max-w-2xl text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white">
-                Bring us the drawings.
-                <br />
-                We&apos;ll bring the load calculations.
+                <HeadingLines lines={footer.headingLines} />
               </h2>
             </RevealItem>
           </div>
           <RevealItem>
             <MagneticLink href={telHref(COMPANY.phones[0])}>
-              Request Technical Audit
+              {footer.cta}
             </MagneticLink>
           </RevealItem>
         </Reveal>
@@ -44,7 +46,7 @@ export function Footer() {
         >
           <RevealItem className="bg-[#050505] p-7">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
-              Telephone
+              {footer.telephone}
             </p>
             <div className="mt-4 flex flex-col gap-1.5">
               {COMPANY.phones.map((phone) => (
@@ -61,7 +63,7 @@ export function Footer() {
 
           <RevealItem className="bg-[#050505] p-7">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
-              Email
+              {footer.email}
             </p>
             <a
               href={`mailto:${COMPANY.email}`}
@@ -73,10 +75,10 @@ export function Footer() {
 
           <RevealItem className="bg-[#050505] p-7">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
-              Office
+              {footer.office}
             </p>
             <p className="mt-4 text-[15px] leading-relaxed tracking-tight text-white/70">
-              {COMPANY.address}
+              {footer.address}
             </p>
           </RevealItem>
         </Reveal>
@@ -94,15 +96,15 @@ export function Footer() {
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
             <span className="inline-flex items-center gap-2">
               <span className="h-1 w-1 rounded-full bg-alarm" />
-              FHN Licensed
+              {footer.licence}
             </span>
-            <span>© {YEAR} — All rights reserved</span>
+            <span>© {YEAR} — {footer.rights}</span>
           </div>
         </div>
 
         <div className="mx-auto w-full max-w-6xl px-6 pb-6 text-right sm:px-8">
           <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
-            Designed &amp; Developed by{" "}
+            {footer.credit}{" "}
             <a
               href="https://nurlanqadirov.az"
               target="_blank"

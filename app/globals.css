@@ -193,6 +193,40 @@
     will-change: transform;
   }
 
+  /*
+   * The full-bleed gutter. The fold and the nav both key off this single
+   * definition, which is the only reason the logo and the headline can sit on the
+   * same vertical line at every breakpoint — two hand-tuned padding scales would
+   * drift apart the first time either one was touched.
+   */
+  .gutter {
+    padding-inline: 1.5rem;
+  }
+
+  @media (min-width: 40rem) {
+    .gutter {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .gutter {
+      padding-inline: 3rem;
+    }
+  }
+
+  @media (min-width: 80rem) {
+    .gutter {
+      padding-inline: 4rem;
+    }
+  }
+
+  @media (min-width: 96rem) {
+    .gutter {
+      padding-inline: 5rem;
+    }
+  }
+
   /* Film grain, so large flat blacks never band. */
   .grain::after {
     content: "";

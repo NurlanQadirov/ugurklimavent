@@ -85,7 +85,15 @@ export function MagneticLink({
           "px-7 py-3.5 text-sm font-medium tracking-tight",
           solid
             ? "bg-white text-[#050505]"
-            : "border border-white/15 bg-white/[0.02] text-white/80 backdrop-blur-xl hover:text-white",
+            : // Deliberately no `backdrop-blur` here. This variant only ever renders inside
+              // the navbar, which already carries its own `backdrop-blur-xl`. That makes the
+              // nav this element's backdrop root, and the nav's own background is fully
+              // transparent — so there was never anything left behind the button to blur.
+              // The filter was a visual no-op, but it still forced a composited backdrop
+              // layer, and Chromium re-rasters that layer against the empty root the moment
+              // `whileHover` applies its scale — dropping the button's own 2% fill and
+              // hairline border along with it. That is what made it vanish on hover.
+              "border border-white/15 bg-white/[0.02] text-white/80 hover:text-white",
           className,
         )}
       >

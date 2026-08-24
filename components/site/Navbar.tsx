@@ -1,19 +1,31 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, useMotionValueEvent, useScroll, type Variants } from "framer-motion";
 
-import { COMPANY, telHref } from "@/lib/content";
+import { COMPANY } from "@/lib/content";
+import { useDictionary, useLocale } from "@/i18n/DictionaryProvider";
 import { MagneticLink } from "@/components/motion/MagneticLink";
 import { SPRING_ENTRANCE, riseChildTight, staggerParent } from "@/components/motion/tokens";
+import { LocaleSwitcher } from "./LocaleSwitcher";
 import { Logo } from "./Logo";
 
+/**
+ * Order and targets are structural; only the labels are translated. Routes are
+ * locale-relative — a leading `#` stays an in-page anchor (only "contact"
+ * does, since the footer it targets is mounted on every page), anything else
+ * is prefixed with the active locale and resolved through `next/link`.
+ */
 const LINKS = [
-  { label: "Expertise", href: "#expertise" },
-  { label: "Method", href: "#process" },
-  { label: "Sectors", href: "#sectors" },
-  { label: "Contact", href: "#contact" },
+  { key: "expertise", href: "/expertise" },
+  { key: "process", href: "/process" },
+  { key: "sectors", href: "/sectors" },
+  { key: "contact", href: "#contact" },
 ] as const;
+
+const linkClassName =
+  "rounded-full px-4 py-2 text-[13px] text-white/55 transition-colors duration-200 ease-out-strong hover:text-white";
 
 /**
  * The bar "shrinks" via `scale` rather than height or padding: scale is
@@ -35,6 +47,8 @@ const shell: Variants = {
 };
 
 export function Navbar() {
+  const dict = useDictionary();
+  const locale = useLocale();
   const [compact, setCompact] = useState(false);
   const { scrollY } = useScroll();
 
@@ -49,17 +63,17 @@ export function Navbar() {
       initial={{ opacity: 0, transform: "translateY(-24px) scale(1)" }}
       animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
       transition={{ ...SPRING_ENTRANCE, delay: 0.1 }}
-      className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 sm:pt-5"
+      className="gutter fixed inset-x-0 top-0 z-50 pt-4 sm:pt-5"
     >
       <motion.nav
         variants={shell}
         animate={compact ? "compact" : "top"}
-        className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 rounded-full border px-4 py-2.5 backdrop-blur-xl sm:px-5"
+        className="flex items-center justify-between gap-4 rounded-full border px-4 py-2.5 backdrop-blur-xl sm:-mx-5 sm:px-5"
       >
-        <a
-          href="#top"
+        <Link
+          href={`/${locale}`}
           className="flex items-center gap-3 text-white"
-          aria-label={`${COMPANY.name} — back to top`}
+          aria-label={`${COMPANY.name} — ${dict.nav.backToTop}`}
         >
           <Logo />
           <span className="flex flex-col leading-none">
@@ -70,7 +84,7 @@ export function Navbar() {
               MMC
             </span>
           </span>
-        </a>
+        </Link>
 
         <motion.ul
           variants={staggerParent(0.05, 0.35)}
@@ -80,32 +94,45 @@ export function Navbar() {
         >
           {LINKS.map((link) => (
             <motion.li key={link.href} variants={riseChildTight}>
-              <a
-                href={link.href}
-                className="rounded-full px-4 py-2 text-[13px] text-white/55 transition-colors duration-200 ease-out-strong hover:text-white"
-              >
-                {link.label}
-              </a>
+              {link.href.startsWith("#") ? (
+                <a href={link.href} className={linkClassName}>
+                  {dict.nav.links[link.key]}
+                </a>
+              ) : (
+                <Link href={`/${locale}${link.href}`} className={linkClassName}>
+                  {dict.nav.links[link.key]}
+                </Link>
+              )}
             </motion.li>
           ))}
-          <motion.li variants={riseChildTight}>
-            <a
-              href={telHref(COMPANY.phones[0])}
-              className="hidden rounded-full px-4 py-2 font-mono text-[12px] tracking-tight text-white/55 transition-colors duration-200 ease-out-strong hover:text-white lg:block"
-            >
-              {COMPANY.phones[0]}
-            </a>
-          </motion.li>
         </motion.ul>
 
-        <MagneticLink
-          href="#contact"
-          variant="ghost"
-          pull={0.2}
-          className="px-5 py-2 text-[13px]"
-        >
-          Request Audit
-        </MagneticLink>
+        {/* Language and the call to action travel together on the right. */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          <LocaleSwitcher />
+
+          <Link
+  href="#contact"
+  className="group flex items-center gap-2 rounded-full border border-white/10 bg-transparent px-4 py-2 text-[13px] text-white/80 transition-all duration-300 ease-out hover:bg-white/10 hover:text-white"
+>
+  {dict.nav.cta}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="transition-transform duration-300 group-hover:translate-x-1"
+  >
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
+</Link>
+        </div>
       </motion.nav>
     </motion.header>
   );

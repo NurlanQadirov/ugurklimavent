@@ -1,0 +1,186 @@
+{
+  "meta": {
+    "title": "Uğur Klima Vent MMC — Industrial HVAC & Fire Safety Engineering",
+    "titleTemplate": "%s — Uğur Klima Vent MMC",
+    "description": "Precision HVAC, industrial cooling, and FHN-certified fire protection systems designed for maximum operational reliability. Baku, Azerbaijan.",
+    "keywords": [
+      "HVAC Baku",
+      "industrial ventilation",
+      "AHU installation",
+      "VRF systems",
+      "fire protection FHN",
+      "sprinkler systems",
+      "chiller engineering"
+    ]
+  },
+  "nav": {
+    "backToTop": "back to top",
+    "language": "Language",
+    "cta": "Request Audit",
+    "links": {
+      "expertise": "Expertise",
+      "process": "Method",
+      "sectors": "Sectors",
+      "contact": "Contact"
+    }
+  },
+  "hero": {
+    "headingLines": ["Engineered", "Climate &", "Safety Solutions"],
+    "lede": "Precision HVAC, industrial cooling, and FHN-certified fire protection systems designed for maximum operational reliability.",
+    "cta": "Request Technical Audit",
+    "scroll": "Scroll",
+    "coordinates": "Baku / AZ · 40.40°N 49.87°E"
+  },
+  "manifesto": {
+    "eyebrow": "Approach",
+    "statement": "A ventilation system is only as honest as the day it was *commissioned*. We design, install and balance every scope in-house — so the airflow on the drawing is the airflow in the *room*."
+  },
+  "capabilities": [
+    "Air handling units",
+    "VRF systems",
+    "Sprinkler networks",
+    "Smoke evacuation",
+    "Chiller plant",
+    "Boiler rooms",
+    "Duct balancing",
+    "Kitchen extraction",
+    "CCTV & wiring",
+    "FHN certified"
+  ],
+  "expertise": {
+    "eyebrow": "Expertise",
+    "headingLines": ["Seven disciplines,", "one accountable contractor."],
+    "lede": "Design, supply, installation and commissioning handled in-house — so the mechanical, fire and electrical scopes never arrive at the same ceiling void with different assumptions.",
+    "licenceBadge": "FHN Licensed",
+    "services": {
+      "ventilation": {
+        "title": "Ventilation & AHU",
+        "blurb": "Industrial air handling units, ducted supply and extract networks engineered for continuous-duty operation — balanced, commissioned and documented against design airflow.",
+        "tags": ["Air handling units", "Exhaust systems", "Duct balancing"]
+      },
+      "fire": {
+        "title": "Fire Protection",
+        "blurb": "Sprinkler networks and smoke evacuation systems, designed and commissioned under an active FHN license.",
+        "tags": ["Sprinkler systems", "Smoke evacuation"]
+      },
+      "cooling": {
+        "title": "Advanced Cooling",
+        "blurb": "VRF, cassette, ducted and multi-split systems, zoned for precise load matching across every occupied volume.",
+        "tags": ["VRF", "Cassette", "Ducted", "Multi-split"]
+      },
+      "heating": {
+        "title": "Heating & Hydronics",
+        "blurb": "Boiler installations and centralised heating design, from plant room to final emitter.",
+        "tags": ["Boiler rooms", "Hydronic design"]
+      },
+      "chillers": {
+        "title": "Chillers & Commercial",
+        "blurb": "Chiller plant and fancoil engineering sized for sustained commercial and industrial loads.",
+        "tags": ["Chiller plant", "Fancoil"]
+      },
+      "kitchens": {
+        "title": "Commercial Kitchens",
+        "blurb": "Stainless steel extraction hoods, preparation tables and ongoing kitchen electrical maintenance.",
+        "tags": ["Hoods", "Steel tables", "Maintenance"]
+      },
+      "infrastructure": {
+        "title": "Infrastructure",
+        "blurb": "CCTV monitoring and heavy-duty electrical wiring, installed to carry the plant it serves.",
+        "tags": ["CCTV", "Heavy-duty wiring", "Distribution"]
+      }
+    }
+  },
+  "stats": {
+    "disciplines": {
+      "label": "Disciplines in-house",
+      "note": "Mechanical, fire and electrical scopes under one contract"
+    },
+    "response": {
+      "label": "Emergency response",
+      "note": "Plant failures do not keep office hours"
+    },
+    "years": {
+      "label": "Years on site",
+      "note": "Commissioning across Baku and the surrounding regions"
+    },
+    "systems": {
+      "label": "Systems commissioned",
+      "note": "Balanced against design airflow and documented"
+    }
+  },
+  "process": {
+    "eyebrow": "Method",
+    "headingLines": ["From survey", "to signature."],
+    "lede": "Five phases, one contractor carrying the responsibility through all of them.",
+    "phases": {
+      "survey": {
+        "title": "Survey & load calculation",
+        "blurb": "We walk the building, measure what is already there and calculate the real thermal and airflow load — not the figure the previous contractor assumed.",
+        "outputs": ["Site survey", "Heat & airflow load", "Budget envelope"]
+      },
+      "design": {
+        "title": "Design & documentation",
+        "blurb": "Duct routing, plant selection and single-line diagrams drawn against the architecture, with the fire and electrical scopes coordinated in the same model.",
+        "outputs": ["Layout drawings", "Plant schedule", "Coordination set"]
+      },
+      "supply": {
+        "title": "Supply & procurement",
+        "blurb": "Equipment sourced against the schedule, delivered to programme, with sheet-metal and stainless fabrication produced in-house rather than subcontracted.",
+        "outputs": ["Equipment supply", "Fabrication", "Delivery programme"]
+      },
+      "install": {
+        "title": "Installation",
+        "blurb": "Our own crews install the ductwork, plant, pipework and wiring — one accountable team in the ceiling void instead of four trades negotiating for the same 300mm.",
+        "outputs": ["Ductwork & plant", "Pipework", "Power & controls"]
+      },
+      "commission": {
+        "title": "Commissioning & handover",
+        "blurb": "Every system balanced to its design figures, tested, certified and handed over with the documentation an inspection will ask for.",
+        "outputs": ["Airflow balancing", "Test certificates", "O&M manual"]
+      }
+    }
+  },
+  "sectors": {
+    "eyebrow": "Sectors",
+    "headingLines": ["Buildings that cannot", "afford to stop."],
+    "lede": "Every sector below has a different failure cost — a hotel loses guests, a plant loses production, a kitchen loses its licence. The load calculation changes accordingly.",
+    "items": {
+      "industrial": {
+        "name": "Industrial plants",
+        "detail": "Continuous-duty extract and process cooling"
+      },
+      "retail": {
+        "name": "Retail & malls",
+        "detail": "Large-volume air handling and smoke control"
+      },
+      "hospitality": {
+        "name": "Hotels & hospitality",
+        "detail": "Zoned VRF with quiet-hours acoustics"
+      },
+      "kitchens": {
+        "name": "Commercial kitchens",
+        "detail": "Stainless extraction and make-up air"
+      },
+      "offices": {
+        "name": "Office buildings",
+        "detail": "Fancoil and chiller plant with BMS tie-in"
+      },
+      "residential": {
+        "name": "Residential complexes",
+        "detail": "Central heating and multi-split installations"
+      }
+    }
+  },
+  "footer": {
+    "eyebrow": "Contact",
+    "headingLines": ["Bring us the drawings.", "We'll bring the load calculations."],
+    "cta": "Request Technical Audit",
+    "telephone": "Telephone",
+    "email": "Email",
+    "office": "Office",
+    "address": "Baku, Nasimi district, Alatava 2",
+    "licence": "FHN Licensed",
+    "rights": "All rights reserved",
+    "credit": "Designed & Developed by"
+  }
+}
