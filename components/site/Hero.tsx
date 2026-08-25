@@ -157,7 +157,7 @@ export function Hero() {
 
             <motion.p
               variants={riseChild}
-              className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-white/45 sm:text-lg"
+              className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-white/70 sm:text-lg"
             >
               {hero.lede}
             </motion.p>

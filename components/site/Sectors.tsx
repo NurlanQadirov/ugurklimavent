@@ -26,7 +26,7 @@ export function Sectors() {
         <div>
           <RevealItem className="mb-6 flex items-center gap-3">
             <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
+            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
               {dict.sectors.eyebrow}
             </span>
           </RevealItem>
@@ -40,7 +40,7 @@ export function Sectors() {
           </RevealItem>
         </div>
         <Parallax distance={26} className="max-w-sm">
-          <p className="text-pretty text-sm leading-relaxed text-white/40">
+          <p className="text-pretty text-sm leading-relaxed text-white/70">
             {dict.sectors.lede}
           </p>
         </Parallax>
@@ -79,7 +79,7 @@ export function Sectors() {
                 {sector.name}
               </h3>
 
-              <p className="text-[13px] leading-relaxed text-white/35 transition-colors duration-300 ease-out-strong group-hover:text-white/60 sm:max-w-xs sm:text-right">
+              <p className="text-[13px] leading-relaxed text-white/70 transition-colors duration-300 ease-out-strong group-hover:text-white sm:max-w-xs sm:text-right">
                 {sector.detail}
               </p>
 

@@ -60,7 +60,7 @@ export function Stats() {
             <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
               {stat.label}
             </p>
-            <p className="mt-2.5 max-w-[26ch] text-pretty text-[13px] leading-relaxed text-white/30">
+            <p className="mt-2.5 max-w-[26ch] text-pretty text-[13px] leading-relaxed text-white/65">
               {stat.note}
             </p>
           </motion.li>

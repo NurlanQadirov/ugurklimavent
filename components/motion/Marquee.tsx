@@ -116,7 +116,7 @@ export function Marquee({ items, label, speed = 1.6, className }: MarqueeProps) 
     >
       <motion.div
         style={{ transform }}
-        className="flex whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.22em] text-white/45 will-change-transform motion-reduce:transform-none!"
+        className="flex whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.22em] text-white/55 will-change-transform motion-reduce:transform-none!"
       >
         {Array.from({ length: COPIES }, (_, copy) => (
           <span key={copy} aria-hidden={copy > 0 || undefined} className="flex">

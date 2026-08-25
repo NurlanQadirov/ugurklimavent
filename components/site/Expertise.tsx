@@ -28,7 +28,7 @@ export function Expertise() {
         <div>
           <RevealItem className="mb-6 flex items-center gap-3">
             <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
+            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
               {expertise.eyebrow}
             </span>
           </RevealItem>
@@ -42,7 +42,7 @@ export function Expertise() {
           </RevealItem>
         </div>
         <RevealItem className="max-w-sm">
-          <p className="text-pretty text-sm leading-relaxed text-white/40">
+          <p className="text-pretty text-sm leading-relaxed text-white/70">
             {expertise.lede}
           </p>
         </RevealItem>
@@ -89,7 +89,7 @@ export function Expertise() {
                   className={
                     service.critical
                       ? "h-6 w-6 text-alarm/70"
-                      : "h-6 w-6 text-white/45"
+                      : "h-6 w-6 text-white/60"
                   }
                 />
               </div>
@@ -110,7 +110,7 @@ export function Expertise() {
                 >
                   {service.title}
                 </h3>
-                <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-white/40">
+                <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-white/65">
                   {service.blurb}
                 </p>
 
@@ -121,7 +121,7 @@ export function Expertise() {
                   {service.tags.map((tag) => (
                     <li
                       key={tag}
-                      className="rounded-full border border-white/[0.07] bg-white/[0.02] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-white/35"
+                      className="rounded-full border border-white/[0.16] bg-white/[0.02] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-white/65"
                     >
                       {tag}
                     </li>

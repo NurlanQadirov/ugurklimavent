@@ -54,7 +54,7 @@ export function Faq() {
         <div>
           <RevealItem className="mb-6 flex items-center gap-3">
             <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
+            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
               {dict.faq.eyebrow}
             </span>
           </RevealItem>
@@ -68,7 +68,7 @@ export function Faq() {
           </RevealItem>
         </div>
         <Parallax distance={26} className="max-w-sm">
-          <p className="text-pretty text-sm leading-relaxed text-white/40">
+          <p className="text-pretty text-sm leading-relaxed text-white/70">
             {dict.faq.lede}
           </p>
         </Parallax>
@@ -154,7 +154,7 @@ export function Faq() {
                 transition={PANEL}
                 className="overflow-hidden"
               >
-                <p className="max-w-2xl text-pretty pb-8 text-sm leading-relaxed text-white/45 sm:pl-[3.4rem]">
+                <p className="max-w-2xl text-pretty pb-8 text-sm leading-relaxed text-white/70 sm:pl-[3.4rem]">
                   {faq.answer}
                 </p>
               </motion.div>

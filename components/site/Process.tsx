@@ -64,7 +64,7 @@ export function Process() {
           <Reveal>
             <RevealItem className="mb-6 flex items-center gap-3">
               <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
+              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
                 {dict.process.eyebrow}
               </span>
             </RevealItem>
@@ -77,7 +77,7 @@ export function Process() {
               </h2>
             </RevealItem>
             <RevealItem>
-              <p className="mt-6 max-w-sm text-pretty text-sm leading-relaxed text-white/40">
+              <p className="mt-6 max-w-sm text-pretty text-sm leading-relaxed text-white/70">
                 {dict.process.lede}
               </p>
             </RevealItem>
@@ -179,7 +179,7 @@ export function Process() {
                   </h3>
                 </div>
 
-                <p className="mt-4 max-w-lg text-pretty text-sm leading-relaxed text-white/45 sm:pl-[3.4rem]">
+                <p className="mt-4 max-w-lg text-pretty text-sm leading-relaxed text-white/65 sm:pl-[3.4rem]">
                   {phase.blurb}
                 </p>
 
@@ -190,7 +190,7 @@ export function Process() {
                   {phase.outputs.map((output) => (
                     <li
                       key={output}
-                      className="rounded-full border border-white/[0.07] bg-white/[0.02] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-white/35"
+                      className="rounded-full border border-white/[0.16] bg-white/[0.02] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-white/65"
                     >
                       {output}
                     </li>

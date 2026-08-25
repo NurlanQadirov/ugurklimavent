@@ -33,7 +33,7 @@ export function Manifesto() {
             */}
             <h2
               id="manifesto-heading"
-              className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40"
+              className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55"
             >
               {manifesto.eyebrow}
             </h2>

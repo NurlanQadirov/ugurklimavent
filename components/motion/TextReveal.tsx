@@ -10,8 +10,16 @@ import {
 
 import { cn } from "@/lib/utils";
 
-/** Opacity the not-yet-read words sit at. Legible, but clearly behind. */
-const DIM = 0.13;
+/**
+ * Readability floor — the opacity a not-yet-read word sits at.
+ *
+ * This is the only knob for how destructive the reveal is. **Do not go below
+ * ~0.55**: under that, a word in the middle of a sentence stops being readable
+ * while it is still on screen, which is the failure this value exists to
+ * prevent. The effect is meant to guide the eye down the sentence, not to
+ * withhold it.
+ */
+const DIM = 0.6;
 /** How many word-slots each word takes to resolve. >1 overlaps neighbours. */
 const OVERLAP = 2.6;
 

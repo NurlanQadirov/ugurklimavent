@@ -31,7 +31,7 @@ export function Footer() {
           <div>
             <RevealItem className="mb-6 flex items-center gap-3">
               <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
+              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
                 {footer.eyebrow}
               </span>
             </RevealItem>
@@ -54,7 +54,7 @@ export function Footer() {
           className="mt-24 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.04] sm:grid-cols-3"
         >
           <RevealItem className="bg-[#050505] p-7">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
               {footer.telephone}
             </p>
             {/*
@@ -79,7 +79,7 @@ export function Footer() {
           </RevealItem>
 
           <RevealItem className="bg-[#050505] p-7">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
               {footer.email}
             </p>
             <address className="mt-4 not-italic">
@@ -94,7 +94,7 @@ export function Footer() {
           </RevealItem>
 
           <RevealItem className="bg-[#050505] p-7">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
               {footer.office}
             </p>
             <address className="mt-4 not-italic text-[15px] leading-relaxed tracking-tight text-white/70">
