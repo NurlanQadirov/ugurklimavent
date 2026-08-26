@@ -91,7 +91,44 @@ const ICONS: Record<string, ComponentType<IconProps>> = {
   infrastructure: Infrastructure,
 };
 
-export function ServiceIcon({ id, className }: { id: string; className?: string }) {
+/**
+ * An uploaded icon wins over the built-in glyph, and a service with neither
+ * renders nothing — the card layout does not depend on the icon being there.
+ *
+ * The upload is rendered through `<img>` rather than inlined into the document.
+ * That matters: an SVG can carry script, and a `<img src>` never executes it.
+ * The cost is that an uploaded icon cannot inherit `currentColor` the way the
+ * built-in glyphs do, so `opacity` carries the same visual weight instead.
+ */
+export function ServiceIcon({
+  id,
+  src,
+  className,
+}: {
+  id: string;
+  src?: string;
+  className?: string;
+}) {
+  if (src) {
+    return (
+      /*
+        A plain `<img>`, not `next/image`. The optimiser refuses SVG unless
+        `dangerouslyAllowSVG` is turned on, and turning it on would undo the
+        containment the upload path is built around. These are 24px glyphs of a
+        few hundred bytes — there is no optimisation worth that trade.
+      */
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={src}
+        alt=""
+        aria-hidden
+        loading="lazy"
+        decoding="async"
+        className={cn("h-6 w-6 object-contain opacity-70", className)}
+      />
+    );
+  }
+
   const Icon = ICONS[id];
   if (!Icon) return null;
 

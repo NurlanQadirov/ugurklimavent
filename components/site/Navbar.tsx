@@ -4,11 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, useMotionValueEvent, useScroll, type Variants } from "framer-motion";
 
-import { COMPANY } from "@/lib/content";
-import { useDictionary, useLocale } from "@/i18n/DictionaryProvider";
+import { useCompany, useDictionary, useLocale } from "@/i18n/DictionaryProvider";
 import { SPRING_ENTRANCE, riseChildTight, staggerParent } from "@/components/motion/tokens";
+import { BrandLogo } from "./BrandLogo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
-import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
 import { NAV_LINKS } from "./nav-links";
 
@@ -37,6 +36,7 @@ const shell: Variants = {
 export function Navbar() {
   const dict = useDictionary();
   const locale = useLocale();
+  const COMPANY = useCompany();
   const [compact, setCompact] = useState(false);
   const { scrollY } = useScroll();
 
@@ -70,7 +70,7 @@ export function Navbar() {
           className="flex items-center gap-3 text-white"
           aria-label={`${COMPANY.name} — ${dict.nav.backToTop}`}
         >
-          <Logo />
+          <BrandLogo />
           <span className="flex flex-col leading-none">
             <span className="text-[13px] font-medium tracking-tight text-white">
               Uğur Klima Vent

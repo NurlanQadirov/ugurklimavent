@@ -52,6 +52,13 @@ function resolveLocale(request: NextRequest): Locale {
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // The admin panel is not a public, localised route. Without this it would be
+  // redirected to `/az/admin`, which does not exist — the locale matcher below
+  // is deliberately broad and would otherwise swallow it.
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) {
+    return NextResponse.next();
+  }
+
   const current = LOCALES.find(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
   );
@@ -81,6 +88,6 @@ export const config = {
   // Everything except Next internals, the metadata files and anything in
   // `public/` — a bare matcher would redirect the CSS and the favicon too.
   matcher: [
-    "/((?!_next|api|favicon.ico|robots.txt|sitemap.xml|.*\\.[\\w]+$).*)",
+    "/((?!_next|api|admin|favicon.ico|robots.txt|sitemap.xml|.*\\.[\\w]+$).*)",
   ],
 };

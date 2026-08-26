@@ -9,9 +9,9 @@ import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Footer } from "@/components/site/Footer";
 import { Navbar } from "@/components/site/Navbar";
 import { DictionaryProvider } from "@/i18n/DictionaryProvider";
-import { getDictionary } from "@/i18n/dictionaries";
+import { getDictionary, getSiteDictionary } from "@/i18n/dictionaries";
 import { LOCALES, LOCALE_TAGS, isLocale } from "@/i18n/config";
-import { COMPANY } from "@/lib/content";
+import { getSiteContent } from "@/lib/site-content";
 import { SITE_URL, absoluteUrl, languageAlternates, localePath } from "@/lib/seo";
 import "../globals.css";
 
@@ -36,7 +36,10 @@ export async function generateMetadata({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
-  const { meta } = await getDictionary(lang);
+  const [{ meta }, { company }] = await Promise.all([
+    getDictionary(lang),
+    getSiteContent(lang),
+  ]);
 
   return {
     /**
@@ -52,10 +55,10 @@ export async function generateMetadata({
     },
     description: meta.description,
     keywords: meta.keywords,
-    applicationName: COMPANY.name,
-    authors: [{ name: COMPANY.name, url: SITE_URL }],
-    creator: COMPANY.name,
-    publisher: COMPANY.name,
+    applicationName: company.name,
+    authors: [{ name: company.name, url: SITE_URL }],
+    creator: company.name,
+    publisher: company.name,
     /**
      * The layout's canonical is only ever correct for the locale root, and it
      * is *inherited* by `/expertise`, `/process` and `/sectors`. Each of those
@@ -69,7 +72,7 @@ export async function generateMetadata({
     },
     openGraph: {
       type: "website",
-      siteName: COMPANY.name,
+      siteName: company.name,
       title: meta.title,
       description: meta.description,
       url: absoluteUrl(lang),
@@ -118,7 +121,7 @@ export default async function RootLayout({
   // at the dictionary lookup.
   if (!isLocale(lang)) notFound();
 
-  const dict = await getDictionary(lang);
+  const dict = await getSiteDictionary(lang);
 
   return (
     <html

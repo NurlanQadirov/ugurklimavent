@@ -1,0 +1,239 @@
+// Ventilation site — content database.
+//
+// The public site is trilingual (az/en/ru). Structure and copy are kept in
+// separate tables for the same reason they were kept in separate files before
+// the migration: the bento footprint, the phase order and the index labels are
+// *design*, and a translator editing Russian copy must not be able to reflow
+// the grid. Every `*Translation` row is copy; its parent row is structure.
+//
+// SQLite has no scalar list type, so `tags`, `outputs` and `phones` are stored
+// as JSON strings and read back through the helpers in `lib/serialize.ts`.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+/* -------------------------------------------------------------------------- */
+/* Auth                                                                        */
+/* -------------------------------------------------------------------------- */
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+/* -------------------------------------------------------------------------- */
+/* Disciplines                                                                 */
+/* -------------------------------------------------------------------------- */
+
+model Service {
+  id       String  @id @default(cuid())
+  /// Selects the built-in SVG in `components/site/ServiceIcon.tsx` when no
+  /// `iconPath` is uploaded. An unknown key simply renders no glyph.
+  key      String  @unique
+  /// Sheet-index decoration shown on the card ("01"), not a sort key.
+  index    String
+  /// Uploaded icon, as a public path like `/uploads/services/<id>.svg`.
+  /// Takes precedence over the built-in glyph for `key`.
+  iconPath String?
+  /// The FHN-licensed discipline renders the alarm-red treatment.
+  critical Boolean @default(false)
+  /// Render order within the grid.
+  ///
+  /// This is also what decides the card footprint: the bento is a fixed set of
+  /// slots (see `lib/bento.ts`) and position N always gets slot N. Moving a
+  /// service up the list gives it the footprint of the slot it moves into, so
+  /// the grid keeps tiling to six columns no matter how it is reordered. That
+  /// is why there is no `span` column — it would be a second, contradictable
+  /// source of truth for something the order already determines.
+  order    Int
+
+  translations ServiceTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+model ServiceTranslation {
+  id        String  @id @default(cuid())
+  serviceId String
+  locale    String
+  title     String
+  blurb     String
+  /// JSON array of strings.
+  tags      String  @default("[]")
+
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceId, locale])
+  @@index([locale])
+}
+
+/* -------------------------------------------------------------------------- */
+/* Delivery method                                                             */
+/* -------------------------------------------------------------------------- */
+
+model Phase {
+  id    String @id @default(cuid())
+  key   String @unique
+  index String
+  order Int
+
+  translations PhaseTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+model PhaseTranslation {
+  id      String @id @default(cuid())
+  phaseId String
+  locale  String
+  title   String
+  blurb   String
+  /// JSON array of strings — deliverables handed over at the end of the phase.
+  outputs String @default("[]")
+
+  phase Phase @relation(fields: [phaseId], references: [id], onDelete: Cascade)
+
+  @@unique([phaseId, locale])
+  @@index([locale])
+}
+
+/* -------------------------------------------------------------------------- */
+/* Sectors                                                                     */
+/* -------------------------------------------------------------------------- */
+
+model Sector {
+  id    String @id @default(cuid())
+  key   String @unique
+  order Int
+
+  translations SectorTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+model SectorTranslation {
+  id       String @id @default(cuid())
+  sectorId String
+  locale   String
+  name     String
+  detail   String
+
+  sector Sector @relation(fields: [sectorId], references: [id], onDelete: Cascade)
+
+  @@unique([sectorId, locale])
+  @@index([locale])
+}
+
+/* -------------------------------------------------------------------------- */
+/* Frequently asked questions                                                  */
+/* -------------------------------------------------------------------------- */
+
+/// Order is structure and it is not arbitrary: the questions run in the order a
+/// real first call goes. It also decides which item leads the `FAQPage` JSON-LD
+/// node, so an engine that quotes only the first item quotes the one that
+/// matters most.
+model Faq {
+  id    String @id @default(cuid())
+  key   String @unique
+  order Int
+
+  translations FaqTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+model FaqTranslation {
+  id       String @id @default(cuid())
+  faqId    String
+  locale   String
+  question String
+  answer   String
+
+  faq Faq @relation(fields: [faqId], references: [id], onDelete: Cascade)
+
+  @@unique([faqId, locale])
+  @@index([locale])
+}
+
+/* -------------------------------------------------------------------------- */
+/* Headline figures                                                            */
+/* -------------------------------------------------------------------------- */
+
+model Stat {
+  id     String  @id @default(cuid())
+  key    String  @unique
+  /// Counted up from 0 when the band scrolls into view.
+  value  Int
+  prefix String?
+  suffix String?
+  order  Int
+
+  translations StatTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+model StatTranslation {
+  id     String @id @default(cuid())
+  statId String
+  locale String
+  label  String
+  note   String
+
+  stat Stat @relation(fields: [statId], references: [id], onDelete: Cascade)
+
+  @@unique([statId, locale])
+  @@index([locale])
+}
+
+/* -------------------------------------------------------------------------- */
+/* Company                                                                     */
+/* -------------------------------------------------------------------------- */
+
+/// Single row, pinned to `id = "company"`. Not translated — a phone number and
+/// a legal name read the same in every locale.
+model CompanySettings {
+  id    String @id @default("company")
+  name  String
+  short String
+  email String
+  /// JSON array of strings.
+  phones String @default("[]")
+
+  /// Broken into parts so the JSON-LD `PostalAddress` gets `streetAddress` and
+  /// `addressLocality` in separate fields. Feeding a crawler the display string
+  /// repeats the city inside the street line, which is how a listing ends up
+  /// unmatched against the map.
+  addressStreet   String
+  addressDistrict String
+  addressLocality String
+  addressRegion   String
+  addressCountry  String
+
+  updatedAt DateTime @updatedAt
+}

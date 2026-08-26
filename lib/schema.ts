@@ -1,7 +1,7 @@
 import { LOCALES, LOCALE_TAGS, type Locale } from "@/i18n/config";
-import type { Dictionary } from "@/i18n/types";
+import type { SiteDictionary } from "@/i18n/types";
 import {
-  COMPANY,
+  getCompany,
   getFaqs,
   getProcess,
   getSectors,
@@ -58,7 +58,9 @@ const e164 = (phone: string) => phone.replace(/[^\d+]/g, "");
  * `Organization` property (so `publisher` references still resolve), and it
  * hands an answer engine the industry classification without inference.
  */
-function organization(dict: Dictionary) {
+function organization(dict: SiteDictionary) {
+  const COMPANY = getCompany(dict);
+
   return {
     "@type": "HVACBusiness",
     "@id": ORG_ID,
@@ -122,7 +124,7 @@ function organization(dict: Dictionary) {
 }
 
 /** The seven disciplines, each as a first-class `Service`. */
-function offerCatalog(dict: Dictionary) {
+function offerCatalog(dict: SiteDictionary) {
   return {
     "@type": "OfferCatalog",
     name: dict.expertise.eyebrow,
@@ -147,7 +149,9 @@ function offerCatalog(dict: Dictionary) {
 /* Site, pages and breadcrumbs                                                 */
 /* -------------------------------------------------------------------------- */
 
-function website(dict: Dictionary, locale: Locale) {
+function website(dict: SiteDictionary, locale: Locale) {
+  const COMPANY = getCompany(dict);
+
   return {
     "@type": "WebSite",
     "@id": WEBSITE_ID,
@@ -167,7 +171,7 @@ function website(dict: Dictionary, locale: Locale) {
 }
 
 function webPage(
-  dict: Dictionary,
+  dict: SiteDictionary,
   locale: Locale,
   route: Route,
   { title, description }: { title: string; description: string },
@@ -200,7 +204,7 @@ function webPage(
  * It costs nothing and it is what tells a crawler that `/az` — not `/` — is the
  * top of this language tree.
  */
-function breadcrumb(dict: Dictionary, locale: Locale, route: Route) {
+function breadcrumb(dict: SiteDictionary, locale: Locale, route: Route) {
   const crumbs: { name: string; url: string }[] = [
     { name: dict.a11y.breadcrumbHome, url: absoluteUrl(locale) },
   ];
@@ -235,7 +239,7 @@ function breadcrumb(dict: Dictionary, locale: Locale, route: Route) {
  * by lifting an ordered step list, and an explicit one beats making the model
  * infer order from a stack of headings.
  */
-function howTo(dict: Dictionary, locale: Locale) {
+function howTo(dict: SiteDictionary, locale: Locale) {
   return {
     "@type": "HowTo",
     "@id": `${absoluteUrl(locale, "/process")}#howto`,
@@ -257,7 +261,7 @@ function howTo(dict: Dictionary, locale: Locale) {
 }
 
 /** Sectors served, as an explicit list rather than six styled rows. */
-function sectorList(dict: Dictionary, locale: Locale) {
+function sectorList(dict: SiteDictionary, locale: Locale) {
   return {
     "@type": "ItemList",
     "@id": `${absoluteUrl(locale, "/sectors")}#sectors`,
@@ -293,7 +297,7 @@ function sectorList(dict: Dictionary, locale: Locale) {
  * `Faq.tsx` keeps every collapsed answer mounted in the DOM rather than
  * unmounting it.
  */
-function questions(dict: Dictionary, locale: Locale, route: Route) {
+function questions(dict: SiteDictionary, locale: Locale, route: Route) {
   const base = absoluteUrl(locale, route);
 
   return getFaqs(dict).map((faq) => ({
@@ -314,7 +318,7 @@ function questions(dict: Dictionary, locale: Locale, route: Route) {
 }
 
 /** The FAQ as a node *beside* the page node — used on the landing page only. */
-function faqPage(dict: Dictionary, locale: Locale) {
+function faqPage(dict: SiteDictionary, locale: Locale) {
   return {
     "@type": "FAQPage",
     "@id": `${absoluteUrl(locale)}#faq`,
@@ -328,7 +332,7 @@ function faqPage(dict: Dictionary, locale: Locale) {
 }
 
 /** The disciplines lifted out of the offer catalogue as a standalone list. */
-function serviceList(dict: Dictionary, locale: Locale) {
+function serviceList(dict: SiteDictionary, locale: Locale) {
   return {
     "@type": "ItemList",
     "@id": `${absoluteUrl(locale, "/expertise")}#services`,
@@ -361,7 +365,7 @@ export function buildGraph({
   title,
   description,
 }: {
-  dict: Dictionary;
+  dict: SiteDictionary;
   locale: Locale;
   route: Route;
   title: string;

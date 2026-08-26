@@ -1,5 +1,31 @@
 @import "tailwindcss";
 
+/*
+ * Enter/exit keyframe utilities (`animate-in`, `fade-in-0`, `zoom-in-95`) for
+ * the Radix overlays in the admin panel.
+ *
+ * Purely additive: it defines new utilities and its own keyframes and does not
+ * redefine anything above or below. Tailwind v4 only emits the utilities a
+ * template actually uses, so no rule from this import reaches the public site's
+ * stylesheet — the site does not reference a single one of them, and its motion
+ * stays entirely with Framer Motion where it already was.
+ */
+@import "tw-animate-css";
+
+/*
+ * Grid footprints for the expertise bento.
+ *
+ * The card span is editable content now, not a literal in a component, so
+ * Tailwind's scanner cannot see the value an editor types into the admin panel
+ * and would not generate the class for it — the card would silently fall back
+ * to one column. Generating the whole plausible range up front is a few hundred
+ * bytes and removes the failure mode entirely.
+ *
+ * The grid is six columns wide at `lg`, which bounds both lists.
+ */
+@source inline("{sm:,md:,lg:,}col-span-{1,2,3,4,5,6}");
+@source inline("{sm:,md:,lg:,}row-span-{1,2,3}");
+
 @theme {
   /* Surfaces */
   --color-void: #050505;

@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 import { getDictionary } from "@/i18n/dictionaries";
 import { LOCALES, isLocale } from "@/i18n/config";
-import { COMPANY } from "@/lib/content";
+import { getSiteContent } from "@/lib/site-content";
 
 /**
  * The share card.
@@ -18,7 +18,13 @@ import { COMPANY } from "@/lib/content";
  */
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = COMPANY.name;
+/**
+ * A static export, so it cannot await the company record. The generic wording
+ * is deliberate: `alt` describes the *image*, and a rename in the admin panel
+ * must not be able to leave a stale legal name baked into the alt text of every
+ * share card. The rendered card below still shows the live name.
+ */
+export const alt = "Share card";
 
 /** Prerendered alongside the pages instead of rendered per request. */
 export function generateStaticParams() {
@@ -31,7 +37,11 @@ export default async function OpengraphImage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
-  const dict = await getDictionary(isLocale(lang) ? lang : "az");
+  const locale = isLocale(lang) ? lang : "az";
+  const [dict, { company }] = await Promise.all([
+    getDictionary(locale),
+    getSiteContent(locale),
+  ]);
 
   return new ImageResponse(
     (
@@ -68,7 +78,7 @@ export default async function OpengraphImage({
               background: "#1d7bff",
             }}
           />
-          {COMPANY.name}
+          {company.name}
         </div>
 
         <div
@@ -94,7 +104,7 @@ export default async function OpengraphImage({
         >
           <div style={{ display: "flex" }}>{dict.footer.address}</div>
           <div style={{ display: "flex", color: "rgba(255,255,255,0.55)" }}>
-            {COMPANY.phones[0]}
+            {company.phones[0]}
           </div>
         </div>
       </div>

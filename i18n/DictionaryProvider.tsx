@@ -2,12 +2,14 @@
 
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 
+import type { Company } from "@/lib/content";
+
 import type { Locale } from "./config";
-import type { Dictionary } from "./types";
+import type { SiteDictionary } from "./types";
 
 type DictionaryValue = {
   locale: Locale;
-  dict: Dictionary;
+  dict: SiteDictionary;
 };
 
 const DictionaryContext = createContext<DictionaryValue | null>(null);
@@ -46,9 +48,21 @@ function useDictionaryValue(): DictionaryValue {
   return value;
 }
 
-/** Translated copy for the active locale. */
-export function useDictionary(): Dictionary {
+/** Translated copy for the active locale, merged with the managed content. */
+export function useDictionary(): SiteDictionary {
   return useDictionaryValue().dict;
+}
+
+/**
+ * The company record.
+ *
+ * It used to be a module-level `const` that any component could import
+ * directly. Now that it is editable it has to arrive through the tree like
+ * everything else — a Client Component cannot await a database read. Same
+ * values, same render, one hop further.
+ */
+export function useCompany(): Company {
+  return useDictionaryValue().dict._content.company;
 }
 
 /** The active locale — for building locale-prefixed hrefs. */

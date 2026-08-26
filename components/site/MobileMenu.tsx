@@ -6,8 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 
-import { COMPANY, telHref } from "@/lib/content";
-import { useDictionary, useLocale } from "@/i18n/DictionaryProvider";
+import { telHref } from "@/lib/content";
+import { useCompany, useDictionary, useLocale } from "@/i18n/DictionaryProvider";
 import { getLenis } from "@/components/motion/lenis-instance";
 import { MagneticLink } from "@/components/motion/MagneticLink";
 import { staggerParent } from "@/components/motion/tokens";
@@ -60,6 +60,7 @@ const row: Variants = {
 export function MobileMenu() {
   const dict = useDictionary();
   const locale = useLocale();
+  const COMPANY = useCompany();
   const pathname = usePathname();
 
   const [open, setOpen] = useState(false);

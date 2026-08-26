@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { LOCALES, LOCALE_TAGS, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { COMPANY } from "@/lib/content";
+import { getSiteContent } from "@/lib/site-content";
 import { absoluteUrl, languageAlternates, localePath } from "@/lib/seo";
 
 /** The sub-routes, each keyed to its own block in `meta.pages`. */
@@ -25,7 +25,10 @@ export async function buildPageMetadata(
   lang: Locale,
   route: SubRoute,
 ): Promise<Metadata> {
-  const { meta } = await getDictionary(lang);
+  const [{ meta }, { company }] = await Promise.all([
+    getDictionary(lang),
+    getSiteContent(lang),
+  ]);
   const page = meta.pages[route];
   const path = `/${route}` as const;
 
@@ -38,8 +41,8 @@ export async function buildPageMetadata(
     },
     openGraph: {
       type: "website",
-      siteName: COMPANY.name,
-      title: `${page.title} — ${COMPANY.name}`,
+      siteName: company.name,
+      title: `${page.title} — ${company.name}`,
       description: page.description,
       url: absoluteUrl(lang, path),
       locale: LOCALE_TAGS[lang],
@@ -47,7 +50,7 @@ export async function buildPageMetadata(
     },
     twitter: {
       card: "summary_large_image",
-      title: `${page.title} — ${COMPANY.name}`,
+      title: `${page.title} — ${company.name}`,
       description: page.description,
     },
   };

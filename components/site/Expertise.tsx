@@ -86,6 +86,7 @@ export function Expertise() {
                 </span>
                 <ServiceIcon
                   id={service.id}
+                  src={service.iconPath}
                   className={
                     service.critical
                       ? "h-6 w-6 text-alarm/70"

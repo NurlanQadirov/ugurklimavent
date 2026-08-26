@@ -8,7 +8,7 @@ import { Manifesto } from "@/components/site/Manifesto";
 import { Process } from "@/components/site/Process";
 import { Sectors } from "@/components/site/Sectors";
 import { Stats } from "@/components/site/Stats";
-import { getDictionary } from "@/i18n/dictionaries";
+import { getSiteDictionary } from "@/i18n/dictionaries";
 import { isLocale } from "@/i18n/config";
 import { buildGraph } from "@/lib/schema";
 
@@ -28,7 +28,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
-  const dict = await getDictionary(lang);
+  const dict = await getSiteDictionary(lang);
 
   return (
     <>

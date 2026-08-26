@@ -1,12 +1,12 @@
 "use client";
 
-import { COMPANY, telHref } from "@/lib/content";
-import { useDictionary } from "@/i18n/DictionaryProvider";
+import { telHref } from "@/lib/content";
+import { useCompany, useDictionary } from "@/i18n/DictionaryProvider";
 import { FlowLayer } from "@/components/motion/FlowLayer";
 import { MagneticLink } from "@/components/motion/MagneticLink";
 import { Reveal, RevealItem } from "@/components/motion/Reveal";
 import { HeadingLines } from "./HeadingLines";
-import { Logo } from "./Logo";
+import { BrandLogo } from "./BrandLogo";
 
 /**
  * Resolved when the module is first evaluated — which, for these statically
@@ -21,6 +21,7 @@ const YEAR = new Date().getFullYear();
 
 export function Footer() {
   const { footer, a11y } = useDictionary();
+  const COMPANY = useCompany();
 
   return (
     <footer id="contact" className="relative isolate scroll-mt-24 border-t border-white/[0.07]">
@@ -108,7 +109,7 @@ export function Footer() {
       <div className="border-t border-white/[0.07]">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <div className="flex items-center gap-3 text-white/50">
-            <Logo className="h-5 w-5" />
+            <BrandLogo />
             <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
               {COMPANY.name}
             </span>

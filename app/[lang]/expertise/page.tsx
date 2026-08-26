@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { JsonLd } from "@/components/site/JsonLd";
 import { Expertise } from "@/components/site/Expertise";
-import { getDictionary } from "@/i18n/dictionaries";
+import { getSiteDictionary } from "@/i18n/dictionaries";
 import { isLocale } from "@/i18n/config";
 import { buildPageMetadata } from "@/lib/page-meta";
 import { buildGraph } from "@/lib/schema";
@@ -21,7 +21,7 @@ export default async function ExpertisePage({ params }: PageProps<"/[lang]/exper
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
-  const dict = await getDictionary(lang);
+  const dict = await getSiteDictionary(lang);
   const page = dict.meta.pages.expertise;
 
   return (
