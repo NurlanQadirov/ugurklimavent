@@ -17,7 +17,7 @@ export function Manifesto() {
         <Marquee items={capabilities} label={a11y.capabilities} />
       </div>
 
-      <div className="mx-auto w-full max-w-5xl px-6 py-28 sm:px-8 lg:py-40">
+      <div className="section-y mx-auto w-full max-w-5xl px-6 sm:px-8">
         <Reveal className="mb-10">
           <RevealItem className="flex items-center gap-3">
             <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />

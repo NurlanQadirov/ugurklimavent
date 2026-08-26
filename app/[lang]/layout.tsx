@@ -154,7 +154,7 @@ export default async function RootLayout({
               moves focus here rather than only scrolling, which is the usual
               reason skip links look like they do nothing.
             */}
-            <main id="main" tabIndex={-1}>
+            <main id="main" tabIndex={-1} className="scroll-mt-24">
               {children}
             </main>
             <Footer />

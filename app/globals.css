@@ -194,6 +194,27 @@
   }
 
   /*
+   * Vertical rhythm for a top-level section.
+   *
+   * One definition rather than `py-28 lg:py-40` repeated at six call sites:
+   * the page's whole vertical rhythm is a single number here, and the sections
+   * cannot drift apart the first time one of them is touched.
+   *
+   * The `lg` step is what actually sets the page's length — below it the
+   * sections are already close enough together that the smaller value is only
+   * keeping the headings off the fold.
+   */
+  .section-y {
+    padding-block: 5.25rem;
+  }
+
+  @media (min-width: 64rem) {
+    .section-y {
+      padding-block: 7.5rem;
+    }
+  }
+
+  /*
    * The full-bleed gutter. The fold and the nav both key off this single
    * definition, which is the only reason the logo and the headline can sit on the
    * same vertical line at every breakpoint — two hand-tuned padding scales would

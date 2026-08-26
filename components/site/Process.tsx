@@ -54,7 +54,7 @@ export function Process() {
     <section
       id="process"
       aria-labelledby="process-heading"
-      className="relative isolate mx-auto w-full max-w-6xl px-6 py-28 sm:px-8 lg:py-40"
+      className="section-y relative isolate mx-auto w-full max-w-6xl scroll-mt-24 px-6 sm:px-8"
     >
       <FlowLayer segment={3} />
 

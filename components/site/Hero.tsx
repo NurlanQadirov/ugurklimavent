@@ -62,7 +62,7 @@ export function Hero() {
       ref={ref}
       id="top"
       aria-labelledby="hero-heading"
-      className="gutter grain relative flex min-h-[100svh] flex-col overflow-hidden pb-8 pt-24 sm:pt-28"
+      className="gutter grain relative flex min-h-[100svh] scroll-mt-24 flex-col overflow-hidden pb-8 pt-24 sm:pt-28"
     >
       {/*
         Backdrop. It shares the fold's fade but not its drift or scale, so the two

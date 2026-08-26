@@ -23,10 +23,10 @@ export function Footer() {
   const { footer, a11y } = useDictionary();
 
   return (
-    <footer id="contact" className="relative isolate border-t border-white/[0.07]">
+    <footer id="contact" className="relative isolate scroll-mt-24 border-t border-white/[0.07]">
       <FlowLayer segment={6} />
       {/* Closing call to action */}
-      <div className="mx-auto w-full max-w-6xl px-6 py-28 sm:px-8 lg:py-36">
+      <div className="section-y mx-auto w-full max-w-6xl px-6 pt-24 sm:px-8 lg:pt-32">
         <Reveal className="flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <RevealItem className="mb-6 flex items-center gap-3">
