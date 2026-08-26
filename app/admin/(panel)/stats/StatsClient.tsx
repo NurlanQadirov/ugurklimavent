@@ -15,6 +15,7 @@ import { RowActions } from "@/components/admin/RowActions";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/input";
 import { LOCALES } from "@/i18n/config";
+import { SERVICE_COUNT_STAT } from "@/lib/content";
 import { deleteStat, saveStat } from "@/lib/admin/actions";
 import type { StatInput } from "@/lib/admin/schemas";
 import { statSchema } from "@/lib/admin/schemas";
@@ -35,7 +36,21 @@ function toForm(row: StatRow | null, nextOrder: number): StatInput {
   };
 }
 
-export function StatsClient({ rows }: { rows: StatRow[] }) {
+/**
+ * The figure for `SERVICE_COUNT_STAT` follows the number of service cards, so
+ * it is shown rather than edited — the same principle as the derived № column
+ * in the services table. An input that writes to a column nothing reads is a
+ * field that lies to whoever fills it in.
+ */
+const isDerived = (key: string) => key === SERVICE_COUNT_STAT;
+
+export function StatsClient({
+  rows,
+  serviceCount,
+}: {
+  rows: StatRow[];
+  serviceCount: number;
+}) {
   const router = useRouter();
   const [editing, setEditing] = React.useState<StatRow | null>(null);
   const [open, setOpen] = React.useState(false);
@@ -79,11 +94,12 @@ export function StatsClient({ rows }: { rows: StatRow[] }) {
         id: "figure",
         header: "Rəqəm",
         size: 120,
-        accessorFn: (row) => `${row.prefix}${row.value}${row.suffix}`,
+        accessorFn: (row) =>
+          `${row.prefix}${isDerived(row.key) ? serviceCount : row.value}${row.suffix}`,
         cell: ({ row }) => (
           <span className="font-mono text-sm text-white">
             {row.original.prefix}
-            {row.original.value}
+            {isDerived(row.original.key) ? serviceCount : row.original.value}
             {row.original.suffix}
           </span>
         ),
@@ -173,22 +189,40 @@ export function StatsClient({ rows }: { rows: StatRow[] }) {
               <Field label="Öndəki simvol" htmlFor="stat-prefix" error={errors.prefix?.message}>
                 <Input id="stat-prefix" {...register("prefix")} />
               </Field>
-              <Field
-                label="Dəyər"
-                htmlFor="stat-value"
-                error={errors.value?.message}
-                hint="Bu rəqəmə qədər sayılır."
-              >
-                <Input
-                  id="stat-value"
-                  type="number"
-                  inputMode="numeric"
-                  aria-invalid={Boolean(errors.value)}
-                  // Without `valueAsNumber` the input hands back a string and
-                  // the schema's `z.number()` rejects every save.
-                  {...register("value", { valueAsNumber: true })}
-                />
-              </Field>
+              {editing && isDerived(editing.key) ? (
+                /*
+                  Shown, not edited. The figure follows the number of service
+                  cards, so the only way to change it is to add or remove a
+                  service — which is exactly what the hint says. The registered
+                  field goes along hidden so the stored column keeps whatever
+                  value it already had; nothing reads it either way.
+                */
+                <Field
+                  label="Dəyər"
+                  htmlFor="stat-value"
+                  hint="Xidmətlərin sayına görə avtomatik. Dəyişmək üçün xidmət əlavə edin və ya silin."
+                >
+                  <Input id="stat-value" value={serviceCount} readOnly tabIndex={-1} />
+                  <input type="hidden" {...register("value", { valueAsNumber: true })} />
+                </Field>
+              ) : (
+                <Field
+                  label="Dəyər"
+                  htmlFor="stat-value"
+                  error={errors.value?.message}
+                  hint="Bu rəqəmə qədər sayılır."
+                >
+                  <Input
+                    id="stat-value"
+                    type="number"
+                    inputMode="numeric"
+                    aria-invalid={Boolean(errors.value)}
+                    // Without `valueAsNumber` the input hands back a string and
+                    // the schema's `z.number()` rejects every save.
+                    {...register("value", { valueAsNumber: true })}
+                  />
+                </Field>
+              )}
               <Field label="Sondakı simvol" htmlFor="stat-suffix" error={errors.suffix?.message}>
                 <Input id="stat-suffix" placeholder="+" {...register("suffix")} />
               </Field>

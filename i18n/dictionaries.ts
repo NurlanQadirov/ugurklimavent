@@ -6,6 +6,31 @@ import type { Locale } from "./config";
 import type { Dictionary, SiteDictionary } from "./types";
 
 /**
+ * WARNING — counts written into the copy by hand.
+ *
+ * Four strings per locale state a number that the database now owns, and none
+ * of them can be derived: they are inflected prose in three languages, not
+ * values. Nothing checks them. If a service or a faq is added or removed
+ * through the admin panel, these go stale silently and stay stale until a
+ * reader notices.
+ *
+ * This comment lives here rather than beside the strings because JSON has no
+ * comments, and `types.ts` infers the whole dictionary shape from `en.json`,
+ * so there is no per-field declaration to attach it to either.
+ *
+ *   meta.pages.expertise.h1     "Seven HVAC, fire and electrical disciplines"
+ *   expertise.headingLines[0]   "Seven disciplines," / "Yeddi istiqamət,"
+ *   faq.items.scope.answer      "...running seven disciplines in-house"
+ *   faq.lede                    "The eight that come up on almost every first
+ *                               call" / "Восемь вопросов" / "səkkiz sual"
+ *
+ * The first three follow the service count; the last follows the number of
+ * faqs. The faq lede is the one most likely to break, because deleting a
+ * question is a one-click operation in the panel and takes all three locales
+ * with it.
+ */
+
+/**
  * Dynamic imports, so a request for `/az` never pulls the English or Russian
  * copy into the same chunk. All three run on the server only — the resulting
  * HTML is what reaches the browser.

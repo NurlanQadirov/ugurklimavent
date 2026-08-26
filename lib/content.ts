@@ -37,9 +37,30 @@ export type Service = {
   tags: readonly string[];
 };
 
+/**
+ * The stat whose figure is the number of service cards on the page.
+ *
+ * "Disciplines in-house" is not an independent number — it is a count of
+ * something else the site already renders. It was seeded as `SERVICES.length`
+ * and then stored, which froze it: adding an eighth service through the admin
+ * panel left the band claiming seven for as long as nobody noticed.
+ *
+ * It is resolved from the rendered service list at read time instead (see
+ * `getSiteContent`), and the stored column is left unread. Special-casing the
+ * key is deliberate — the alternative, a `computed` flag on the row, is the
+ * same class of bug one level up: it only works if somebody remembers to set
+ * it.
+ */
+export const SERVICE_COUNT_STAT = "disciplines";
+
 export type Stat = {
   id: string;
-  /** Counted up from 0 when the band scrolls into view. */
+  /**
+   * Counted up from 0 when the band scrolls into view.
+   *
+   * For `SERVICE_COUNT_STAT` this is the live service count, not the stored
+   * column.
+   */
   value: number;
   prefix?: string;
   suffix?: string;

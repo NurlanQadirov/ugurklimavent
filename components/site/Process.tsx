@@ -106,7 +106,7 @@ export function Process() {
                   </motion.span>
                 </AnimatePresence>
               </span>
-              <span>/ 0{phases.length}</span>
+              <span>/ {String(phases.length).padStart(2, "0")}</span>
             </div>
 
             <div className="relative h-px flex-1 bg-white/10">

@@ -2,7 +2,7 @@ import "server-only";
 
 import type { Locale } from "@/i18n/config";
 import { slotSpan } from "@/lib/bento";
-import type { SiteContent } from "@/lib/content";
+import { SERVICE_COUNT_STAT, type SiteContent } from "@/lib/content";
 import { db } from "@/lib/db";
 import { parseList } from "@/lib/serialize";
 
@@ -63,52 +63,67 @@ export async function getSiteContent(locale: Locale): Promise<SiteContent> {
     );
   }
 
-  return {
-    /**
-     * `span` **and `index`** are both assigned from the *rendered* position
-     * rather than from stored values, so a gap in the order values — or a row
-     * skipped for having no copy in this locale — still produces a grid that
-     * tiles to six columns and a card sequence that counts 01, 02, 03 ...
-     *
-     * `index` used to be read straight off the row, which made the card number
-     * and the card position two independent fields free to disagree — and they
-     * did: the grid rendered 01, 03, 02, 04 in the DOM, at every breakpoint,
-     * because the seeded `order` and the seeded `index` had been written in
-     * different sequences. Deriving it is the only fix that cannot drift back,
-     * and it needs no write to any database — including the ones this code has
-     * never seen. The FAQ block below has always done exactly this.
-     */
-    services: services
-      .flatMap((service) => {
-        const copy = pick(service.translations);
-        if (!copy) return [];
-        return [
-          {
-            id: service.key,
-            ...(service.iconPath ? { iconPath: service.iconPath } : {}),
-            // Kept optional rather than always-boolean: the card checks
-            // `service.critical ? … : null`, and `false` and `undefined` are
-            // equivalent there, but the narrower type matches the old shape.
-            ...(service.critical ? { critical: true as const } : {}),
-            title: copy.title,
-            blurb: copy.blurb,
-            tags: parseList(copy.tags),
-          },
-        ];
-      })
-      .map((service, i) => ({
-        ...service,
-        index: String(i + 1).padStart(2, "0"),
-        span: slotSpan(i),
-      })),
+  /**
+   * `span` **and `index`** are both assigned from the *rendered* position
+   * rather than from stored values, so a gap in the order values — or a row
+   * skipped for having no copy in this locale — still produces a grid that
+   * tiles to six columns and a card sequence that counts 01, 02, 03 ...
+   *
+   * `index` used to be read straight off the row, which made the card number
+   * and the card position two independent fields free to disagree — and they
+   * did: the grid rendered 01, 03, 02, 04 in the DOM, at every breakpoint,
+   * because the seeded `order` and the seeded `index` had been written in
+   * different sequences. Deriving it is the only fix that cannot drift back,
+   * and it needs no write to any database — including the ones this code has
+   * never seen. The faq block below has always done exactly this.
+   *
+   * Hoisted out of the returned object because the stats block counts it: the
+   * "disciplines in-house" figure is this list's length, and counting the
+   * *rendered* list is what keeps the figure right in a locale where a service
+   * was skipped for having no copy.
+   */
+  const renderedServices = services
+    .flatMap((service) => {
+      const copy = pick(service.translations);
+      if (!copy) return [];
+      return [
+        {
+          id: service.key,
+          ...(service.iconPath ? { iconPath: service.iconPath } : {}),
+          // Kept optional rather than always-boolean: the card checks
+          // `service.critical ? … : null`, and `false` and `undefined` are
+          // equivalent there, but the narrower type matches the old shape.
+          ...(service.critical ? { critical: true as const } : {}),
+          title: copy.title,
+          blurb: copy.blurb,
+          tags: parseList(copy.tags),
+        },
+      ];
+    })
+    .map((service, i) => ({
+      ...service,
+      index: String(i + 1).padStart(2, "0"),
+      span: slotSpan(i),
+    }));
 
+  return {
+    services: renderedServices,
+
+    /**
+     * `SERVICE_COUNT_STAT` is a count of the service cards, not a figure in its
+     * own right, so it is resolved from the rendered list rather than read off
+     * the row. The stored column is left alone and unread: a value that has to
+     * be re-typed every time a service is added is a value that is wrong for
+     * however long nobody notices.
+     */
     stats: stats.flatMap((stat) => {
       const copy = pick(stat.translations);
       if (!copy) return [];
       return [
         {
           id: stat.key,
-          value: stat.value,
+          value:
+            stat.key === SERVICE_COUNT_STAT ? renderedServices.length : stat.value,
           ...(stat.prefix ? { prefix: stat.prefix } : {}),
           ...(stat.suffix ? { suffix: stat.suffix } : {}),
           label: copy.label,
