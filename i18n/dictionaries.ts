@@ -21,13 +21,11 @@ import type { Dictionary, SiteDictionary } from "./types";
  *   meta.pages.expertise.h1     "Seven HVAC, fire and electrical disciplines"
  *   expertise.headingLines[0]   "Seven disciplines," / "Yeddi istiqamət,"
  *   faq.items.scope.answer      "...running seven disciplines in-house"
- *   faq.lede                    "The eight that come up on almost every first
- *                               call" / "Восемь вопросов" / "səkkiz sual"
  *
- * The first three follow the service count; the last follows the number of
- * faqs. The faq lede is the one most likely to break, because deleting a
- * question is a one-click operation in the panel and takes all three locales
- * with it.
+ * All three follow the service count. `faq.lede` used to state the number of
+ * questions as well and has been reworded not to — deleting a question is a
+ * one-click operation in the panel, and the sentence was carrying a count that
+ * meant nothing to a reader.
  */
 
 /**
