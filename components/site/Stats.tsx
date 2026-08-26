@@ -9,6 +9,17 @@ import { FlowLayer } from "@/components/motion/FlowLayer";
 import { VIEWPORT, riseChild, staggerParent } from "@/components/motion/tokens";
 
 /**
+ * Whether a figure is a quantity that can be counted up to.
+ *
+ * "24/7" is stored the same way "12+" is — a value plus a suffix — but it is
+ * not a quantity, it is a token that happens to contain digits. Counting it
+ * renders "2/7", "14/7", "23/7" on the way up, which reads as a broken number
+ * rather than as an animation. A digit in the suffix is the tell: "+" leaves
+ * the figure a number, "/7" makes it half of a compound.
+ */
+const isCountable = (suffix?: string) => !/\d/.test(suffix ?? "");
+
+/**
  * Divider rule: a 1px gap over a lit background, filled by opaque cells. One
  * declaration instead of a thicket of `nth-child` border resets, and it stays
  * correct at every column count.
@@ -51,7 +62,11 @@ export function Stats() {
               {stat.prefix ? (
                 <span className="text-white/40">{stat.prefix}</span>
               ) : null}
-              <Counter value={stat.value} className="tabular-nums" />
+              {isCountable(stat.suffix) ? (
+                <Counter value={stat.value} className="tabular-nums" />
+              ) : (
+                <span className="tabular-nums">{stat.value}</span>
+              )}
               {stat.suffix ? (
                 <span className="text-volt">{stat.suffix}</span>
               ) : null}
