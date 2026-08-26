@@ -8,7 +8,7 @@ import type { Dictionary, SiteDictionary } from "./types";
 /**
  * WARNING — counts written into the copy by hand.
  *
- * Four strings per locale state a number that the database now owns, and none
+ * Three strings per locale state a number that the database now owns, and none
  * of them can be derived: they are inflected prose in three languages, not
  * values. Nothing checks them. If a service or a faq is added or removed
  * through the admin panel, these go stale silently and stay stale until a
