@@ -63,7 +63,7 @@ export function Process() {
         <div className="lg:col-span-4 lg:self-start lg:sticky lg:top-32">
           <Reveal>
             <RevealItem className="mb-6 flex items-center gap-3">
-              <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />
+              <span aria-hidden className="h-1 w-1 rounded-full bg-accent" />
               <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
                 {dict.process.eyebrow}
               </span>
@@ -71,13 +71,13 @@ export function Process() {
             <RevealItem>
               <h2
                 id="process-heading"
-                className="text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white"
+                className="text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[1.1] tracking-tight text-white"
               >
                 <HeadingLines lines={dict.process.headingLines} />
               </h2>
             </RevealItem>
             <RevealItem>
-              <p className="mt-6 max-w-sm text-pretty text-sm leading-relaxed text-white/70">
+              <p className="mt-6 max-w-sm text-pretty text-sm leading-relaxed text-ink">
                 {dict.process.lede}
               </p>
             </RevealItem>
@@ -112,14 +112,17 @@ export function Process() {
             <div className="relative h-px flex-1 bg-white/10">
               <motion.div
                 style={{ transform: barFill }}
-                className="h-full origin-left bg-volt"
+                className="h-full origin-left bg-white/60"
               />
             </div>
           </div>
         </div>
 
         {/* Phases */}
-        <div ref={rail} className="relative mt-16 lg:col-span-7 lg:col-start-6 lg:mt-0">
+        <div
+          ref={rail}
+          className="relative mt-16 lg:col-span-7 lg:col-start-6 lg:mt-0"
+        >
           {/* Progress rail */}
           <div
             aria-hidden
@@ -129,7 +132,7 @@ export function Process() {
                 that is the end that should be brightest. */}
             <motion.div
               style={{ transform: railFill }}
-              className="h-full w-full origin-top bg-gradient-to-b from-volt/25 via-volt/80 to-volt"
+              className="h-full w-full origin-top bg-gradient-to-b from-white/10 via-white/35 to-white/70"
             />
           </div>
 
@@ -145,17 +148,26 @@ export function Process() {
               <motion.li
                 key={phase.id}
                 variants={cardChild}
-                className="relative border-b border-white/[0.06] py-8 last:border-b-0 sm:py-10"
+                className="relative border-b border-white/[0.05] py-8 last:border-b-0 sm:py-10"
               >
                 {/* Rail node */}
                 <span
                   aria-hidden
                   className="absolute -left-10 top-[2.15rem] hidden h-1.5 w-1.5 -translate-x-[3px] rounded-full bg-void ring-1 ring-white/25 transition-all duration-300 ease-out-strong sm:block"
+                  /*
+                    The current phase's node. It was a blue dot inside a blue
+                    halo — the one element on the page that genuinely looked
+                    like a status light, because that is exactly what it was
+                    drawn as. Porcelain inside a white ring says the same thing
+                    ("you are here") as a mark rather than as an alert, and the
+                    ring is held at 8% so it reads as the node's own weight
+                    rather than as light coming off it.
+                  */
                   style={
                     i === active
                       ? {
-                          backgroundColor: "var(--color-volt)",
-                          boxShadow: "0 0 0 4px rgba(29,123,255,0.14)",
+                          backgroundColor: "var(--color-porcelain)",
+                          boxShadow: "0 0 0 4px rgb(255 255 255 / 0.08)",
                         }
                       : undefined
                   }
@@ -167,35 +179,35 @@ export function Process() {
                   animate={{ opacity: i === active ? 1 : 0.42 }}
                   transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
                 >
-                <div className="flex items-baseline gap-5">
-                  <span
-                    aria-hidden
-                    className="font-mono text-[10px] tracking-[0.2em] text-white/30"
-                  >
-                    {phase.index}
-                  </span>
-                  <h3 className="text-xl font-medium tracking-tight text-white sm:text-2xl">
-                    {phase.title}
-                  </h3>
-                </div>
-
-                <p className="mt-4 max-w-lg text-pretty text-sm leading-relaxed text-white/65 sm:pl-[3.4rem]">
-                  {phase.blurb}
-                </p>
-
-                <ul
-                  aria-label={dict.a11y.phaseOutputs}
-                  className="mt-5 flex flex-wrap gap-1.5 sm:pl-[3.4rem]"
-                >
-                  {phase.outputs.map((output) => (
-                    <li
-                      key={output}
-                      className="rounded-full border border-white/[0.16] bg-white/[0.02] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-white/65"
+                  <div className="flex items-baseline gap-5">
+                    <span
+                      aria-hidden
+                      className="font-mono text-[10px] tracking-[0.2em] text-white/30"
                     >
-                      {output}
-                    </li>
-                  ))}
-                </ul>
+                      {phase.index}
+                    </span>
+                    <h3 className="text-xl font-medium tracking-tight text-white sm:text-2xl">
+                      {phase.title}
+                    </h3>
+                  </div>
+
+                  <p className="mt-4 max-w-lg text-pretty text-sm leading-relaxed text-ink sm:pl-[3.4rem]">
+                    {phase.blurb}
+                  </p>
+
+                  <ul
+                    aria-label={dict.a11y.phaseOutputs}
+                    className="mt-5 flex flex-wrap gap-1.5 sm:pl-[3.4rem]"
+                  >
+                    {phase.outputs.map((output) => (
+                      <li
+                        key={output}
+                        className="rounded-full border border-white/[0.05] bg-white/[0.025] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-ink"
+                      >
+                        {output}
+                      </li>
+                    ))}
+                  </ul>
                 </motion.div>
               </motion.li>
             ))}

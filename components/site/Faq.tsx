@@ -50,10 +50,10 @@ export function Faq() {
     >
       <FlowLayer segment={5} />
 
-      <Reveal className="mb-16 flex flex-col gap-6 lg:mb-20 lg:flex-row lg:items-end lg:justify-between">
+      <Reveal className="mb-20 flex flex-col gap-8 lg:mb-28 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <RevealItem className="mb-6 flex items-center gap-3">
-            <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />
+            <span aria-hidden className="h-1 w-1 rounded-full bg-accent" />
             <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
               {dict.faq.eyebrow}
             </span>
@@ -61,14 +61,14 @@ export function Faq() {
           <RevealItem>
             <h2
               id="faq-heading"
-              className="max-w-2xl text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white"
+              className="max-w-2xl text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[1.1] tracking-tight text-white"
             >
               <HeadingLines lines={dict.faq.headingLines} />
             </h2>
           </RevealItem>
         </div>
         <Parallax distance={26} className="max-w-sm">
-          <p className="text-pretty text-sm leading-relaxed text-white/70">
+          <p className="text-pretty text-sm leading-relaxed text-ink">
             {dict.faq.lede}
           </p>
         </Parallax>
@@ -80,7 +80,7 @@ export function Faq() {
         whileInView="visible"
         viewport={VIEWPORT}
         aria-label={dict.a11y.faqList}
-        className="border-t border-white/[0.07]"
+        className="border-t border-white/[0.06]"
       >
         {faqs.map((faq) => {
           const expanded = open === faq.id;
@@ -89,12 +89,12 @@ export function Faq() {
             <motion.li
               key={faq.id}
               variants={riseChild}
-              className="group relative isolate border-b border-white/[0.07]"
+              className="group relative isolate border-b border-white/[0.06]"
             >
               {/* Hover wash — the same wipe the sector rows use. */}
               <span
                 aria-hidden
-                className="pointer-events-none absolute inset-0 -z-10 origin-left scale-x-0 bg-gradient-to-r from-white/[0.05] to-transparent transition-transform duration-500 ease-out-strong group-hover:scale-x-100"
+                className="pointer-events-none absolute inset-0 -z-10 origin-left scale-x-0 bg-gradient-to-r from-white/[0.035] to-transparent transition-transform duration-500 ease-out-strong group-hover:scale-x-100"
               />
 
               {/*
@@ -133,13 +133,15 @@ export function Faq() {
                   */}
                   <span
                     aria-hidden
-                    className="relative mt-2 h-3.5 w-3.5 shrink-0 text-volt"
+                    className="relative mt-2 h-3.5 w-3.5 shrink-0 text-white/45 transition-colors duration-300 ease-out-strong group-hover:text-white"
                   >
                     <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-current" />
                     <span
                       className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-current transition-transform duration-300 ease-out-strong"
                       style={
-                        expanded ? { transform: "translateX(-50%) rotate(90deg)" } : undefined
+                        expanded
+                          ? { transform: "translateX(-50%) rotate(90deg)" }
+                          : undefined
                       }
                     />
                   </span>
@@ -150,11 +152,14 @@ export function Faq() {
                 id={`faq-answer-${faq.id}`}
                 inert={!expanded}
                 initial={false}
-                animate={{ height: expanded ? "auto" : 0, opacity: expanded ? 1 : 0 }}
+                animate={{
+                  height: expanded ? "auto" : 0,
+                  opacity: expanded ? 1 : 0,
+                }}
                 transition={PANEL}
                 className="overflow-hidden"
               >
-                <p className="max-w-2xl text-pretty pb-8 text-sm leading-relaxed text-white/70 sm:pl-[3.4rem]">
+                <p className="max-w-2xl text-pretty pb-8 text-sm leading-relaxed text-ink sm:pl-[3.4rem]">
                   {faq.answer}
                 </p>
               </motion.div>

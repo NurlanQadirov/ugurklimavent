@@ -36,7 +36,7 @@ export function Stats() {
     */
     <section
       aria-label={dict.a11y.statsList}
-      className="relative isolate border-y border-white/[0.06]"
+      className="relative isolate border-y border-white/[0.05] bg-white/[0.01]"
     >
       <FlowLayer segment={2} />
       <motion.ul
@@ -44,18 +44,18 @@ export function Stats() {
         initial="hidden"
         whileInView="visible"
         viewport={VIEWPORT}
-        className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-px bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-4"
+        className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-px bg-white/[0.04] sm:grid-cols-2 lg:grid-cols-4"
       >
         {stats.map((stat) => (
           <motion.li
             key={stat.id}
             variants={riseChild}
-            className="group relative bg-void px-6 py-10 sm:px-8 sm:py-12"
+            className="group relative bg-carbon px-6 py-12 sm:px-8 sm:py-14"
           >
             {/* Accent wick — draws itself along the top edge on hover */}
             <span
               aria-hidden
-              className="pointer-events-none absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-volt to-transparent transition-transform duration-500 ease-out-strong group-hover:scale-x-100"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-white/45 to-transparent transition-transform duration-500 ease-out-strong group-hover:scale-x-100"
             />
 
             <p className="flex items-baseline text-[clamp(2.5rem,6vw,4rem)] font-medium leading-none tracking-tighter text-white">
@@ -68,14 +68,14 @@ export function Stats() {
                 <span className="tabular-nums">{stat.value}</span>
               )}
               {stat.suffix ? (
-                <span className="text-volt">{stat.suffix}</span>
+                <span className="text-white/35">{stat.suffix}</span>
               ) : null}
             </p>
 
-            <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
+            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
               {stat.label}
             </p>
-            <p className="mt-2.5 max-w-[26ch] text-pretty text-[13px] leading-relaxed text-white/65">
+            <p className="mt-2.5 max-w-[26ch] text-pretty text-[13px] leading-relaxed text-ink-dim">
               {stat.note}
             </p>
           </motion.li>

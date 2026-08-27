@@ -7,10 +7,14 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 
 import { telHref } from "@/lib/content";
-import { useCompany, useDictionary, useLocale } from "@/i18n/DictionaryProvider";
+import {
+  useCompany,
+  useDictionary,
+  useLocale,
+} from "@/i18n/DictionaryProvider";
 import { getLenis } from "@/components/motion/lenis-instance";
-import { MagneticLink } from "@/components/motion/MagneticLink";
 import { staggerParent } from "@/components/motion/tokens";
+import { ActionLink } from "./ActionLink";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { NAV_LINKS } from "./nav-links";
 
@@ -149,7 +153,7 @@ export function MobileMenu() {
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={open ? dict.a11y.closeMenu : dict.a11y.openMenu}
-        className="relative flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/80 transition-colors duration-200 ease-out-strong hover:bg-white/10 hover:text-white lg:hidden"
+        className="relative flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.02] text-white/80 backdrop-blur-sm transition-colors duration-200 ease-out-strong hover:border-white/20 hover:bg-white/[0.06] hover:text-white lg:hidden"
       >
         {/*
           Two rules that cross into an X. They are positioned from the centre and
@@ -209,7 +213,7 @@ export function MobileMenu() {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  className="gutter fixed inset-0 z-[55] flex flex-col overflow-y-auto bg-void/95 pb-10 pt-24 backdrop-blur-xl sm:pt-28 lg:hidden"
+                  className="gutter fixed inset-0 z-[55] flex flex-col overflow-y-auto bg-carbon/95 pb-10 pt-24 backdrop-blur-2xl sm:pt-28 lg:hidden"
                 >
                   {/*
               A second, full-size close target sitting exactly under the trigger.
@@ -239,12 +243,12 @@ export function MobileMenu() {
                     animate="visible"
                     className="flex flex-1 flex-col justify-center"
                   >
-                    <ul className="border-t border-white/[0.07]">
+                    <ul className="border-t border-white/[0.05]">
                       {NAV_LINKS.map((link, i) => (
                         <motion.li
                           key={link.href}
                           variants={row}
-                          className="group border-b border-white/[0.07]"
+                          className="group border-b border-white/[0.05]"
                         >
                           {link.href.startsWith("#") ? (
                             <a
@@ -292,9 +296,15 @@ export function MobileMenu() {
                     transition={{ delay: 0.34 }}
                     className="mt-10 flex shrink-0 flex-col gap-8"
                   >
-                    <MagneticLink href={telHref(COMPANY.phones[0])}>
+                    {/*
+                      The same call to action the hero and footer use. It sits in
+                      a column flex container, so the shared pill stretches to
+                      the sheet's full width — which is why the component centres
+                      its own contents rather than leaving them at the start.
+                    */}
+                    <ActionLink href={telHref(COMPANY.phones[0])}>
                       {dict.nav.cta}
-                    </MagneticLink>
+                    </ActionLink>
 
                     <div className="flex items-center justify-between">
                       <LocaleSwitcher />

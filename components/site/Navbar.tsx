@@ -2,33 +2,57 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion, useMotionValueEvent, useScroll, type Variants } from "framer-motion";
+import {
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  type Variants,
+} from "framer-motion";
 
-import { useCompany, useDictionary, useLocale } from "@/i18n/DictionaryProvider";
-import { SPRING_ENTRANCE, riseChildTight, staggerParent } from "@/components/motion/tokens";
+import {
+  useCompany,
+  useDictionary,
+  useLocale,
+} from "@/i18n/DictionaryProvider";
+import {
+  SPRING_ENTRANCE,
+  riseChildTight,
+  staggerParent,
+} from "@/components/motion/tokens";
+import { ActionLink } from "./ActionLink";
 import { BrandLogo } from "./BrandLogo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileMenu } from "./MobileMenu";
 import { NAV_LINKS } from "./nav-links";
 
 const linkClassName =
-  "rounded-full px-4 py-2 text-[13px] text-white/55 transition-colors duration-200 ease-out-strong hover:text-white";
+  "rounded-full px-4 py-2 text-[13px] text-white/50 transition-colors duration-200 ease-out-strong hover:text-white";
 
 /**
  * The bar "shrinks" via `scale` rather than height or padding: scale is
  * composited, height is not, and this runs on every scroll frame.
+ *
+ * The fills are written out as literal `rgba()` and not as `var(--color-carbon)`
+ * because Motion interpolates between the two states and cannot interpolate a
+ * custom property. That makes them the one place on the site where a surface
+ * colour is duplicated by hand — so they have to be updated with the token, and
+ * `rgba(14, 14, 16, …)` is `--color-carbon` written out.
  */
 const shell: Variants = {
   top: {
     transform: "translateY(0px) scale(1)",
-    backgroundColor: "rgba(8, 8, 10, 0)",
+    backgroundColor: "rgba(14, 14, 16, 0)",
     borderColor: "rgba(255, 255, 255, 0)",
+    boxShadow: "0 1px 0 0 rgba(255,255,255,0) inset, 0 20px 48px -24px rgba(0,0,0,0)",
     transition: { type: "spring", duration: 0.5, bounce: 0.12 },
   },
   compact: {
     transform: "translateY(-6px) scale(0.94)",
-    backgroundColor: "rgba(8, 8, 10, 0.66)",
-    borderColor: "rgba(255, 255, 255, 0.09)",
+    backgroundColor: "rgba(14, 14, 16, 0.72)",
+    borderColor: "rgba(255, 255, 255, 0.06)",
+    // The bar only casts a shadow once it is a panel over content. At the top
+    // of the page it is floating on the fold and there is nothing to cast onto.
+    boxShadow: "0 1px 0 0 rgba(255,255,255,0.04) inset, 0 20px 48px -24px rgba(0,0,0,0.9)",
     transition: { type: "spring", duration: 0.5, bounce: 0.12 },
   },
 };
@@ -110,30 +134,16 @@ export function Navbar() {
         <div className="hidden items-center gap-3 sm:gap-4 lg:flex">
           <LocaleSwitcher />
 
-
-          <Link
-  href="#contact"
-  className="group flex items-center gap-2 rounded-full border border-white/10 bg-transparent px-4 py-2 text-[13px] text-white/80 transition-all duration-300 ease-out hover:bg-white/10 hover:text-white"
->
-  {dict.nav.cta}
-  {/* Decorative twin of the arrow in `MagneticLink`, which is already hidden. */}
-  <svg
-    aria-hidden
-    xmlns="http://www.w3.org/2000/svg"
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="transition-transform duration-300 group-hover:translate-x-1"
-  >
-    <path d="M5 12h14" />
-    <path d="m12 5 7 7-7 7" />
-  </svg>
-</Link>
+          {/*
+            A plain anchor rather than `Link`: `#contact` is the footer, which
+            the layout renders on every route, so this never leaves the
+            document. It is the same `ActionLink` the hero and footer use, in
+            the quieter of its two weights — the bar must not out-weigh the
+            solid button further down the page.
+          */}
+          <ActionLink href="#contact" variant="ghost">
+            {dict.nav.cta}
+          </ActionLink>
         </div>
 
         <MobileMenu />

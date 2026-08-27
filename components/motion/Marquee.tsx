@@ -98,7 +98,7 @@ export function Marquee({ items, label, speed = 1.6, className }: MarqueeProps) 
       {items.map((item) => (
         <span key={item} role="listitem" className="flex shrink-0 items-center">
           <span className="px-6 sm:px-8">{item}</span>
-          <span aria-hidden className="h-1 w-1 rounded-full bg-volt/50" />
+          <span aria-hidden className="h-1 w-1 rounded-full bg-white/20" />
         </span>
       ))}
     </span>

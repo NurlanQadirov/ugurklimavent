@@ -52,11 +52,14 @@ export default async function OpengraphImage({
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#050505",
+          background: "#09090b",
           padding: 80,
-          // Matches the site's own accent wash rather than inventing a look.
+          // Matches the site's own ambient wash rather than inventing a look —
+          // which now means a neutral one. A share card carrying a blue bloom
+          // the page itself no longer has is the version of the brand most
+          // people would see first.
           backgroundImage:
-            "radial-gradient(900px circle at 15% 40%, rgba(29,123,255,0.20), transparent 60%)",
+            "radial-gradient(900px circle at 15% 40%, rgba(255,255,255,0.05), transparent 62%)",
         }}
       >
         <div
@@ -75,7 +78,7 @@ export default async function OpengraphImage({
               width: 10,
               height: 10,
               borderRadius: 999,
-              background: "#1d7bff",
+              background: "#a1a1aa",
             }}
           />
           {company.name}

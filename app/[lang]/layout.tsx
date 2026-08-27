@@ -108,7 +108,7 @@ export async function generateMetadata({
 }
 
 export const viewport: Viewport = {
-  themeColor: "#050505",
+  themeColor: "#09090b",
   colorScheme: "dark",
 };
 
@@ -146,7 +146,7 @@ export default async function RootLayout({
             */}
             <a
               href="#main"
-              className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-white focus:px-5 focus:py-2.5 focus:text-sm focus:font-medium focus:text-[#050505]"
+              className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-porcelain focus:px-5 focus:py-2.5 focus:text-sm focus:font-medium focus:text-void focus:shadow-2xl focus:shadow-black/60"
             >
               {dict.a11y.skipToContent}
             </a>

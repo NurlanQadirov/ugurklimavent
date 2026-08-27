@@ -29,7 +29,7 @@ export function ScrollProgress() {
     >
       <motion.div
         style={{ transform }}
-        className="h-full origin-left bg-gradient-to-r from-volt/0 via-volt to-white/70"
+        className="h-full origin-left bg-gradient-to-r from-white/0 via-white/25 to-white/45"
       />
     </div>
   );

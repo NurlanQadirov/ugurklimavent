@@ -53,11 +53,23 @@ export function FlowRun({ segment, className }: FlowRunProps) {
         role="presentation"
       >
         <defs>
+          {/*
+            The travelling head, in white and at roughly a third of its old
+            strength. Every stop below 0.985 used to be `volt`, which made the
+            trail a blue tracer running the height of the document — the single
+            most literal "tech product" gesture on the page, and the one a
+            reader notices first because it is the only thing moving.
+
+            Monochrome and dim, the same geometry reads as what it is meant to
+            be: a duct run, lit by the section it is passing through. The near-
+            white flare at the leading edge stays, because that tip is the only
+            part that has to be legible for the effect to say anything at all.
+          */}
           <linearGradient id={trailId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="var(--color-volt)" stopOpacity="0" />
-            <stop offset="0.55" stopColor="var(--color-volt)" stopOpacity="0.22" />
-            <stop offset="0.93" stopColor="var(--color-volt)" stopOpacity="0.6" />
-            <stop offset="0.985" stopColor="#ffffff" stopOpacity="1" />
+            <stop offset="0" stopColor="#ffffff" stopOpacity="0" />
+            <stop offset="0.55" stopColor="#ffffff" stopOpacity="0.06" />
+            <stop offset="0.93" stopColor="#ffffff" stopOpacity="0.2" />
+            <stop offset="0.985" stopColor="#ffffff" stopOpacity="0.55" />
             <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
           </linearGradient>
 
@@ -77,8 +89,8 @@ export function FlowRun({ segment, className }: FlowRunProps) {
                   <path
                     d={d}
                     vectorEffect="non-scaling-stroke"
-                    strokeWidth={isPrimaryLine(line) ? 12 : 8}
-                    strokeOpacity="0.16"
+                    strokeWidth={isPrimaryLine(line) ? 10 : 7}
+                    strokeOpacity="0.09"
                   />
                   {/* Core pass — the riser itself, at full luminance. */}
                   <path
@@ -97,7 +109,7 @@ export function FlowRun({ segment, className }: FlowRunProps) {
         <g
           fill="none"
           stroke="#ffffff"
-          strokeOpacity="0.075"
+          strokeOpacity="0.03"
           strokeLinejoin="miter"
           strokeLinecap="butt"
         >

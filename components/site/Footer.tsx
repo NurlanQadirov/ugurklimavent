@@ -3,10 +3,10 @@
 import { telHref } from "@/lib/content";
 import { useCompany, useDictionary } from "@/i18n/DictionaryProvider";
 import { FlowLayer } from "@/components/motion/FlowLayer";
-import { MagneticLink } from "@/components/motion/MagneticLink";
 import { Reveal, RevealItem } from "@/components/motion/Reveal";
 import { HeadingLines } from "./HeadingLines";
 import { BrandLogo } from "./BrandLogo";
+import { ActionLink } from "./ActionLink";
 
 /**
  * Resolved when the module is first evaluated — which, for these statically
@@ -24,37 +24,53 @@ export function Footer() {
   const COMPANY = useCompany();
 
   return (
-    <footer id="contact" className="relative isolate scroll-mt-24 border-t border-white/[0.07]">
+    <footer
+      id="contact"
+      className="relative isolate scroll-mt-24 border-t border-white/[0.06]"
+    >
       <FlowLayer segment={6} />
       {/* Closing call to action */}
-      <div className="section-y mx-auto w-full max-w-6xl px-6 pt-24 sm:px-8 lg:pt-32">
+      {/*
+        The closing call to action gets more air above it than a mid-page
+        section does — it is the end of the scroll, and the pause before it is
+        doing work. The steps stay ahead of `section-y` at every breakpoint;
+        left at the old values the override would now *shrink* the gap the
+        wider rhythm just opened.
+      */}
+      <div className="section-y mx-auto w-full max-w-6xl px-6 pt-24 sm:px-8 md:pt-32 lg:pt-40">
         <Reveal className="flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <RevealItem className="mb-6 flex items-center gap-3">
-              <span aria-hidden className="h-1 w-1 rounded-full bg-volt" />
+              <span aria-hidden className="h-1 w-1 rounded-full bg-accent" />
               <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
                 {footer.eyebrow}
               </span>
             </RevealItem>
             <RevealItem>
-              <h2 className="max-w-2xl text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[0.95] tracking-tighter text-white">
+              <h2 className="max-w-2xl text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[1.1] tracking-tight text-white">
                 <HeadingLines lines={footer.headingLines} />
               </h2>
             </RevealItem>
           </div>
           <RevealItem>
-            <MagneticLink href={telHref(COMPANY.phones[0])}>
+            <ActionLink href={telHref(COMPANY.phones[0])}>
               {footer.cta}
-            </MagneticLink>
+            </ActionLink>
           </RevealItem>
         </Reveal>
 
         {/* Contact data */}
+        {/*
+          The contact block is a single raised well, not three cards: one border,
+          one shadow, and hairline gaps between the cells. Three separately
+          bordered boxes put six vertical rules across the footer where the
+          design wants two.
+        */}
         <Reveal
           stagger={0.06}
-          className="mt-24 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.04] sm:grid-cols-3"
+          className="lift mt-28 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/[0.05] bg-white/[0.04] sm:grid-cols-3"
         >
-          <RevealItem className="bg-[#050505] p-7">
+          <RevealItem className="bg-carbon p-7 sm:p-8">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
               {footer.telephone}
             </p>
@@ -71,7 +87,7 @@ export function Footer() {
                   key={phone}
                   href={telHref(phone)}
                   aria-label={a11y.callPhone.replace("{value}", phone)}
-                  className="w-fit text-[15px] tracking-tight text-white/70 transition-colors duration-200 ease-out-strong hover:text-white"
+                  className="w-fit text-[15px] tracking-tight text-ink transition-colors duration-200 ease-out-strong hover:text-white"
                 >
                   {phone}
                 </a>
@@ -79,7 +95,7 @@ export function Footer() {
             </address>
           </RevealItem>
 
-          <RevealItem className="bg-[#050505] p-7">
+          <RevealItem className="bg-carbon p-7 sm:p-8">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
               {footer.email}
             </p>
@@ -87,18 +103,18 @@ export function Footer() {
               <a
                 href={`mailto:${COMPANY.email}`}
                 aria-label={a11y.emailUs.replace("{value}", COMPANY.email)}
-                className="block w-fit break-all text-[15px] tracking-tight text-white/70 transition-colors duration-200 ease-out-strong hover:text-white"
+                className="block w-fit break-all text-[15px] tracking-tight text-ink transition-colors duration-200 ease-out-strong hover:text-white"
               >
                 {COMPANY.email}
               </a>
             </address>
           </RevealItem>
 
-          <RevealItem className="bg-[#050505] p-7">
+          <RevealItem className="bg-carbon p-7 sm:p-8">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
               {footer.office}
             </p>
-            <address className="mt-4 not-italic text-[15px] leading-relaxed tracking-tight text-white/70">
+            <address className="mt-4 not-italic text-[15px] leading-relaxed tracking-tight text-ink">
               {footer.address}
             </address>
           </RevealItem>
@@ -106,7 +122,7 @@ export function Footer() {
       </div>
 
       {/* Legal bar */}
-      <div className="border-t border-white/[0.07]">
+      <div className="border-t border-white/[0.06]">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <div className="flex items-center gap-3 text-white/50">
             <BrandLogo />
@@ -116,7 +132,7 @@ export function Footer() {
           </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
             <span className="inline-flex items-center gap-2">
-              <span aria-hidden className="h-1 w-1 rounded-full bg-alarm" />
+              <span aria-hidden className="h-1 w-1 rounded-full bg-accent" />
               {footer.licence}
             </span>
             {/* `<time>` so the year is a parseable date, not a loose number. */}

@@ -63,7 +63,16 @@ function Word({
       style={{ opacity }}
       className={cn(
         "inline-block motion-reduce:opacity-100!",
-        accent && "text-volt",
+        /*
+         * A marked word used to be tinted `volt`. Monochrome, the emphasis has
+         * to come from somewhere else, so it comes from luminance: the caller
+         * sets the statement at `text-white/80` and a marked word overrides to
+         * full white. That is a real step on a near-black ground — brighter
+         * than its neighbours by the same margin the blue was more saturated
+         * than them — and it survives the reveal, which is already animating
+         * opacity underneath it.
+         */
+        accent && "text-white",
       )}
     >
       {children}
@@ -74,6 +83,9 @@ function Word({
 /**
  * `*balanced*` and `*balanced*.` both mark the word — punctuation is allowed to
  * sit outside the closing marker, which is where a writer will naturally put it.
+ *
+ * A marked word is rendered at full white against a statement set one step
+ * below it, so this only reads as emphasis if the caller leaves that headroom.
  */
 const ACCENT = /^\*(.+?)\*([^\p{L}\p{N}]*)$/u;
 

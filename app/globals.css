@@ -27,14 +27,62 @@
 @source inline("{sm:,md:,lg:,}row-span-{1,2,3}");
 
 @theme {
-  /* Surfaces */
-  --color-void: #050505;
-  --color-carbon: #08080a;
-  --color-graphite: #101014;
+  /*
+   * Surfaces. A ramp, not two extremes: nothing on the site is #000000 and
+   * nothing is #FFFFFF. `void` is the page floor, `carbon` the panel that sits
+   * a step off it, `graphite` the raised well. Each step is small on purpose —
+   * the separation is meant to be felt as depth, not seen as a box.
+   *
+   * The ramp is zinc, and that is the whole difference between this page and a
+   * product launch. The previous values ran blue-violet — #060608 and #0a0a0d
+   * both put their highest value in the blue channel — and a cast that small is
+   * exactly the kind a reader cannot name but reads as *synthetic*, because no
+   * unlit room is tinted. Held at a neutral grey the same near-black stops
+   * looking like a screen and starts looking like a material.
+   */
+  --color-void: #09090b;
+  --color-carbon: #0e0e10;
+  --color-graphite: #151517;
 
-  /* Accents — used only at microscopic scale (1px borders, status dots, glows) */
+  /*
+   * Porcelain, not white. The primary call to action is the one large light
+   * mass on the page, and at #FFFFFF it clips against the dark ground hard
+   * enough to read as a system dialog. Pulled two points off the top it keeps
+   * the same weight without the glare.
+   */
+  --color-porcelain: #f4f4f5;
+
+  /*
+   * Paragraph ink — the body tier, one definition.
+   *
+   * Every section had reached for its own `text-white/65`, `/68`, `/70` for the
+   * same job, so the same role rendered three different greys down one page.
+   * A named token is the only thing that stops that drifting again. Pure white
+   * is reserved for headings, where the contrast is the point.
+   */
+  --color-ink: #a1a1aa;
+  /* One step down, for captions and secondary notes inside a card. */
+  --color-ink-dim: #8b8b93;
+
+  /*
+   * The site's accent — and it is a grey, on purpose.
+   *
+   * Every mark this token makes is tiny: a 1px eyebrow dot, a numeral suffix, a
+   * rail node. A saturated hue at that scale does not read as a brand, it reads
+   * as a status LED, and seven of them down one page is what makes a dark
+   * layout look like a dashboard. Neutral, the same marks still punctuate — the
+   * eyebrow dot is still the brightest thing on its line — without ever
+   * claiming to *mean* something.
+   */
+  --color-accent: #a1a1aa;
+
+  /*
+   * Accents with a real hue live on here for the admin panel only — `volt` for
+   * focus rings and primary buttons, `alarm` for validation errors — where the
+   * colour is carrying information rather than decorating a marketing page.
+   * The public site does not reference either.
+   */
   --color-volt: #1d7bff;
-  /* The same hue pushed back, so the flow layers read as depth and not a second colour. */
   --color-volt-deep: #0f4fd8;
   --color-alarm: #ff3b30;
 
@@ -119,13 +167,20 @@
     overflow-x: hidden;
   }
 
+  /*
+   * Selection and focus are the two places a stray hue survives a redesign,
+   * because neither is on screen while you are looking at the page. Both are
+   * held to the same monochrome as everything else — a selection band is a
+   * lifted surface, not a highlighter, and a white focus ring clears WCAG's
+   * 3:1 against every surface in the ramp with room to spare.
+   */
   ::selection {
-    background-color: color-mix(in oklab, var(--color-volt) 32%, transparent);
+    background-color: rgb(255 255 255 / 0.16);
     color: #ffffff;
   }
 
   :focus-visible {
-    outline: 1px solid var(--color-volt);
+    outline: 1px solid var(--color-porcelain);
     outline-offset: 3px;
   }
 
@@ -153,42 +208,40 @@
 
 @layer components {
   /*
-   * 1px gradient border drawn on a masked pseudo-layer.
-   * The gradient itself is set at runtime (cursor-tracked); only the mask is static.
+   * Architectural mesh — pure CSS, no image request.
+   *
+   * Two things changed here and they are the same change. The rules were drawn
+   * in `volt` at 22%, which put a blue lattice across the whole fold; and they
+   * were drawn *hard*, which turned a structural guide into a visible barrier
+   * the eye had to read past before it reached the headline.
+   *
+   * At 2.8% white the grid is below the threshold at which you can point to a
+   * line, and above the one at which the plane reads as empty. That is the
+   * whole brief for it: the reader should feel the page has been set out on a
+   * drawing, and should never once look at the drawing.
+   *
+   * The value here is the value on screen. The backdrop used to stack a 0.55
+   * opacity on top of it, so the number in this file was never the number
+   * anyone saw — and every attempt to tune it had to be done twice.
    */
-  .glow-border {
-    padding: 1px;
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    mask-composite: exclude;
-  }
-
-  /* Architectural blueprint mesh — pure CSS, no image request. */
   .blueprint-mesh {
     background-image:
-      linear-gradient(
-        to right,
-        color-mix(in oklab, var(--color-volt) 22%, transparent) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        to bottom,
-        color-mix(in oklab, var(--color-volt) 22%, transparent) 1px,
-        transparent 1px
-      );
-    background-size: 72px 72px;
+      linear-gradient(to right, rgb(255 255 255 / 0.028) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.028) 1px, transparent 1px);
+    background-size: 96px 96px;
   }
 
+  /*
+   * The second plane, half again as faint and on a coarser pitch than before.
+   * At 18px it was dense enough to shimmer against the display grid while it
+   * parallaxed; 32px moves well clear of that, and 1.2% keeps it as depth
+   * rather than as a second lattice competing with the first.
+   */
   .blueprint-mesh-fine {
     background-image:
-      linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
-    background-size: 18px 18px;
+      linear-gradient(to right, rgb(255 255 255 / 0.012) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.012) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
 
   /*
@@ -220,6 +273,67 @@
   }
 
   /*
+   * Elevation.
+   *
+   * The page had no shadow on it anywhere — every card was a 1px border and
+   * nothing else, which is what makes a dark layout read as flat panels drawn
+   * on a wall rather than objects resting above it. Three layers do the work:
+   *
+   *   1. an inset hairline along the top edge, which is the light the surface
+   *      catches — the single strongest cue that a plane is raised;
+   *   2. a tight contact shadow that anchors the box to the ground;
+   *   3. a wide, very soft ambient pool with a large negative spread, so it
+   *      never reaches far enough to be seen as a *shadow* — only as depth.
+   *
+   * The ambient layer is what has to stay soft. A shadow you can point at on a
+   * near-black ground is a shadow that has been drawn too dark.
+   */
+  .lift {
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.045),
+      0 1px 2px 0 rgb(0 0 0 / 0.55),
+      0 28px 64px -32px rgb(0 0 0 / 0.85);
+  }
+
+  /* The raised state: contact tightens, ambient spreads and deepens. */
+  .lift-hover:hover {
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.07),
+      0 2px 4px 0 rgb(0 0 0 / 0.6),
+      0 40px 80px -32px rgb(0 0 0 / 0.95);
+  }
+
+  /*
+   * The primary call to action's shadow.
+   *
+   * This used to throw a white halo — a 40px pool of `rgb(255 255 255 / 0.13)`
+   * spreading out from under the button. Light emitted by a UI element is the
+   * single loudest signal that a page is a product screen rather than a
+   * document, and it was the last one left on this design.
+   *
+   * What replaces it is what a physical object does: a tight contact shadow
+   * that anchors the button to the ground and a wide, soft ambient pool that
+   * only says it is raised. Same weight in the composition, none of the glow.
+   */
+  .bloom {
+    box-shadow:
+      0 1px 2px 0 rgb(0 0 0 / 0.5),
+      0 12px 32px -12px rgb(0 0 0 / 0.7);
+  }
+
+  /*
+   * Hover lifts the object rather than brightening it. The fill stays at
+   * porcelain — lifting a #f4f4f5 button to #ffffff would put pure white back
+   * on the page through the side door — so the shadow carries the whole of the
+   * feedback: contact tightens, ambient spreads.
+   */
+  .bloom:hover {
+    box-shadow:
+      0 2px 4px 0 rgb(0 0 0 / 0.55),
+      0 20px 48px -12px rgb(0 0 0 / 0.8);
+  }
+
+  /*
    * Vertical rhythm for a top-level section.
    *
    * One definition rather than `py-28 lg:py-40` repeated at six call sites:
@@ -231,12 +345,25 @@
    * keeping the headings off the fold.
    */
   .section-y {
-    padding-block: 5.25rem;
+    padding-block: 6rem;
+  }
+
+  /*
+   * The `md` step is 8rem rather than 7.5rem, and the difference is not a
+   * rounding preference: with the grid and the glows gone, whitespace is the
+   * only thing left carrying the page's sense of expense. A tablet-width column
+   * is already narrow enough that 7.5rem read as a gap between blocks rather
+   * than as a pause between arguments.
+   */
+  @media (min-width: 48rem) {
+    .section-y {
+      padding-block: 8rem;
+    }
   }
 
   @media (min-width: 64rem) {
     .section-y {
-      padding-block: 7.5rem;
+      padding-block: 10rem;
     }
   }
 
@@ -280,7 +407,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.035;
+    opacity: 0.028;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }

@@ -21,7 +21,7 @@ export function Logo({ className }: { className?: string }) {
         className="stroke-white/15"
       />
       <path d="M6.5 10.5h9.2a3 3 0 1 0-3-3" />
-      <path d="M6.5 14h12.4a3 3 0 1 1-3 3" className="stroke-volt" />
+      <path d="M6.5 14h12.4a3 3 0 1 1-3 3" className="stroke-white" />
       <path d="M6.5 17.5h7.8" />
     </svg>
   );

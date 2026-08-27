@@ -23,13 +23,6 @@ export const SPRING_SNAP: Transition = {
   bounce: 0.08,
 };
 
-/** Cursor-follow physics for magnetic elements. */
-export const SPRING_MAGNET = {
-  stiffness: 260,
-  damping: 26,
-  mass: 0.6,
-} as const;
-
 /** Parallax smoothing — heavier, so the backdrop lags the foreground. */
 export const SPRING_PARALLAX = {
   stiffness: 90,

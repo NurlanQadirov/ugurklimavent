@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import {
   motion,
   useMotionTemplate,
@@ -9,12 +9,10 @@ import {
   type Variants,
 } from "framer-motion";
 
-import { AirflowField } from "@/components/motion/AirflowField";
 import { FlowRun } from "@/components/motion/FlowRun";
-import { ImpellerDial } from "@/components/motion/ImpellerDial";
-import { MagneticLink } from "@/components/motion/MagneticLink";
 import { riseChild, staggerParent } from "@/components/motion/tokens";
 import { useDictionary } from "@/i18n/DictionaryProvider";
+import { ActionLink } from "./ActionLink";
 
 /**
  * Type reveal: each line rides up from behind its own clipped box.
@@ -33,6 +31,31 @@ const lineChild: Variants = {
 export function Hero() {
   const { hero } = useDictionary();
   const ref = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  /*
+   * `autoPlay` is on the element so the loop starts before hydration, which
+   * means a reader who has asked for reduced motion would still get a frame or
+   * two of movement if we only left it off. Pausing here stops it as soon as
+   * the component mounts, and `preload="metadata"` keeps the rest of the file
+   * off their connection. The check lives in an effect rather than a CSS
+   * `motion-reduce:` class because hiding the element would leave the fold
+   * black — pausing keeps the first frame as a still backdrop.
+   */
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => {
+      if (query.matches) video.pause();
+      else void video.play().catch(() => {});
+    };
+
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
 
   // Progress from "hero fills the viewport" to "hero has fully left the top".
   const { scrollYProgress } = useScroll({
@@ -73,30 +96,44 @@ export function Hero() {
         style={{ opacity }}
         className="absolute inset-0 motion-reduce:opacity-100!"
       >
-        <AirflowField className="absolute inset-0 opacity-80" />
+        {/*
+          The fold's video plate — the backdrop itself now that the generated
+          airflow field and rotor have been removed, so it carries the whole
+          plane on its own.
+
+          `muted` + `playsInline` are what make `autoPlay` actually run: every
+          current browser blocks an unmuted autoplay, and iOS Safari takes an
+          un-`playsInline` video fullscreen instead of playing it in place.
+          It carries no audio track and no controls, so it is decoration —
+          `aria-hidden` on the wrapper already keeps it out of the a11y tree.
+        */}
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className="absolute inset-0 h-full w-full object-cover opacity-45"
+        >
+          <source src="/hero.mp4" type="video/mp4" />
+        </video>
 
         {/*
-          The dial is pinned to the content shell rather than the viewport, so it lands
-          in the empty column beside the headline and stays whole on wide screens
-          instead of running off the edge. It is allowed to overhang the shell by a
-          quarter of its width — the section clips it, which reads as the fan being
-          bigger than the frame rather than shrunk to fit it.
-
-          Centred on the *content* box, not the section. A bare `top-1/2` halves the
-          full height, and the top half of that is the `pt-28` reserved for the navbar,
-          which left the dial sitting `(112px - 32px) / 2` = 40px high and crowding the
-          bar. Offsetting by that half-difference recentres it between the navbar and
-          the meta row, and holds at every size the dial is visible at, since both
-          paddings are constant from `sm` up.
-
-          The `svh` cap only bites on a short viewport, where a fixed 620px would run
-          from the navbar to the meta row with nothing between; on a normal desktop
-          height the pixel value is the smaller of the two and nothing changes.
+          Holds the headline's contrast over whatever frame is on screen. The
+          radial wash below shapes the left column; this is the flat floor under
+          it, so a bright cut in the footage cannot wash the type out.
         */}
-        <ImpellerDial className="absolute top-[calc(50%+2.5rem)] hidden h-[min(400px,65svh)] w-[min(400px,65svh)] -translate-y-1/2 opacity-60 lg:right-12 lg:block xl:right-16 xl:h-[min(500px,65svh)] xl:w-[min(500px,65svh)] 2xl:right-20 2xl:h-[min(620px,65svh)] 2xl:w-[min(620px,65svh)]" />
+        <div className="absolute inset-0 bg-void/60" />
 
-        {/* Pins the copy's contrast wherever the sweeps and the rotor happen to be. */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_95%_90%_at_16%_50%,rgba(5,5,5,0.9),rgba(5,5,5,0.5)_52%,transparent_78%)]" />
+        {/*
+          Shapes the left column, where the copy sits, darker than the rest.
+          Mixed in the page's own ground colour rather than a hand-written
+          `rgba(5, 5, 5, …)`: the wash has to dissolve into the section below it
+          without a seam, and it cannot do that against a value that was already
+          two points off the body background and is now three.
+        */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_95%_90%_at_16%_50%,rgba(9,9,11,0.92),rgba(9,9,11,0.55)_52%,transparent_78%)]" />
       </motion.div>
 
       {/*
@@ -131,7 +168,7 @@ export function Hero() {
             <motion.h1
               id="hero-heading"
               variants={staggerParent(0.09)}
-              className="max-w-5xl text-[clamp(2.5rem,min(8vw,10.5svh),7.5rem)] font-medium leading-none tracking-tighter text-white"
+              className="max-w-5xl text-[clamp(2.5rem,min(8vw,10.5svh),7.5rem)] font-medium leading-[1.1] tracking-tight text-white"
             >
               {hero.headingLines.map((line, i) => (
                 <Fragment key={i}>
@@ -146,7 +183,7 @@ export function Hero() {
                     line needs its own overflow box for the reveal.
                   */}
                   {i > 0 ? " " : null}
-                  <span className="block overflow-hidden pb-[0.06em]">
+                  <span className="block overflow-hidden pb-[0.02em]">
                     <motion.span variants={lineChild} className="block">
                       {line}
                     </motion.span>
@@ -157,13 +194,13 @@ export function Hero() {
 
             <motion.p
               variants={riseChild}
-              className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-white/70 sm:text-lg"
+              className="mt-7 max-w-xl text-pretty text-base leading-relaxed text-ink sm:text-lg"
             >
               {hero.lede}
             </motion.p>
 
-            <motion.div variants={riseChild} className="mt-8">
-              <MagneticLink href="#contact">{hero.cta}</MagneticLink>
+            <motion.div variants={riseChild} className="mt-10">
+              <ActionLink href="#contact">{hero.cta}</ActionLink>
             </motion.div>
           </motion.div>
         </div>
@@ -182,7 +219,7 @@ export function Hero() {
               className="relative hidden h-8 w-px overflow-hidden bg-white/10 sm:block"
             >
               <motion.span
-                className="absolute inset-x-0 top-0 h-3 bg-gradient-to-b from-transparent via-volt to-transparent"
+                className="absolute inset-x-0 top-0 h-3 bg-gradient-to-b from-transparent via-white/70 to-transparent"
                 animate={{
                   transform: ["translateY(-100%)", "translateY(320%)"],
                 }}

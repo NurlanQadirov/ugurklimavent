@@ -12,27 +12,29 @@ import { cn } from "@/lib/utils";
 import { SPRING_SNAP } from "./tokens";
 import { useFinePointer } from "./use-fine-pointer";
 
-const ACCENT_RGB = {
-  volt: "29, 123, 255",
-  alarm: "255, 59, 48",
-} as const;
-
 type GlassCardProps = Omit<HTMLMotionProps<"div">, "children"> & {
-  accent?: keyof typeof ACCENT_RGB;
   children?: ReactNode;
 };
 
 /**
- * Deep-glass surface with two cursor-tracked layers: an interior spotlight and
- * a 1px gradient border. Both are decorative mouse-tracking, so they live
- * behind a fine-pointer gate and never move anything the reader is parsing.
+ * Deep-glass surface with one cursor-tracked layer: a soft interior sheen that
+ * follows the pointer across the card. Decorative mouse-tracking, so it lives
+ * behind a fine-pointer gate and never moves anything the reader is parsing.
+ *
+ * **The card used to have an accent, and it does not any more.** Two of the
+ * three hover layers here were coloured — a `rgba(29, 123, 255, 0.10)`
+ * spotlight and a 1px gradient border at 85% of the same blue, both tracking
+ * the cursor — and a grid of seven boxes that light up blue under the mouse is
+ * the exact gesture that reads as a dashboard rather than as a capability
+ * statement. The `accent` prop that selected between blue and red went with
+ * them; nothing downstream needs to say what colour a card is when there is
+ * only one colour.
+ *
+ * What is left is the part that was always doing the work: a white sheen, at a
+ * third of the old strength, which is a surface catching light rather than a
+ * surface emitting it.
  */
-export function GlassCard({
-  accent = "volt",
-  className,
-  children,
-  ...rest
-}: GlassCardProps) {
+export function GlassCard({ className, children, ...rest }: GlassCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const fine = useFinePointer();
 
@@ -40,9 +42,7 @@ export function GlassCard({
   const px = useMotionValue(-500);
   const py = useMotionValue(-500);
 
-  const rgb = ACCENT_RGB[accent];
-  const spotlight = useMotionTemplate`radial-gradient(340px circle at ${px}px ${py}px, rgba(${rgb}, 0.10), transparent 68%)`;
-  const borderGlow = useMotionTemplate`radial-gradient(240px circle at ${px}px ${py}px, rgba(${rgb}, 0.85), transparent 62%)`;
+  const sheen = useMotionTemplate`radial-gradient(420px circle at ${px}px ${py}px, rgba(255, 255, 255, 0.035), transparent 70%)`;
 
   function trackPointer(event: PointerEvent<HTMLDivElement>) {
     const rect = ref.current?.getBoundingClientRect();
@@ -66,30 +66,47 @@ export function GlassCard({
       }
       className={cn(
         "relative isolate overflow-hidden rounded-2xl",
-        "border border-white/10 bg-white/[0.02] backdrop-blur-xl",
+        /*
+         * The border carries almost nothing. It used to be the only thing
+         * separating the card from the page, which is why it had to be heavy
+         * enough to see — and a grid of visible rectangles is what makes a dark
+         * layout read as a form rather than a surface. `lift` takes over that
+         * job with a contact shadow and an ambient pool, so the stroke can drop
+         * back to a hairline that is felt at the corners and nowhere else.
+         */
+        "lift lift-hover border border-white/[0.05] bg-white/[0.02] backdrop-blur-sm",
+        /*
+         * The hover tell, and the only one: the hairline resolves into an
+         * actual edge. `zinc-700` is roughly white at 27%, so against a 5%
+         * resting stroke it is a large step in relative terms and a small one
+         * in absolute — the card firms up rather than lighting up. Colour is
+         * transitioned alongside the shadow so the border and the lift arrive
+         * as one gesture instead of two.
+         */
+        "hover:border-zinc-700",
+        "transition-[border-color,box-shadow] duration-500 ease-out-strong",
         fine && "group",
         className,
       )}
       {...rest}
     >
-      {/* Interior spotlight */}
+      {/* Interior sheen */}
       <motion.div
         aria-hidden
-        style={{ background: spotlight }}
-        className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 ease-out-strong group-hover:opacity-100"
+        style={{ background: sheen }}
+        className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out-strong group-hover:opacity-100"
       />
 
-      {/* 1px glowing border, masked to the perimeter */}
-      <motion.div
-        aria-hidden
-        style={{ background: borderGlow }}
-        className="glow-border pointer-events-none absolute inset-0 -z-10 rounded-2xl opacity-0 transition-opacity duration-300 ease-out-strong group-hover:opacity-100"
-      />
+      {/*
+        Top edge highlight — the tell that reads as real glass.
 
-      {/* Top edge highlight — the tell that reads as real glass */}
+        Held at 10% rather than 25%. On a monochrome page this hairline is the
+        brightest pixel on the card, and at a quarter white it drew a visible
+        bright line across the top of every box in the bento.
+      */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-6 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
+        className="pointer-events-none absolute inset-x-8 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-white/[0.10] to-transparent"
       />
 
       {children}
