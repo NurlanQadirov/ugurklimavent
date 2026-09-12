@@ -114,6 +114,96 @@ with a `sandbox` CSP from `next.config.ts`.
 - An item saved without copy for a language is **hidden** from that language's
   pages rather than shown blank. The dashboard lists any such gaps.
 
+## Deploying to the VPS
+
+The box runs the app as a systemd unit behind Nginx, one Node process per site.
+Config for both lives in `deploy/` and is copied into place, so the deployed
+configuration is reviewable here rather than only on the server.
+
+### First install (once)
+
+```bash
+sudo -u deploy git clone https://github.com/NurlanQadirov/ugurklimavent.git /srv/apps/ugurklimavent
+cd /srv/apps/ugurklimavent
+npm ci
+cp .env.example .env      # fill in AUTH_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD
+npm run db:deploy         # creates the SQLite file and applies the schema
+npm run db:seed           # ONE TIME ONLY — see the warning below
+npm run build
+sudo cp deploy/ugurklimavent.service /etc/systemd/system/
+sudo systemctl daemon-reload && sudo systemctl enable --now ugurklimavent
+sudo cp deploy/nginx.conf /etc/nginx/sites-available/ugurklimavent
+sudo ln -sf /etc/nginx/sites-available/ugurklimavent /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+### Every redeploy after that
+
+```bash
+./scripts/deploy.sh
+```
+
+which is: backup → `git pull` → `npm ci` → `npm run db:deploy` → `npm run
+build` → `systemctl restart`. **No `db:seed`.**
+
+> ### ⚠️ `npm run db:seed` is a first-install command only
+>
+> Every seeded row is an upsert keyed on its slug, which makes the seed safe to
+> re-run against the rows *it* created — and that is exactly the problem on a
+> live site. Re-running it rewrites the services, sectors, phases, FAQs and the
+> company record back to `i18n/dictionaries/*.json`, so copy edited in the panel
+> silently reverts. Items **created** in the panel have no slug in the
+> dictionaries and are never touched, and an administrator that already exists
+> keeps the password they changed to. Migrations (`npm run db:deploy`) are the
+> safe path for every deploy after the first — they add schema, never rows.
+
+### What survives a redeploy
+
+Everything the panel writes lives in two gitignored places, so `git pull` and
+`npm run build` cannot reach it:
+
+- the SQLite file `DATABASE_URL` points at — content, settings, the admin account
+- `public/uploads/` — icons uploaded through the panel
+
+This holds only if you deploy with **`git pull`**. A fresh clone over the top,
+an unzipped copy or `rsync --delete` erases both. If you must rsync, exclude
+them:
+
+```bash
+rsync -av --delete --exclude 'prisma/*.db*' --exclude 'public/uploads' --exclude '.env' --exclude '.next' --exclude 'node_modules' ./ deploy@vps:/srv/apps/ugurklimavent/
+```
+
+### Backups
+
+`npm run backup` snapshots both into `../ugurklimavent-backups/` — deliberately
+outside the deploy directory, so wiping that directory loses nothing. The
+database is copied with SQLite's `VACUUM INTO` rather than `cp`, which is what
+makes a snapshot taken while the site is serving traffic consistent instead of
+possibly corrupt. Fourteen snapshots are kept (`BACKUP_KEEP` to change,
+`BACKUP_DIR` to relocate). `scripts/deploy.sh` runs it before touching
+anything; a nightly one is worth adding too:
+
+```cron
+0 3 * * * cd /srv/apps/ugurklimavent && /usr/bin/node scripts/backup.mjs >> /var/log/ugurklimavent-backup.log 2>&1
+```
+
+To restore: stop the unit, copy a snapshot over the database file, untar the
+matching `uploads-*.tar.gz` into `public/`, start the unit.
+
+### Notes
+
+- **Run exactly one Node process.** SQLite takes a single writer; a clustered
+  setup handing several processes the same file is the one thing to avoid.
+- `postinstall` runs `prisma generate` automatically.
+- `better-sqlite3` is native. If Node's major version on the box ever changes,
+  run `npm rebuild better-sqlite3`.
+- The `/uploads` headers in `deploy/nginx.conf` duplicate the ones in
+  `next.config.ts` on purpose — Nginx serves those files directly, so Next is
+  no longer in the request path to set them. Change one, change the other.
+- `.env` is gitignored and must be created on the server by hand. `AUTH_SECRET`
+  must be set or NextAuth refuses to start; keep `AUTH_TRUST_HOST=true` and
+  leave `AUTH_URL` unset so redirects follow the real host.
+
 ## Scripts
 
 | Script | Does |
@@ -121,9 +211,13 @@ with a `sandbox` CSP from `next.config.ts`.
 | `npm run dev` | Development server |
 | `npm run build` | Production build |
 | `npm run db:migrate` | Create/apply migrations |
-| `npm run db:seed` | Load content from the dictionaries (upserts; safe to re-run) |
+| `npm run db:seed` | Load content from the dictionaries — **first install only**, see the deploy section |
 | `npm run db:studio` | Browse the database |
 | `npm run db:reset` | Drop, re-migrate and re-seed |
+| `npm run db:deploy` | Apply pending migrations (production; never seeds) |
+| `npm run backup` | Snapshot the database and uploads into `../ugurklimavent-backups/` |
+| `npm run typecheck` | `tsc --noEmit` |
+| `./scripts/deploy.sh` | Full safe redeploy: backup → pull → install → migrate → build → restart |
 
 Re-running the seed refreshes the originally seeded rows and leaves anything
 added since alone. It never resets the password of an existing administrator.
