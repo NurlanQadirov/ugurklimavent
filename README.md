@@ -201,8 +201,15 @@ matching `uploads-*.tar.gz` into `public/`, start the unit.
   `next.config.ts` on purpose — Nginx serves those files directly, so Next is
   no longer in the request path to set them. Change one, change the other.
 - `.env` is gitignored and must be created on the server by hand. `AUTH_SECRET`
-  must be set or NextAuth refuses to start; keep `AUTH_TRUST_HOST=true` and
-  leave `AUTH_URL` unset so redirects follow the real host.
+  must be set or NextAuth refuses to start.
+- **Set `AUTH_URL` to the public origin** — scheme, host and port. Behind a
+  proxy, `AUTH_TRUST_HOST=true` is not enough on its own: the `/api/auth`
+  route handler builds its redirect URLs from the request Next hands it, which
+  is the loopback address the process is actually listening on, so sign-in and
+  sign-out would both redirect to `http://localhost:3001`. Sign-in survives it
+  by luck — `LoginForm` passes `redirect: false` and navigates itself, reading
+  only the error out of that URL — but sign-out follows it and lands nowhere.
+  `AUTH_URL` pins both. It has to change when the domain or scheme does.
 
 ## Scripts
 
