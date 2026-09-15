@@ -14,16 +14,6 @@ import { riseChild, staggerParent } from "@/components/motion/tokens";
 import { useDictionary } from "@/i18n/DictionaryProvider";
 
 /**
- * The fold's still plate. It stands in for the video on phones — where the
- * 2.4 MB file is the single heaviest thing on the page — and on any screen
- * whose reader has asked for reduced motion.
- *
- * Drop the file in `public/` under exactly this name. A different format means
- * changing this one line and nothing else.
- */
-const MOBILE_HERO_IMAGE = "/mobile-hero-bg.webp";
-
-/**
  * Type reveal: each line rides up from behind its own clipped box.
  * The percentage translate is relative to the line's own height, so it stays
  * correct at every breakpoint without a magic pixel value.
@@ -118,26 +108,19 @@ export function Hero() {
         className="absolute inset-0 motion-reduce:opacity-100!"
       >
         {/*
-          The still plate: phones, and reduced motion at any width. `alt=""`
-          rather than a description — it is decoration, and the wrapper is
-          already `aria-hidden`. `opacity-45` matches the video exactly, so the
-          washes below sit on the same tone whichever plate is showing.
+          The still plate: phones, and reduced motion at any width. The
+          filename is written out here because Tailwind has to see the URL
+          literally in the source; it cannot come from a constant.
+
+          A CSS background rather than an `<img>`, and that is the point. An
+          `<img>` is fetched whatever the CSS says, so with `md:hidden` a
+          desktop visitor still downloaded the 200 KB still *on top of* the
+          2.4 MB video. A background image declared behind a media query is
+          only fetched when that query matches, which is what `md:bg-none`
+          buys. `opacity-45` matches the video exactly, so the washes below sit
+          on the same tone whichever plate is showing.
         */}
-        {/*
-          A plain `<img>`, not `next/image`. The optimizer's job is to pick a
-          size and a format for a photo whose display size it can infer; this
-          one is full-bleed decoration behind a dark wash, already served in the
-          format it was exported in, and `fill` would only add a server-side
-          transform to every cold request for no visible gain.
-        */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={MOBILE_HERO_IMAGE}
-          alt=""
-          decoding="async"
-          fetchPriority="high"
-          className="absolute inset-0 h-full w-full object-cover opacity-45 md:hidden motion-reduce:md:block"
-        />
+        <div className="absolute inset-0 bg-[url('/mobile-hero-bg.webp')] bg-cover bg-center opacity-45 md:bg-none motion-reduce:md:bg-[url('/mobile-hero-bg.webp')]" />
 
         {/*
           The video plate — the backdrop on desktop now that the generated
