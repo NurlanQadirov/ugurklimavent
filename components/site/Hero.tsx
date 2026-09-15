@@ -14,6 +14,16 @@ import { riseChild, staggerParent } from "@/components/motion/tokens";
 import { useDictionary } from "@/i18n/DictionaryProvider";
 
 /**
+ * The fold's still plate. It stands in for the video on phones — where the
+ * 2.4 MB file is the single heaviest thing on the page — and on any screen
+ * whose reader has asked for reduced motion.
+ *
+ * Drop the file in `public/` under exactly this name. A different format means
+ * changing this one line and nothing else.
+ */
+const MOBILE_HERO_IMAGE = "/mobile-hero-bg.webp";
+
+/**
  * Type reveal: each line rides up from behind its own clipped box.
  * The percentage translate is relative to the line's own height, so it stays
  * correct at every breakpoint without a magic pixel value.
@@ -33,27 +43,39 @@ export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   /*
-   * `autoPlay` is on the element so the loop starts before hydration, which
-   * means a reader who has asked for reduced motion would still get a frame or
-   * two of movement if we only left it off. Pausing here stops it as soon as
-   * the component mounts, and `preload="metadata"` keeps the rest of the file
-   * off their connection. The check lives in an effect rather than a CSS
-   * `motion-reduce:` class because hiding the element would leave the fold
-   * black — pausing keeps the first frame as a still backdrop.
+   * Whether the video file is fetched at all is decided here, not by the
+   * browser. Two things had to change together for that:
+   *
+   * `autoPlay` is gone and `preload` is `none`, because a `<video>` that is
+   * only hidden with CSS still honours `preload` — and `autoPlay` overrides it
+   * outright, which is how the full 2.4 MB was landing on phones even with
+   * `preload="metadata"` set. Nothing is requested now until `play()` is
+   * called, and `play()` is called only on the screens that show the video.
+   *
+   * So a phone downloads the still image and never touches the video, and a
+   * reader who has asked for reduced motion gets the same still at any width
+   * rather than a paused first frame. The classes on the two plates below
+   * mirror this exactly; the pair has to stay in step.
    */
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const wide = window.matchMedia("(min-width: 768px)");
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)");
+
     const sync = () => {
-      if (query.matches) video.pause();
-      else void video.play().catch(() => {});
+      if (wide.matches && !still.matches) void video.play().catch(() => {});
+      else video.pause();
     };
 
     sync();
-    query.addEventListener("change", sync);
-    return () => query.removeEventListener("change", sync);
+    wide.addEventListener("change", sync);
+    still.addEventListener("change", sync);
+    return () => {
+      wide.removeEventListener("change", sync);
+      still.removeEventListener("change", sync);
+    };
   }, []);
 
   // Progress from "hero fills the viewport" to "hero has fully left the top".
@@ -96,24 +118,46 @@ export function Hero() {
         className="absolute inset-0 motion-reduce:opacity-100!"
       >
         {/*
-          The fold's video plate — the backdrop itself now that the generated
+          The still plate: phones, and reduced motion at any width. `alt=""`
+          rather than a description — it is decoration, and the wrapper is
+          already `aria-hidden`. `opacity-45` matches the video exactly, so the
+          washes below sit on the same tone whichever plate is showing.
+        */}
+        {/*
+          A plain `<img>`, not `next/image`. The optimizer's job is to pick a
+          size and a format for a photo whose display size it can infer; this
+          one is full-bleed decoration behind a dark wash, already served in the
+          format it was exported in, and `fill` would only add a server-side
+          transform to every cold request for no visible gain.
+        */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={MOBILE_HERO_IMAGE}
+          alt=""
+          decoding="async"
+          fetchPriority="high"
+          className="absolute inset-0 h-full w-full object-cover opacity-45 md:hidden motion-reduce:md:block"
+        />
+
+        {/*
+          The video plate — the backdrop on desktop now that the generated
           airflow field and rotor have been removed, so it carries the whole
           plane on its own.
 
-          `muted` + `playsInline` are what make `autoPlay` actually run: every
-          current browser blocks an unmuted autoplay, and iOS Safari takes an
-          un-`playsInline` video fullscreen instead of playing it in place.
-          It carries no audio track and no controls, so it is decoration —
-          `aria-hidden` on the wrapper already keeps it out of the a11y tree.
+          `muted` + `playsInline` are what make `play()` succeed: every current
+          browser blocks unmuted playback started without a click, and iOS
+          Safari takes an un-`playsInline` video fullscreen instead of playing
+          it in place. It carries no audio track and no controls, so it is
+          decoration — `aria-hidden` on the wrapper keeps it out of the a11y
+          tree. See the effect above for why `autoPlay` is absent.
         */}
         <video
           ref={videoRef}
-          autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
-          className="absolute inset-0 h-full w-full object-cover opacity-45"
+          preload="none"
+          className="absolute inset-0 hidden h-full w-full object-cover opacity-45 md:block motion-reduce:md:hidden"
         >
           <source src="/hero.mp4" type="video/mp4" />
         </video>
