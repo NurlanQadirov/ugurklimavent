@@ -126,25 +126,24 @@ export function Faq() {
                   </span>
 
                   {/*
-                    Plus that becomes a minus: the vertical stroke rotates a
-                    quarter turn onto the horizontal one. One rotating element
-                    instead of two swapped icons, so there is nothing to
-                    cross-fade and nothing to mis-measure.
+                    A chevron that turns over when the row opens. One rotating
+                    element, so there is nothing to cross-fade and nothing to
+                    mis-measure; `rotate(180deg)` rather than `-180` keeps the
+                    open and close arcs going opposite ways round.
                   */}
-                  <span
+                  <svg
                     aria-hidden
-                    className="relative mt-2 h-3.5 w-3.5 shrink-0 text-white/45 transition-colors duration-300 ease-out-strong group-hover:text-white"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={expanded ? { transform: "rotate(180deg)" } : undefined}
+                    className="mt-2 h-3.5 w-3.5 shrink-0 text-white/45 transition-[transform,color] duration-300 ease-out-strong group-hover:text-white"
                   >
-                    <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-current" />
-                    <span
-                      className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-current transition-transform duration-300 ease-out-strong"
-                      style={
-                        expanded
-                          ? { transform: "translateX(-50%) rotate(90deg)" }
-                          : undefined
-                      }
-                    />
-                  </span>
+                    <path d="M3.5 6 8 10.5 12.5 6" />
+                  </svg>
                 </button>
               </h3>
 

@@ -212,7 +212,17 @@ export function MobileMenu() {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  className="gutter fixed inset-0 z-[55] flex flex-col overflow-y-auto bg-carbon/95 pb-10 pt-24 backdrop-blur-2xl sm:pt-28 lg:hidden"
+                  /*
+                    Opaque, with no `backdrop-blur`. The sheet covers the whole
+                    viewport, so there is nothing behind it worth showing — and
+                    a full-screen backdrop filter is one of the most expensive
+                    things a phone browser can be asked to keep live, with a
+                    long page and a blurred bar already stacked underneath it.
+                    iOS Safari in particular can stall for seconds on the first
+                    tap after one is raised, which is what a reader experiences
+                    as the menu freezing on the way to another page.
+                  */
+                  className="gutter fixed inset-0 z-[55] flex flex-col overflow-y-auto bg-carbon pb-10 pt-24 sm:pt-28 lg:hidden"
                 >
                   {/*
               A second, full-size close target sitting exactly under the trigger.

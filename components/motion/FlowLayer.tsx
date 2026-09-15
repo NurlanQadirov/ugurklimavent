@@ -13,12 +13,17 @@ import { FlowRun } from "./FlowRun";
  *
  * The section it sits in must carry `isolate`, so the negative z-index resolves against
  * that section rather than escaping behind the page backdrop.
+ *
+ * Hidden below `md`. The run is a scroll-linked SVG per section — seven of them
+ * on the home page, each with its own mask and `useScroll` subscription — and on
+ * a phone it is both the least visible thing on the page and the most expensive.
+ * `hidden` keeps it out of layout and paint entirely rather than just fading it.
  */
 export function FlowLayer({ segment }: { segment: number }) {
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2"
+      className="pointer-events-none absolute inset-y-0 left-1/2 -z-10 hidden w-screen -translate-x-1/2 md:block"
     >
       <FlowRun segment={segment} className="absolute inset-0" />
     </div>

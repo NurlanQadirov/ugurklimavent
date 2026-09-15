@@ -170,7 +170,7 @@ export function Hero() {
       */}
       <FlowRun
         segment={-1}
-        className="absolute inset-x-0 bottom-0 h-[46%] opacity-70"
+        className="absolute inset-x-0 bottom-0 hidden h-[46%] opacity-70 md:block"
       />
 
       {/* Everything in the fold recedes together, meta row included. */}
