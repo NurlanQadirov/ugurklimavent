@@ -12,7 +12,6 @@ import {
 import { FlowRun } from "@/components/motion/FlowRun";
 import { riseChild, staggerParent } from "@/components/motion/tokens";
 import { useDictionary } from "@/i18n/DictionaryProvider";
-import { ActionLink } from "./ActionLink";
 
 /**
  * Type reveal: each line rides up from behind its own clipped box.
@@ -200,41 +199,41 @@ export function Hero() {
             </motion.p>
 
             <motion.div variants={riseChild} className="mt-10">
-              <ActionLink href="#contact">{hero.cta}</ActionLink>
+              {/*
+                Written out here, not shared with the navbar and footer. The
+                shared version scaled the anchor with a Motion hover transform,
+                and inside this fold — itself a transformed, scroll-faded layer —
+                that transform made the button drop out of view under the
+                pointer. Hover changes the shadow only, which never promotes the
+                anchor to a layer of its own.
+              */}
+              <a href="#contact" className="bloom group inline-flex items-center justify-center gap-3 rounded-full bg-porcelain px-7 py-3.5 text-sm font-medium tracking-tight text-void transition-shadow duration-300 ease-out">
+                {hero.cta}
+                {/* Decoration — the label beside it already names the destination. */}
+                <svg
+                  aria-hidden
+                  viewBox="0 0 16 16"
+                  className="h-3.5 w-3.5 shrink-0 transition-transform duration-300 ease-out-strong motion-safe:group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
+                </svg>
+              </a>
             </motion.div>
           </motion.div>
         </div>
 
-        {/* Technical meta — drawing-sheet corners */}
+        {/* Technical meta — the drawing sheet's corner stamp */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1.1, ease: [0.23, 1, 0.32, 1] }}
-          className="pointer-events-none flex w-full shrink-0 items-end justify-between pt-10"
+          className="pointer-events-none flex w-full shrink-0 items-end justify-end pt-10"
         >
-          <div className="flex items-center gap-3">
-            {/* Scroll cue: a lit segment falling down a dim track, on a loop. */}
-            <span
-              aria-hidden
-              className="relative hidden h-8 w-px overflow-hidden bg-white/10 sm:block"
-            >
-              <motion.span
-                className="absolute inset-x-0 top-0 h-3 bg-gradient-to-b from-transparent via-white/70 to-transparent"
-                animate={{
-                  transform: ["translateY(-100%)", "translateY(320%)"],
-                }}
-                transition={{
-                  duration: 2.1,
-                  ease: [0.65, 0, 0.35, 1],
-                  repeat: Infinity,
-                  repeatDelay: 0.5,
-                }}
-              />
-            </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
-              {hero.scroll}
-            </span>
-          </div>
           <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
             {hero.coordinates}
           </span>

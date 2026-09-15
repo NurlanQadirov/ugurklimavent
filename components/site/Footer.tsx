@@ -6,7 +6,6 @@ import { FlowLayer } from "@/components/motion/FlowLayer";
 import { Reveal, RevealItem } from "@/components/motion/Reveal";
 import { HeadingLines } from "./HeadingLines";
 import { BrandLogo } from "./BrandLogo";
-import { ActionLink } from "./ActionLink";
 
 /**
  * Resolved when the module is first evaluated — which, for these statically
@@ -53,9 +52,23 @@ export function Footer() {
             </RevealItem>
           </div>
           <RevealItem>
-            <ActionLink href={telHref(COMPANY.phones[0])}>
+            {/* Hover is shadow only — see the note on the hero's button. */}
+            <a href={telHref(COMPANY.phones[0])} className="bloom group inline-flex items-center justify-center gap-3 rounded-full bg-porcelain px-7 py-3.5 text-sm font-medium tracking-tight text-void transition-shadow duration-300 ease-out">
               {footer.cta}
-            </ActionLink>
+              {/* Decoration — the label beside it already names the destination. */}
+              <svg
+                aria-hidden
+                viewBox="0 0 16 16"
+                className="h-3.5 w-3.5 shrink-0 transition-transform duration-300 ease-out-strong motion-safe:group-hover:translate-x-1"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
+              </svg>
+            </a>
           </RevealItem>
         </Reveal>
 

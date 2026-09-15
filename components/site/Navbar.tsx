@@ -19,7 +19,6 @@ import {
   riseChildTight,
   staggerParent,
 } from "@/components/motion/tokens";
-import { ActionLink } from "./ActionLink";
 import { BrandLogo } from "./BrandLogo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileMenu } from "./MobileMenu";
@@ -137,13 +136,34 @@ export function Navbar() {
           {/*
             A plain anchor rather than `Link`: `#contact` is the footer, which
             the layout renders on every route, so this never leaves the
-            document. It is the same `ActionLink` the hero and footer use, in
-            the quieter of its two weights — the bar must not out-weigh the
-            solid button further down the page.
+            document. A hairline and a breath of fill — it sits beside the nav
+            links and must not out-weigh the solid button in the hero.
+
+            No hover transform and no `backdrop-blur` of its own, on purpose.
+            The bar behind it already blurs and is scaled by Motion on scroll;
+            a second backdrop filter nested inside that, pushed onto its own
+            layer by a hover transform, is what made this button vanish under
+            the pointer. Hover is border, fill and colour only.
           */}
-          <ActionLink href="#contact" variant="ghost">
+          <a
+            href="#contact"
+            className="group inline-flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 text-[13px] font-medium tracking-tight text-white/80 transition-[background-color,border-color,color] duration-300 ease-out hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
+          >
             {dict.nav.cta}
-          </ActionLink>
+            {/* Decoration — the label beside it already names the destination. */}
+            <svg
+              aria-hidden
+              viewBox="0 0 16 16"
+              className="h-3.5 w-3.5 shrink-0 transition-transform duration-300 ease-out-strong motion-safe:group-hover:translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" />
+            </svg>
+          </a>
         </div>
 
         <MobileMenu />
