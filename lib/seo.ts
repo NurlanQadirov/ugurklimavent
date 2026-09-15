@@ -7,12 +7,14 @@ import { LOCALES, LOCALE_TAGS, type Locale } from "@/i18n/config";
  * hreflang alternates, the sitemap, every `@id` in the JSON-LD graph — is built
  * from this constant, so the production domain is changed in exactly one place.
  *
- * TODO(client): set `NEXT_PUBLIC_SITE_URL` in the deployment environment. The
- * fallback below is a placeholder — an unset origin silently ships canonicals
- * pointing at the wrong host, which is worse than no canonical at all.
+ * The fallback is the live domain. `NEXT_PUBLIC_SITE_URL` overrides it (a
+ * staging host, say), and because it is `NEXT_PUBLIC_` it is inlined at build
+ * time — changing it means rebuilding, not just restarting. A wrong origin
+ * silently ships canonicals pointing at the wrong host, which is worse than no
+ * canonical at all.
  */
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://ugurklimavent.az"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://klimavent.az"
 ).replace(/\/$/, "");
 
 /**
