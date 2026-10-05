@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
-import { setLenis } from "./lenis-instance";
+import { getLenis, setLenis } from "./lenis-instance";
 
 /** Clears the fixed navbar when an in-page anchor is followed. */
 const ANCHOR_OFFSET = -96;
@@ -18,6 +19,22 @@ const ANCHOR_OFFSET = -96;
  * Mounted as a leaf so the tree above it stays a server component.
  */
 export function SmoothScroll() {
+  const pathname = usePathname();
+
+  /**
+   * Drops any glide still in flight when the route changes.
+   *
+   * While Lenis is mid-glide it ignores native scroll events, so the router's
+   * scroll-to-top on navigation was overwritten a frame later: the new page
+   * appeared at the top and was then dragged back down to wherever the old
+   * page's inertia was heading, which reads as the site freezing. The router
+   * scrolls in a layout effect, before this passive one runs, so `scrollY`
+   * here is already the new page's position — this only re-anchors Lenis to it.
+   */
+  useEffect(() => {
+    getLenis()?.scrollTo(window.scrollY, { immediate: true, force: true });
+  }, [pathname]);
+
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
 

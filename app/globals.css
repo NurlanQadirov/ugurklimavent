@@ -60,9 +60,9 @@
    * A named token is the only thing that stops that drifting again. Pure white
    * is reserved for headings, where the contrast is the point.
    */
-  --color-ink: #a1a1aa;
+  --color-ink: #b4b4bc;
   /* One step down, for captions and secondary notes inside a card. */
-  --color-ink-dim: #8b8b93;
+  --color-ink-dim: #a1a1aa;
 
   /*
    * The site's accent — and it is a grey, on purpose.

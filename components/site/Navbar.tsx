@@ -25,7 +25,7 @@ import { MobileMenu } from "./MobileMenu";
 import { NAV_LINKS } from "./nav-links";
 
 const linkClassName =
-  "rounded-full px-4 py-2 text-[13px] text-white/50 transition-colors duration-200 ease-out-strong hover:text-white";
+  "rounded-full px-4 py-2 text-[13px] text-white/65 transition-colors duration-200 ease-out-strong hover:text-white";
 
 /**
  * The bar "shrinks" via `scale` rather than height or padding: scale is
@@ -98,7 +98,7 @@ export function Navbar() {
             <span className="text-[13px] font-medium tracking-tight text-white">
               Uğur Klima Vent
             </span>
-            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-white/35">
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-white/55">
               MMC
             </span>
           </span>

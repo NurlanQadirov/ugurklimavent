@@ -267,7 +267,7 @@ export function MobileMenu() {
                             >
                               <span
                                 aria-hidden
-                                className="font-mono text-[10px] tracking-[0.2em] text-white/25"
+                                className="font-mono text-[10px] tracking-[0.2em] text-white/50"
                               >
                                 {String(i + 1).padStart(2, "0")}
                               </span>
@@ -281,7 +281,7 @@ export function MobileMenu() {
                             >
                               <span
                                 aria-hidden
-                                className="font-mono text-[10px] tracking-[0.2em] text-white/25"
+                                className="font-mono text-[10px] tracking-[0.2em] text-white/50"
                               >
                                 {String(i + 1).padStart(2, "0")}
                               </span>
@@ -332,7 +332,7 @@ export function MobileMenu() {
                       <LocaleSwitcher />
                       <a
                         href={telHref(COMPANY.phones[0])}
-                        className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/35 transition-colors duration-200 ease-out-strong hover:text-white"
+                        className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/70 transition-colors duration-200 ease-out-strong hover:text-white"
                       >
                         {COMPANY.phones[0]}
                       </a>

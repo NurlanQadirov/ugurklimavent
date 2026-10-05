@@ -60,7 +60,7 @@ export function Stats() {
 
             <p className="flex items-baseline text-[clamp(2.5rem,6vw,4rem)] font-medium leading-none tracking-tighter text-white">
               {stat.prefix ? (
-                <span className="text-white/40">{stat.prefix}</span>
+                <span className="text-white/60">{stat.prefix}</span>
               ) : null}
               {isCountable(stat.suffix) ? (
                 <Counter value={stat.value} className="tabular-nums" />
@@ -68,11 +68,11 @@ export function Stats() {
                 <span className="tabular-nums">{stat.value}</span>
               )}
               {stat.suffix ? (
-                <span className="text-white/35">{stat.suffix}</span>
+                <span className="text-white/55">{stat.suffix}</span>
               ) : null}
             </p>
 
-            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
+            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
               {stat.label}
             </p>
             <p className="mt-2.5 max-w-[26ch] text-pretty text-[13px] leading-relaxed text-ink-dim">

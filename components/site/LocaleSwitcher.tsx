@@ -49,7 +49,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
       {LOCALES.map((locale, i) => (
         <Fragment key={locale}>
           {i > 0 ? (
-            <span aria-hidden className="px-1 text-white/15 select-none">
+            <span aria-hidden className="px-1 text-white/30 select-none">
               /
             </span>
           ) : null}
@@ -66,7 +66,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
             <a
               href={hrefFor(locale)}
               hrefLang={LOCALE_TAGS[locale]}
-              className="text-[13px] text-white/55 transition-colors duration-200 ease-out-strong hover:text-white"
+              className="text-[13px] text-white/70 transition-colors duration-200 ease-out-strong hover:text-white"
             >
               {LOCALE_LABELS[locale]}
             </a>

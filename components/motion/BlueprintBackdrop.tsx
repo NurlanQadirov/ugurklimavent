@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import {
   motion,
   useMotionTemplate,
@@ -18,12 +20,24 @@ import { SPRING_PARALLAX } from "./tokens";
  * speed of the page: 0 is pinned, 1 tracks the content exactly.
  */
 function useParallax(speed: number) {
+  const pathname = usePathname();
   const { scrollY } = useScroll();
   // A function transform rather than an input/output range: the page has no
   // fixed height, and a range would pin the layer the moment scrolling passed
   // whatever constant we guessed.
   const raw = useTransform(scrollY, (latest) => -latest * speed);
   const smoothed = useSpring(raw, SPRING_PARALLAX);
+
+  /**
+   * A route change moves the page from wherever it was to the top in a single
+   * frame, and the spring would then glide the layer across that whole
+   * distance — thousands of pixels from the bottom of a long page, so the grid
+   * visibly flew in from above after every navigation. Snap it instead: the
+   * spring is there to soften scrolling, not to animate a page swap.
+   */
+  useEffect(() => {
+    smoothed.jump(-window.scrollY * speed);
+  }, [pathname, smoothed, speed]);
   return useMotionTemplate`translate3d(0px, ${smoothed}px, 0)`;
 }
 
@@ -73,8 +87,15 @@ export function BlueprintBackdrop() {
         style={{ transform: bloomTransform }}
         className="absolute -inset-y-[30vh] inset-x-0 motion-reduce:transform-none!"
       >
-        <div className="absolute left-1/2 top-[-18vh] h-[70vh] w-[85vw] -translate-x-1/2 rounded-full bg-white/[0.016] blur-[160px]" />
-        <div className="absolute right-[-10vw] top-[45vh] h-[40vh] w-[40vw] rounded-full bg-white/[0.01] blur-[140px]" />
+        {/*
+          Painted as radial gradients, not as blurred discs. A `blur()` this
+          wide is re-rasterised by WebKit whenever the page under it changes,
+          and on Safari and every iOS browser that cost about a second of frozen
+          screen on every route change. Each box is grown by the old blur radius
+          on all sides so the falloff reaches as far as the blur's did.
+        */}
+        <div className="absolute left-1/2 top-[calc(-18vh-160px)] h-[calc(70vh+320px)] w-[calc(85vw+320px)] -translate-x-1/2 bg-[radial-gradient(closest-side,rgb(255_255_255/0.016)_35%,transparent)]" />
+        <div className="absolute right-[calc(-10vw-140px)] top-[calc(45vh-140px)] h-[calc(40vh+280px)] w-[calc(40vw+280px)] bg-[radial-gradient(closest-side,rgb(255_255_255/0.01)_25%,transparent)]" />
       </motion.div>
 
       {/* Horizon line — a single lit edge, the way a rendering has one */}

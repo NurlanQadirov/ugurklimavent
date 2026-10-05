@@ -64,7 +64,7 @@ export function Process() {
           <Reveal>
             <RevealItem className="mb-6 flex items-center gap-3">
               <span aria-hidden className="h-1 w-1 rounded-full bg-accent" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
+              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/70">
                 {dict.process.eyebrow}
               </span>
             </RevealItem>
@@ -91,7 +91,7 @@ export function Process() {
             readout is hidden rather than left to fire live-region-like updates.
           */}
           <div aria-hidden className="mt-12 hidden items-end gap-4 lg:flex">
-            <div className="flex items-baseline font-mono text-[11px] tracking-[0.2em] text-white/30">
+            <div className="flex items-baseline font-mono text-[11px] tracking-[0.2em] text-white/50">
               <span className="relative inline-flex h-[1.2em] w-[2.2ch] overflow-hidden text-white">
                 <AnimatePresence initial={false}>
                   <motion.span
@@ -176,13 +176,13 @@ export function Process() {
                 {/* Dimming lives on its own layer: the reveal above owns the
                     variant chain, and two animations must never share a prop. */}
                 <motion.div
-                  animate={{ opacity: i === active ? 1 : 0.42 }}
+                  animate={{ opacity: i === active ? 1 : 0.68 }}
                   transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
                 >
                   <div className="flex items-baseline gap-5">
                     <span
                       aria-hidden
-                      className="font-mono text-[10px] tracking-[0.2em] text-white/30"
+                      className="font-mono text-[10px] tracking-[0.2em] text-white/50"
                     >
                       {phase.index}
                     </span>

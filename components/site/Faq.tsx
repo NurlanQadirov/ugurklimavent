@@ -54,7 +54,7 @@ export function Faq() {
         <div>
           <RevealItem className="mb-6 flex items-center gap-3">
             <span aria-hidden className="h-1 w-1 rounded-full bg-accent" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
+            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/70">
               {dict.faq.eyebrow}
             </span>
           </RevealItem>
@@ -116,7 +116,7 @@ export function Faq() {
                 >
                   <span
                     aria-hidden
-                    className="mt-1.5 font-mono text-[10px] tracking-[0.2em] text-white/25 sm:w-10"
+                    className="mt-1.5 font-mono text-[10px] tracking-[0.2em] text-white/50 sm:w-10"
                   >
                     {faq.index}
                   </span>
@@ -140,7 +140,7 @@ export function Faq() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     style={expanded ? { transform: "rotate(180deg)" } : undefined}
-                    className="mt-2 h-3.5 w-3.5 shrink-0 text-white/45 transition-[transform,color] duration-300 ease-out-strong group-hover:text-white"
+                    className="mt-2 h-3.5 w-3.5 shrink-0 text-white/60 transition-[transform,color] duration-300 ease-out-strong group-hover:text-white"
                   >
                     <path d="M3.5 6 8 10.5 12.5 6" />
                   </svg>

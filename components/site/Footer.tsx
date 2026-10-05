@@ -41,7 +41,7 @@ export function Footer() {
           <div>
             <RevealItem className="mb-6 flex items-center gap-3">
               <span aria-hidden className="h-1 w-1 rounded-full bg-accent" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
+              <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/70">
                 {footer.eyebrow}
               </span>
             </RevealItem>
@@ -84,7 +84,7 @@ export function Footer() {
           className="lift mt-28 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/[0.05] bg-white/[0.04] sm:grid-cols-3"
         >
           <RevealItem className="bg-carbon p-7 sm:p-8">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
               {footer.telephone}
             </p>
             {/*
@@ -109,7 +109,7 @@ export function Footer() {
           </RevealItem>
 
           <RevealItem className="bg-carbon p-7 sm:p-8">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
               {footer.email}
             </p>
             <address className="mt-4 not-italic">
@@ -124,7 +124,7 @@ export function Footer() {
           </RevealItem>
 
           <RevealItem className="bg-carbon p-7 sm:p-8">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
               {footer.office}
             </p>
             <address className="mt-4 not-italic text-[15px] leading-relaxed tracking-tight text-ink">
@@ -137,13 +137,13 @@ export function Footer() {
       {/* Legal bar */}
       <div className="border-t border-white/[0.06]">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <div className="flex items-center gap-3 text-white/50">
+          <div className="flex items-center gap-3 text-white/65">
             <BrandLogo />
             <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
               {COMPANY.name}
             </span>
           </div>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
             <span className="inline-flex items-center gap-2">
               <span aria-hidden className="h-1 w-1 rounded-full bg-accent" />
               {footer.licence}
@@ -156,13 +156,13 @@ export function Footer() {
         </div>
 
         <div className="mx-auto w-full max-w-6xl px-6 pb-6 text-right sm:px-8">
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
             {footer.credit}{" "}
             <a
               href="https://nurlanqadirov.az"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/45 transition-colors duration-200 ease-out-strong hover:text-white"
+              className="text-white/65 transition-colors duration-200 ease-out-strong hover:text-white"
             >
               Nurlan Qadirov
             </a>

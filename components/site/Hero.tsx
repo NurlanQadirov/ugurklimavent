@@ -117,10 +117,10 @@ export function Hero() {
           desktop visitor still downloaded the 200 KB still *on top of* the
           2.4 MB video. A background image declared behind a media query is
           only fetched when that query matches, which is what `md:bg-none`
-          buys. `opacity-45` matches the video exactly, so the washes below sit
+          buys. `opacity-70` matches the video exactly, so the washes below sit
           on the same tone whichever plate is showing.
         */}
-        <div className="absolute inset-0 bg-[url('/mobile-hero-bg.webp')] bg-cover bg-center opacity-45 md:bg-none motion-reduce:md:bg-[url('/mobile-hero-bg.webp')]" />
+        <div className="absolute inset-0 bg-[url('/mobile-hero-bg.webp')] bg-cover bg-center opacity-70 md:bg-none motion-reduce:md:bg-[url('/mobile-hero-bg.webp')]" />
 
         {/*
           The video plate — the backdrop on desktop now that the generated
@@ -140,7 +140,7 @@ export function Hero() {
           loop
           playsInline
           preload="none"
-          className="absolute inset-0 hidden h-full w-full object-cover opacity-45 md:block motion-reduce:md:hidden"
+          className="absolute inset-0 hidden h-full w-full object-cover opacity-70 md:block motion-reduce:md:hidden"
         >
           <source src="/hero.mp4" type="video/mp4" />
         </video>
@@ -150,7 +150,7 @@ export function Hero() {
           radial wash below shapes the left column; this is the flat floor under
           it, so a bright cut in the footage cannot wash the type out.
         */}
-        <div className="absolute inset-0 bg-void/60" />
+        <div className="absolute inset-0 bg-void/35" />
 
         {/*
           Shapes the left column, where the copy sits, darker than the rest.
@@ -159,7 +159,7 @@ export function Hero() {
           without a seam, and it cannot do that against a value that was already
           two points off the body background and is now three.
         */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_95%_90%_at_16%_50%,rgba(9,9,11,0.92),rgba(9,9,11,0.55)_52%,transparent_78%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_95%_90%_at_16%_50%,rgba(9,9,11,0.88),rgba(9,9,11,0.4)_50%,transparent_78%)]" />
       </motion.div>
 
       {/*
@@ -261,7 +261,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 1.1, ease: [0.23, 1, 0.32, 1] }}
           className="pointer-events-none flex w-full shrink-0 items-end justify-end pt-10"
         >
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
             {hero.coordinates}
           </span>
         </motion.div>

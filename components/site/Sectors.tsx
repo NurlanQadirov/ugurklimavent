@@ -26,7 +26,7 @@ export function Sectors() {
         <div>
           <RevealItem className="mb-6 flex items-center gap-3">
             <span aria-hidden className="h-1 w-1 rounded-full bg-accent" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
+            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/70">
               {dict.sectors.eyebrow}
             </span>
           </RevealItem>
@@ -70,7 +70,7 @@ export function Sectors() {
               {/* The row number is the list position, already announced. */}
               <span
                 aria-hidden
-                className="font-mono text-[10px] tracking-[0.2em] text-white/25 sm:w-10"
+                className="font-mono text-[10px] tracking-[0.2em] text-white/50 sm:w-10"
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
