@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { Expertise } from "@/components/site/Expertise";
 import { Faq } from "@/components/site/Faq";
+import { HVACLoadCalculator } from "@/components/site/HVACLoadCalculator";
 import { Hero } from "@/components/site/Hero";
 import { JsonLd } from "@/components/site/JsonLd";
 import { Manifesto } from "@/components/site/Manifesto";
@@ -45,6 +46,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       <Manifesto />
       <Expertise />
       <Stats />
+      <HVACLoadCalculator />
       <Process />
       <Sectors />
       <Faq />

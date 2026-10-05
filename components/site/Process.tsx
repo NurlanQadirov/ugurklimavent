@@ -56,7 +56,7 @@ export function Process() {
       aria-labelledby="process-heading"
       className="section-y relative isolate mx-auto w-full max-w-6xl scroll-mt-24 px-6 sm:px-8"
     >
-      <FlowLayer segment={3} />
+      <FlowLayer segment={4} />
 
       <div className="lg:grid lg:grid-cols-12 lg:gap-12">
         {/* Sticky index column */}

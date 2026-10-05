@@ -20,7 +20,7 @@ export function Sectors() {
       aria-labelledby="sectors-heading"
       className="section-y relative isolate mx-auto w-full max-w-6xl scroll-mt-24 px-6 sm:px-8"
     >
-      <FlowLayer segment={4} />
+      <FlowLayer segment={5} />
 
       <Reveal className="mb-20 flex flex-col gap-8 lg:mb-28 lg:flex-row lg:items-end lg:justify-between">
         <div>

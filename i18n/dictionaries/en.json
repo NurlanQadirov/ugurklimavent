@@ -175,6 +175,38 @@
       "note": "Balanced against design airflow and documented"
     }
   },
+  "calculator": {
+    "eyebrow": "Load estimate",
+    "headingLines": [
+      "Size the air",
+      "before the survey."
+    ],
+    "lede": "An indicative airflow and cooling figure from floor area, ceiling height and building type — enough to frame a conversation, not to sign a contract.",
+    "area": "Room / building area",
+    "height": "Ceiling height",
+    "type": "Building type",
+    "types": {
+      "industrial": "Industrial",
+      "retail": "Shopping centre",
+      "office": "Office",
+      "hotel": "Hotel"
+    },
+    "airflow": "Required airflow",
+    "cooling": "Cooling capacity",
+    "volume": "Air volume",
+    "airChanges": "Air changes",
+    "unitAch": "×/h",
+    "system": "Recommended system",
+    "systems": {
+      "split": "Ducted split or multi-split, with a compact supply-and-extract unit",
+      "vrf": "VRF with a heat-recovery air handling unit",
+      "chiller": "Chiller plant with fan coils and central AHUs",
+      "plant": "Chiller plant, central AHUs and BMS integration",
+      "industrial": "Industrial AHUs with process extract and make-up air"
+    },
+    "note": "Indicative only — rule-of-thumb loads for Baku's climate. The binding figure comes from the load we measure at the survey.",
+    "gauge": "Cooling load gauge"
+  },
   "process": {
     "eyebrow": "Method",
     "headingLines": [

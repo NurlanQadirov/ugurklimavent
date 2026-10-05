@@ -128,6 +128,14 @@
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
+
+    /*
+     * HUD ink — the colour the load calculator draws its instrument in: the
+     * slider tracks, the gauge needle, the system glyphs. An `r g b` triplet so
+     * call sites can set their own alpha with `rgb(var(--hud-ink) / 0.4)`. A
+     * cold, barely-blue white, one step off the porcelain of the text.
+     */
+    --hud-ink: 214 232 250;
   }
 
   /*
@@ -242,6 +250,59 @@
       linear-gradient(to right, rgb(255 255 255 / 0.012) 1px, transparent 1px),
       linear-gradient(to bottom, rgb(255 255 255 / 0.012) 1px, transparent 1px);
     background-size: 32px 32px;
+  }
+
+  /*
+   * Calculator sliders. The track is drawn as a two-stop gradient split at
+   * `--fill` (set inline from the value), so the travelled part of the track
+   * lights up without a second element; the thumb is a small square reticle
+   * rather than a pill, which is what a CAD input looks like.
+   */
+  .hud-range {
+    appearance: none;
+    -webkit-appearance: none;
+    height: 18px;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .hud-range::-webkit-slider-runnable-track {
+    height: 2px;
+    background: linear-gradient(
+      to right,
+      rgb(var(--hud-ink) / 0.85) var(--fill, 0%),
+      rgb(255 255 255 / 0.1) var(--fill, 0%)
+    );
+  }
+
+  .hud-range::-moz-range-track {
+    height: 2px;
+    background: linear-gradient(
+      to right,
+      rgb(var(--hud-ink) / 0.85) var(--fill, 0%),
+      rgb(255 255 255 / 0.1) var(--fill, 0%)
+    );
+  }
+
+  .hud-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    margin-top: -6px;
+    border: 1px solid rgb(var(--hud-ink));
+    background: var(--color-void);
+    box-shadow: 0 0 10px rgb(var(--hud-ink) / 0.45);
+    transform: rotate(45deg);
+  }
+
+  .hud-range::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: 1px solid rgb(var(--hud-ink));
+    border-radius: 0;
+    background: var(--color-void);
+    box-shadow: 0 0 10px rgb(var(--hud-ink) / 0.45);
+    transform: rotate(45deg);
   }
 
   /*

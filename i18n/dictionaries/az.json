@@ -175,6 +175,38 @@
       "note": "Layihə hava sərfinə görə tarazlanmış və sənədləşdirilmiş"
     }
   },
+  "calculator": {
+    "eyebrow": "Yük hesabı",
+    "headingLines": [
+      "Havanı baxışdan",
+      "əvvəl ölçün."
+    ],
+    "lede": "Sahə, tavan hündürlüyü və bina tipinə görə hava sərfi və soyutma gücünün ilkin qiyməti — müqavilə imzalamaq üçün yox, söhbətə başlamaq üçün kifayətdir.",
+    "area": "Otaq / Bina Sahəsi",
+    "height": "Tavan Hündürlüyü",
+    "type": "Bina tipi",
+    "types": {
+      "industrial": "Sənaye",
+      "retail": "Ticarət Mərkəzi",
+      "office": "Ofis",
+      "hotel": "Otel"
+    },
+    "airflow": "Tələb olunan hava sərfi",
+    "cooling": "Soyutma gücü",
+    "volume": "Hava həcmi",
+    "airChanges": "Hava mübadiləsi",
+    "unitAch": "dəfə/saat",
+    "system": "Tövsiyə olunan sistem",
+    "systems": {
+      "split": "Kompakt təchizat-sorma qurğusu ilə kanallı split və ya multi-split",
+      "vrf": "İstilik utilizasiyalı hava emalı qurğusu ilə VRF sistemi",
+      "chiller": "Fankoyllar və mərkəzi HEQ-lərlə çiller stansiyası",
+      "plant": "Çiller stansiyası, mərkəzi HEQ-lər və BMS inteqrasiyası",
+      "industrial": "Proses sorması və əvəzedici hava ilə sənaye HEQ-ləri"
+    },
+    "note": "Yalnız ilkin təxmindir — Bakı iqlimi üçün təcrübi yük göstəriciləri. Bağlayıcı rəqəm obyekt baxışında ölçdüyümüz yükdən çıxır.",
+    "gauge": "Soyutma yükü göstəricisi"
+  },
   "process": {
     "eyebrow": "Metod",
     "headingLines": [

@@ -27,7 +27,7 @@ export function Footer() {
       id="contact"
       className="relative isolate scroll-mt-24 border-t border-white/[0.06]"
     >
-      <FlowLayer segment={6} />
+      <FlowLayer segment={7} />
       {/* Closing call to action */}
       {/*
         The closing call to action gets more air above it than a mid-page
