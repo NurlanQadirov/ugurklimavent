@@ -115,11 +115,13 @@ function organization(dict: SiteDictionary) {
     },
     knowsLanguage: LOCALES.map((locale) => LOCALE_TAGS[locale]),
     hasOfferCatalog: offerCatalog(dict),
-    // TODO(client): add the company's real profile URLs here (Facebook,
-    // Instagram, LinkedIn, Google Business Profile). `sameAs` is how an answer
-    // engine confirms that the site, the map listing and the social profiles
-    // are the same entity; an empty list is a missed reconciliation.
-    sameAs: [] as string[],
+    // `sameAs` is how an answer engine confirms that the site, the map listing
+    // and the social profiles are the same entity. Add Instagram/Facebook here
+    // when they exist.
+    sameAs: [
+      // Google Business Profile (share link from Maps).
+      "https://share.google/WvI1blBZO9vjuZ1S4",
+    ],
   };
 }
 

@@ -1,3 +1,4 @@
+import { GoogleTagManager } from "@next/third-parties/google";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
@@ -128,6 +129,14 @@ export default async function RootLayout({
       lang={LOCALE_TAGS[lang]}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      {/*
+        Only on the public site: this layout does not wrap `/admin`, so panel
+        traffic never reaches Analytics. Skipped in dev so local browsing does
+        not pollute the numbers.
+      */}
+      {process.env.NODE_ENV === "production" && (
+        <GoogleTagManager gtmId="GTM-W2FM8KFT" />
+      )}
       <body className="min-h-full bg-void text-white">
         <MotionProvider>
           <SmoothScroll />
